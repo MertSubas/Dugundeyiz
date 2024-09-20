@@ -372,7 +372,7 @@
                                         <div class="wb_content wb-layout-horizontal">
                                             @foreach(var item in Model.Kategoriler)
                                             {
-                                                <div id="homePageItemsMain" class="wb_element wb-layout-element" data-plugin="LayoutElement" style="cursor:pointer;    border-radius: 10px;" onclick="window.location.href='@Url.Action("Service", "Category", new { categoryName = item.CategoryName})'">
+                                                <div id="homePageItemsMain" class="wb_element wb-layout-element" data-plugin="LayoutElement" style="cursor:pointer;    border-radius: 10px;" onclick="window.location.href='@Url.Action("Index", "Service", new { categoryName = item.CategoryName})'">
                                                     <div class="wb_content wb-layout-vertical">
                                                         <div id="homePageıtemImg" class="wb_element wb_element_picture" data-plugin="Picture" title="@item.CategoryName">
                                                             <div class="wb_picture_wrap">
@@ -498,8 +498,8 @@
                 </div>
             </div>
             <div id="a188dd9a2212392bf5a8de86d5e1ca7c" class="wb_element wb-layout-element wb-layout-has-link" data-plugin="LayoutElement">
-                <a name="Location" class="wb_anchor" data-popup-processed="true"></a><a class="wb-layout-link" href="https://www.google.com/maps/dir//maya+center+etiler/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x14cab650429ab09d:0xf94afe9b869417c2?sa=X&amp;ved=1t:3061&amp;hl=tr&amp;ictx=111 " data-popup-processed="true"></a>
-                <div class="wb_content wb-layout-vertical">
+@*                 <a name="Location" class="wb_anchor" data-popup-processed="true"></a><a class="wb-layout-link" href="https://www.google.com/maps/dir//maya+center+etiler/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x14cab650429ab09d:0xf94afe9b869417c2?sa=X&amp;ved=1t:3061&amp;hl=tr&amp;ictx=111 " data-popup-processed="true"></a>
+ *@                <div class="wb_content wb-layout-vertical">
                     <div id="a188dd9a22123a242cfbe50730f4f0ef" class="wb_element wb-layout-element" data-plugin="LayoutElement">
                         <div class="wb_content wb-layout-vertical">
                             <div id="a188dd9a22123b2285086783a3549d21" class="wb_element wb-layout-element" data-plugin="LayoutElement">
@@ -571,12 +571,202 @@
                             </div>
                         </div>
                     </div>
-                    <div id="a188dd9a22124eea730644c9a50d6594" class="wb_element wb-map wb-prevent-layout-click" data-plugin="GoogleMaps">
+
+@*                     <div id="a188dd9a22124eea730644c9a50d6594" class="wb_element wb-map wb-prevent-layout-click" data-plugin="GoogleMaps">
                         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;key=41.06818,%2029.00918&amp;sensor=false&amp;libraries=places&amp;region=TR&amp;language=tr_TR"></script>
                         <div class="wb_google_maps" style="width: 100%;height: 100%">
                             <div style="height: 100%; width: 100%;"></div>
                         </div>
+                    
+                   </div> *@
+                    <div class="container" style="    margin-bottom: 25px;">
+                    <div id="map" style="height: 400px; width: 100%;"></div>
                     </div>
+
+                    <style>
+                        /* InfoWindow stilini özelleştir */
+                        .custom-info-window {
+                            font-family: Arial, sans-serif;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            padding: 10px;
+                            background-color: white;
+                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                            display: flex; /* Flexbox ile yan yana yerleştirme */
+                            position: relative; /* Pozisyon ayarı */
+                        }
+
+                            .custom-info-window img {
+                                width: 100px; /* Fotoğraf boyutu */
+                                height: 100px; /* Fotoğraf boyutu */
+                                border-radius: 5px; /* Kenar yuvarlama */
+                                margin-right: 10px; /* Sağdan boşluk */
+                            }
+
+                            .custom-info-window h3 {
+                                margin: 0;
+                                font-size: 16px;
+                            }
+
+                            .custom-info-window p {
+                                margin: 5px 0;
+                            }
+
+                        .rating {
+                            display: flex; /* Yıldızları yan yana yerleştir */
+                            align-items: center; /* Yıldızları ortala */
+                            margin-top: 5px;
+                        }
+
+                        .star {
+                            color: gold; /* Dolu yıldız rengi */
+                            font-size: 18px; /* Yıldız boyutu */
+                        }
+
+                        .star-empty {
+                            color: lightgray; /* Boş yıldız rengi */
+                            font-size: 18px; /* Yıldız boyutu */
+                        }
+
+                        .rating-info {
+                            margin-left: 5px; /* Derecelendirme ve yıldızlar arasında boşluk */
+                        }
+
+                        .directions-button {
+                            position: absolute; /* Butonu pozisyonla */
+                            bottom: 10px; /* Üstten boşluk */
+                            right: 10px; /* Sağdan boşluk */
+                            background-color: #4285F4; /* Google mavi rengi */
+                            color: white;
+                            border: none;
+                            border-radius: 5px;
+                            padding: 5px 10px;
+                            cursor: pointer;
+                            font-size: 12px;
+                        }
+                            @@media (max-width: 600px) {
+                                .custom-info-window{
+                                display: contents;
+                                }
+
+                            }
+                    </style>
+
+                    <script>
+                        var map, marker;
+
+                        function initMap() {
+                            var location = { lat: 41.068874, lng: 29.011156 }; // Maya Akar Center koordinatları
+
+                            // Haritayı başlat
+                            map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 15,
+                                center: location
+                            });
+
+                            // İşaretçi ekle
+                            marker = new google.maps.Marker({
+                                position: location,
+                                map: map
+                            });
+
+                            // Place Service oluştur
+                            var service = new google.maps.places.PlacesService(map);
+                            var request = {
+                                location: location,
+                                radius: '50',
+                                query: 'Maya Akar Center'
+                            };
+
+                            service.textSearch(request, function (results, status) {
+                                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                    var place = results[0];
+                                    getPlaceDetails(place.place_id);
+                                } else {
+                                    console.error('Place search failed:', status);
+                                }
+                            });
+                        }
+
+                        // Yer detaylarını al ve özelleştirilmiş infoWindow ile göster
+                        function getPlaceDetails(placeId) {
+                            var service = new google.maps.places.PlacesService(map);
+                            service.getDetails({ placeId: placeId }, function (place, status) {
+                                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                    var infoWindow = new google.maps.InfoWindow({
+                                        content: createInfoContent(place)
+                                    });
+
+                                    marker.addListener('click', function () {
+                                        infoWindow.open(map, marker);
+                                    });
+
+                                    // İlk açılışta göster (isteğe bağlı)
+                                    infoWindow.open(map, marker);
+                                } else {
+                                    console.error('Place details request failed:', status);
+                                }
+                            });
+                        }
+
+                        // Özelleştirilmiş içerik oluştur
+                        function createInfoContent(place) {
+                            var stars = getStarRating(place.rating);
+                            var reviewCount = place.user_ratings_total || 0; // Kullanıcı yorum sayısını al
+
+                            var content = `
+                                    <div class="custom-info-window">
+                                        <img src="${place.photos ? place.photos[0].getUrl({ maxWidth: 100, maxHeight: 100 }) : 'default-image-url.jpg'}" alt="${place.name}">
+                                        <div>
+                                            <h3>${place.name}</h3>
+                                            <p>${place.formatted_address}</p>
+                                            <div class="rating">
+                                                <span class="rating-info">${place.rating || 'N/A'}</span>
+                                                ${stars}
+                                                <span class="rating-info">(${reviewCount} yorum)</span>
+                                            </div>
+                                            <p><strong>Phone:</strong> ${place.formatted_phone_number || 'N/A'}</p>
+                                            <p><strong>Website:</strong> <a href="${place.website}" target="_blank">${place.website || 'N/A'}</a></p>
+                                        </div>
+                                        <button class="directions-button" onclick="openDirections('${place.name}')">Yol Tarifi Al</button>
+                                    </div>
+                                `;
+                            return content;
+                        }
+
+                        // Yol tarifleri için Google Maps yönlendirmesi
+                        function openDirections(placeName) {
+                            var directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(placeName)}`;
+                            window.open(directionsUrl, '_blank');
+                        }
+
+                        // Yıldız derecelendirmesini oluştur
+                        function getStarRating(rating) {
+                            let stars = '';
+                            const fullStars = Math.floor(rating);
+                            const emptyStars = 5 - fullStars;
+
+                            for (let i = 0; i < fullStars; i++) {
+                                stars += '<span class="star">&#9733;</span>'; // Dolu yıldız
+                            }
+                            for (let i = 0; i < emptyStars; i++) {
+                                stars += '<span class="star-empty">&#9734;</span>'; // Boş yıldız
+                            }
+                            return stars;
+                        }
+                    </script>
+
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAb3X1kHLTMkCNCvEijZhWjUbP94Fzm-VU&libraries=places&callback=initMap" async defer></script>
+
+
+
+
+
+
+
+
+
+
                 </div>
             </div>
         </div>
