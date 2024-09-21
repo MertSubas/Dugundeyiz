@@ -1,5 +1,6 @@
 ﻿using Dugundeyiz.Context;
 using Microsoft.AspNetCore.Mvc;
+using Dugundeyiz.ViewModels;
 
 namespace Dugundeyiz.Controllers
 {
@@ -18,7 +19,10 @@ namespace Dugundeyiz.Controllers
         [Route("Hizmetler/{categoryName}")]
         public IActionResult Index(string categoryName)
         {
-            var category = _context.Categories.Where(x => x.CategoryName == categoryName && x.Deleted != true).FirstOrDefault();
+            var categoryId = _context.Categories.Where(x => x.CategoryName == categoryName && x.Deleted != true).FirstOrDefault().CategoryID;
+            var services= _context.Services.Where(x=>x.CategoryID== categoryId && x.Deleted!= true).OrderByDescending(x=>x.Sorting).ToList();
+            ServiceListPageViewModel serviceListPageViewModel = new ServiceListPageViewModel();
+            serviceListPageViewModel.Servisler= services;
             return View();
         }
     }
