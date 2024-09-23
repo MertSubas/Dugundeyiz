@@ -13,64 +13,246 @@
     <link rel="stylesheet" href="~/Dugundeyiz.styles.css" asp-append-version="true" />
     <style>
         .menu-navbar-items {
-            display: ruby;
+            display: inline-flex !important;
+            align-items: center;
+            
         }
+
+        #menu-item {
+            position: relative; /* Alt menüyü doğru konumlandırmak için */
+        }
+
+        #submenu {
+            position: absolute; /* Menü item'ine göre hizalanması için */
+            z-index: 1000; /* Üstte görünmesi için */
+            top: 100%; /* Menü öğesinin hemen altında açılmasını sağlar */
+            left: 0;
+            background-color: white !important;
+            border-radius: 19px !important;
+            max-width: 85% !important;
+            border: solid 2px orange !important;
+        }
+        
+        .menu-navbar-item-text{
+            padding: 10px 20px 10px 20px;
+            padding-left: 0px;
+            border: 0 none #000;
+            font-style: normal;
+            font: normal bold 16px 'Cormorant', Arial, serif;
+            font-family: 'Cormorant', Arial, serif;
+            color: #000;
+            text-decoration: none;
+            line-height: 20px;
+            text-transform: none;
+            background: #fff0 none repeat left top;
+        }
+        .submenuSpecial{
+            position: absolute; /* Menü item'ine göre hizalanması için */
+            z-index: 1000; /* Üstte görünmesi için */
+            top: 100%; /* Menü öğesinin hemen altında açılmasını sağlar */
+            left: 0;
+            background-color: white;
+            border-radius: 20px;
+            max-width: 85%;
+        }
+        .imgBeforeMenuText{
+            height:50px;
+        }
+        .hmenu{
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }     
+        .loginPartNavbar{
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row-reverse;
+            max-width: 90%;
+        }
+
+        .nav-tabs {
+            border-bottom: none;
+            font-weight: bold;
+            justify-content: center; /* Centers the tabs horizontally */
+            display: flex;
+            margin-bottom: -1px; /* Ensures the tab content aligns right below the tabs */
+        }
+
+            .nav-tabs .nav-link {
+                background-color: #f1f1f1;
+                border: 1px solid #ddd;
+                border-radius: 8px 8px 0 0;
+                padding: 10px 20px;
+                color: #007bff;
+                transition: background-color 0.3s ease;
+            }
+
+                .nav-tabs .nav-link.active {
+                    background-color: #fff;
+                    border-bottom: none;
+                    color: #007bff;
+                }
+
+        .tab-content > .tab-pane {
+        display:none !important ;
+        }
+
+            .tab-content > .active {
+        display:block !important ;
+        }
+        .tab-content {
+            width: 32%; /* Ensures the tab content aligns to full width */
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            margin-top: -1px; /* This will remove the gap between tabs and the content */
+            max-width: 400px; /* Limit width for more compact, modern design */
+            margin-left: auto;
+            margin-right: auto; /* Center the form below the tabs */
+        }
+
+        h5 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .input-group-text {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px 0 0 5px;
+            border: none;
+        }
+
+        .form-control {
+            border-radius: 0 5px 5px 0;
+            border: 1px solid #007bff;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
     </style>
 </head>
 
 <body>
   <header>
-        <div id="wb_header_a188dd9a34dc00a2ba561675c7f83454" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-            <div class="wb_content wb-layout-vertical">
-                <div id="a1912793ec6200afa4b19003c8776239" class="wb_element wb-layout-element" data-plugin="LayoutElement" style="margin-bottom:10px">
-                    <div class="wb_content wb-layout-horizontal">
-                        <div id="a188dd9a221202a70bee5827a1ca8d2d" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                            <div class="wb_content wb-layout-vertical">
-                                <div id="a19127954ad1000ec9169de1697f57fa" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                                    <div class="wb_content wb-layout-horizontal">
-                                        <div id="a190fa09895f0047921630f38e5c60b3" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                                            <div class="wb_content wb-layout-horizontal">
-                                                <div id="a19127596645002ee52411921be6846c" class="wb_element wb_element_picture" data-plugin="Picture" title="">
-                                                    <div class="wb_picture_wrap">
-                                                        <div class="wb-picture-wrapper"><a href="/" alt="Anasayfa" title="Ana Sayfa" data-popup-processed="true"><img alt="" src="~/gallery_gen/9083b7c7928be35a8b456af9f402d5b5_542x542_fit.png?ts=1723818424"></a></div>
-                                                    </div>
-                                                </div>
-                                                <div id="a191276deb63009e09c6093bb4259910" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                                                    <div class="wb_content wb-layout-vertical">
-                                                        <div id="a191276a4bab00b3ac6d3f670ae2a59c" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;">
-                                                            <h4 class="wb-stl-custom5" style="text-align: center;">BU ALAN SİZİN İÇİN AYRILMIŞTIR.</h4>
-                                                        </div>
-                                                        <div id="a191279ef45700604ebc65511671a891" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                                                            <div class="wb_content wb-layout-horizontal">
-                                                                <div id="a191279cc01800f8623ea93fa51d753a" class="wb_element wb-menu wb-prevent-layout-click wb-anim wb-anim-zoom-in wb-menu-mobile" data-plugin="Menu">
-                                                                    <a class="btn btn-default btn-collapser" data-popup-processed="true"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
-                                                                    <ul class="hmenu" dir="ltr" style="top: 501px; max-height: calc(-501px + 98vh); left: 20px; right: 20px; width: auto;    border-radius: 10px;">
-                                                                        <li style="display: ruby;    text-wrap: nowrap;" class="menu-navbar-items"><img height="70px" src="~/gallery_gen/LogoWhiteBG.png"><a style="padding-left: 0px;" href="Düğün-Mekanları/" data-popup-processed="true">Düğün Mekanları</a></li>
-                                                                        <li style="display: ruby;    text-wrap: nowrap;" class="menu-navbar-items"><img height="70px" src="~/gallery_gen/LogoWhiteBG.png"><a style="padding-left: 0px;" href="Çözüm-Ortakları/" data-popup-processed="true">Çözüm Ortakları</a></li>
-                                                                        <li style="display: ruby;    text-wrap: nowrap;" class="menu-navbar-items"><img height="70px" src="~/gallery_gen/LogoWhiteBG.png"><a style="padding-left: 0px;" href="İndirimler/" data-popup-processed="true">Kampanyalar</a></li>
-                                                                        <li style="display: ruby;    text-wrap: nowrap;" class="menu-navbar-items"><img height="70px" src="~/gallery_gen/LogoWhiteBG.png"><a style="padding-left: 0px;" href="Düğün-Asistanınız/" data-popup-processed="true">Nedimeniz</a></li>
-                                                                        <li style="display: ruby;    text-wrap: nowrap;" class="menu-navbar-items"><img height="70px" src="~/gallery_gen/LogoWhiteBG.png"><a style="padding-left: 0px;" href="Hakkımızda/" data-popup-processed="true">Hakkımızda</a></li>
-                                                                        <li style="display: ruby;    text-wrap: nowrap;" class="menu-navbar-items"><img height="70px" src="~/gallery_gen/LogoWhiteBG.png"><a style="padding-left: 0px;" href="İletişim-1/" data-popup-processed="true">İletişim</a></li>
-                                                                    </ul>
-                                                                    <div class="clearfix"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="a19127955f7600b1fd5898bf7b98eb4b" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                                    <div class="wb_content wb-layout-horizontal"></div>
+        <div class="container-fluid" style="background-color: #000000;">
+            <div class="row">
+                <div class="col-md-3 col-sm-12 d-flex justify-content-center align-items-center">
+                    <div class="wb-picture-wrapper" style="max-width:100%; text-align: center;">
+                        <a href="/" alt="Anasayfa" title="Ana Sayfa">
+                            <img alt="" class="img-fluid" style="max-width: 100%;" src="~/gallery_gen/9083b7c7928be35a8b456af9f402d5b5_542x542_fit.png?ts=1723818424">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-9 col-sm-12">
+                    <div class="row d-flex justify-content-center align-items-center" style="min-height:300px">
+                        <h4 class="wb-stl-custom5" style="text-align: center;">BU ALAN SİZİN İÇİN AYRILMIŞTIR.</h4>
+                    </div>
+                    <div class="row d-flex justify-content-center align-items-center">
+                        <div id="a191279ef45700604ebc65511671a891" class="row wb_element wb-layout-element">
+                            <div class="wb_content wb-layout-horizontal">
+                                <div id="a191279cc01800f8623ea93fa51d753a" class="wb_element wb-menu wb-prevent-layout-click wb-menu-mobile" style="">
+                                    <a class="btn btn-default btn-collapser"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
+                                    <ul class="hmenu" dir="ltr" style="border-radius: 10px;max-width: 90% !important;">
+                                        <li id="menu-item" class="menu-navbar-items">
+                                            <img class="imgBeforeMenuText" src="~/gallery_gen/LogoWhiteBG.png">
+                                            <a style="padding-left: 0px; cursor: pointer;" class="menu-navbar-item-text">Düğün Mekanları</a>
+                                            <ul id="submenu" class="submenuSpecial" style="display: none; padding-left: 20px; position: absolute; z-index: 1000;">
+                                                <li><a href="#">Otel</a></li>
+                                                <li><a href="#">Tarihi Yerler</a></li>
+                                                <li><a href="#">Orman</a></li>
+                                                <li><a href="#">Orman</a></li>
+                                                <li><a href="#">Orman</a></li>
+                                                <li><a href="#">Orman</a></li>
+                                                <li><a href="#">Orman</a></li>
+                                                <li><a href="#">Orman</a></li>
+                                                <li><a href="#">Orman</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-navbar-items"><img class="imgBeforeMenuText" src="~/gallery_gen/LogoWhiteBG.png"><a href="Çözüm-Ortakları/" class="menu-navbar-item-text">Çözüm Ortakları</a></li>
+                                        <li class="menu-navbar-items"><img class="imgBeforeMenuText" src="~/gallery_gen/LogoWhiteBG.png"><a href="İndirimler/" class="menu-navbar-item-text">Kampanyalar</a></li>
+                                        <li class="menu-navbar-items"><img class="imgBeforeMenuText" src="~/gallery_gen/LogoWhiteBG.png"><a href="Düğün-Asistanınız/" class="menu-navbar-item-text">Nedimeniz</a></li>
+                                        <li class="menu-navbar-items"><img class="imgBeforeMenuText" src="~/gallery_gen/LogoWhiteBG.png"><a href="Hakkımızda/" class="menu-navbar-item-text">Hakkımızda</a></li>
+                                        <li class="menu-navbar-items"><img class="imgBeforeMenuText" src="~/gallery_gen/LogoWhiteBG.png"><a href="İletişim-1/" class="menu-navbar-item-text">İletişim</a></li>
+                                    </ul>
+                                    <div class="clearfix"></div>
                                 </div>
                             </div>
+                            <div style="width: 90%;margin-top: 10px;display: grid;justify-items: end;display: flex;flex-direction: row-reverse;">
+                                <!-- Chrome-like Tab Navigation -->
+                                <ul class="nav nav-tabs justify-content-center" id="loginTab" role="tablist" >
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="member-tab" data-toggle="tab" href="#memberForm" role="tab" aria-controls="memberForm" aria-selected="true">
+                                            Üyelerimize Özel
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="partner-tab" data-toggle="tab" href="#partnerForm" role="tab" aria-controls="partnerForm" aria-selected="false">
+                                            Çözüm Ortaklarımıza Özel
+                                        </a>
+                                    </li>
+                                </ul>
+                                </div>
+                            <div style=" width: 90%; display: flex; flex-direction: row-reverse;">
+                            <div style="">
+                                <!-- Tab Content -->
+                                    <div class="tab-content" id="loginTabContent" style="    width: max-content;    width: 372px;">
+                                    <!-- Üyelerimize Özel Form -->
+                                    <div class="tab-pane fade  " id="memberForm" role="tabpanel" aria-labelledby="member-tab">
+                                        <h5>Üyelerimize Özel Giriş</h5>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                            <input type="text" class="form-control" placeholder="Kullanıcı Adı">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                            <input type="password" class="form-control" placeholder="Şifre">
+                                        </div>
+                                        <a href="#" class="text-primary">Şifremi Unuttum</a> <br>
+                                        <a href="#" class="text-primary">Üye Ol</a>
+                                    </div>
+
+                                    <!-- Çözüm Ortaklarımıza Özel Form -->
+                                    <div class="tab-pane fade" id="partnerForm" role="tabpanel" aria-labelledby="partner-tab">
+                                        <h5>Çözüm Ortaklarımıza Özel Giriş</h5>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
+                                            <input type="text" class="form-control" placeholder="Kullanıcı Adı">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                            <input type="password" class="form-control" placeholder="Şifre">
+                                        </div>
+                                        <a href="#" class="text-primary">Şifremi Unuttum</a> <br>
+                                        <a href="#" class="text-primary">Çözüm Ortaklarımıza Katıl</a>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                        </div>
+                        
+
+
+                        <div id="a19127955f7600b1fd5898bf7b98eb4b" class="wb_element wb-layout-element">
+                            <div class="wb_content wb-layout-horizontal"></div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+
     </header>
     <div class="">
         <main role="main" class=""> 
@@ -133,6 +315,77 @@
         </div>
 
     </footer>
+    <script>
+        // JavaScript to control visibility of the tab content based on active tab
+        document.addEventListener('DOMContentLoaded', function () {
+            var tabs = document.querySelectorAll('.nav-link');
+            var tabContent = document.getElementById('loginTabContent');
+
+            // Hide tabContent if no active tab
+            function checkActiveTab() {
+                var activePane = document.querySelector('.tab-pane.active');
+                if (activePane) {
+                    tabContent.style.display = 'block';
+                } else {
+                    tabContent.style.display = 'none';
+                }
+            }
+
+            // Add click event listeners to each tab link
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    setTimeout(checkActiveTab, 150); // Delay to wait for Bootstrap's tab transition
+                });
+            });
+
+            // Initial check on page load
+            checkActiveTab();
+        });
+
+        document.getElementById('partnerButton').addEventListener('click', function () {
+            document.getElementById('partnerForm').style.display = 'block';
+            document.getElementById('memberForm').style.display = 'none';
+        });
+
+        document.getElementById('memberButton').addEventListener('click', function () {
+            document.getElementById('memberForm').style.display = 'block';
+            document.getElementById('partnerForm').style.display = 'none';
+        });
+        function toggleSubmenu() {
+            var submenu = document.getElementById("submenu");
+            if (submenu.style.display === "none") {
+                submenu.style.display = "block";
+            } else {
+                submenu.style.display = "none";
+            }
+        }
+            // Alt menüyü aç
+            document.getElementById("menu-item").addEventListener("mouseover", function () {
+                document.getElementById("submenu").style.display = "block";
+            });
+
+        document.getElementById("submenu").addEventListener("mouseover", function () {
+            document.getElementById("submenu").style.display = "block";
+        });
+
+        // Alt menü ve menu-item dışına çıkıldığında menüyü kapat
+        function closeMenu(event) {
+            var menuItem = document.getElementById("menu-item");
+            var submenu = document.getElementById("submenu");
+
+            // Eğer fare hem menu-item hem de submenu dışına çıkarsa menüyü kapat
+            if (!menuItem.contains(event.relatedTarget) && !submenu.contains(event.relatedTarget)) {
+                submenu.style.display = "none";
+            }
+        }
+
+        // menu-item dışına çıkıldığında kontrol
+        document.getElementById("menu-item").addEventListener("mouseleave", closeMenu);
+
+        // submenu dışına çıkıldığında kontrol
+        document.getElementById("submenu").addEventListener("mouseleave", closeMenu);
+
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/mainjs.js"></script>

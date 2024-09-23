@@ -21476,40 +21476,12 @@ body {
                             margin: 10px 0 10px 0
                         }
 
-                            #a191279cc01800f8623ea93fa51d753a li a, #a191279cc01800f8623ea93fa51d753a-det li a {
-                                padding: 10px 20px 10px 20px;
-                                border: 0 none #000;
-                                font-style: normal;
-                                font: normal bold 20px 'Cormorant',Arial,serif;
-                                font-family: 'Cormorant',Arial,serif;
-                                color: #000;
-                                text-decoration: none;
-                                line-height: 20px;
-                                text-transform: none;
-                                background: #fff0 none repeat left top
-                            }
-
-                            #a191279cc01800f8623ea93fa51d753a li ul li, #a191279cc01800f8623ea93fa51d753a-det li ul li {
-                                margin: 10px 0 10px 0
-                            }
-
-                                #a191279cc01800f8623ea93fa51d753a li ul li a, #a191279cc01800f8623ea93fa51d753a-det li ul li a {
-                                    padding: 10px 20px 10px 20px;
-                                    border: 0 none #000;
-                                    font-style: normal;
-                                    font: normal bold 15px 'Cormorant',Arial,serif;
-                                    font-family: 'Cormorant',Arial,serif;
-                                    color: #000;
-                                    text-decoration: none;
-                                    line-height: 20px;
-                                    text-transform: none;
-                                    background: #fff0 none repeat left top
-                                }
+                           
 
                             #a191279cc01800f8623ea93fa51d753a li.over > a, #a191279cc01800f8623ea93fa51d753a li:focus > a, #a191279cc01800f8623ea93fa51d753a-det li.over > a, #a191279cc01800f8623ea93fa51d753a-det li:focus > a {
                                 border: 0 none #000;
                                 font-style: normal;
-                                font: normal bold 25px 'Cormorant',Arial,serif;
+                                font: normal bold 20px 'Cormorant',Arial,serif;
                                 font-family: 'Cormorant',Arial,serif;
                                 color: #d97700;
                                 text-decoration: none;
@@ -21521,7 +21493,7 @@ body {
                             #a191279cc01800f8623ea93fa51d753a li ul li.over > a, #a191279cc01800f8623ea93fa51d753a li ul li:focus > a, #a191279cc01800f8623ea93fa51d753a-det li ul li.over > a, #a191279cc01800f8623ea93fa51d753a-det li ul li:focus > a {
                                 border: 0 none #000;
                                 font-style: normal;
-                                font: normal bold 25px 'Cormorant',Arial,serif;
+                                font: normal bold 20px 'Cormorant',Arial,serif;
                                 font-family: 'Cormorant',Arial,serif;
                                 color: #d97700;
                                 text-decoration: none;
@@ -26642,7 +26614,7 @@ body {
 
 @media (any-pointer: fine) and (min-width:767px) {
     #a191279cc01800f8623ea93fa51d753a:hover {
-        animation: wb-anim-zoom-in 0.6s ease-out 0s;
+        /*animation: wb-anim-zoom-in 0.6s ease-out 0s;*/
         animation-iteration-count: 1
     }
 
