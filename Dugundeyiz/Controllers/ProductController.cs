@@ -4,25 +4,26 @@ using Dugundeyiz.ViewModels;
 
 namespace Dugundeyiz.Controllers
 {
-    public class ServiceController : Controller
+    [Route("/Hizmetler")]
+    public class ProductController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DugundeyizContext _context;
 
 
-        public ServiceController(ILogger<HomeController> logger, DugundeyizContext context)
+        public ProductController(ILogger<HomeController> logger, DugundeyizContext context)
         {
             _logger = logger;
             _context = context;
         }
 
-        [Route("Hizmetler/{categoryName}")]
+        [Route("{categoryName}")]
         public IActionResult Index(string categoryName)
         {
             var categoryId = _context.Categories.Where(x => x.CategoryName == categoryName && x.Deleted != true).FirstOrDefault().CategoryID;
-            var services= _context.Services.Where(x=>x.CategoryID== categoryId && x.Deleted!= true).OrderByDescending(x=>x.Sorting).ToList();
-            ServiceListPageViewModel serviceListPageViewModel = new ServiceListPageViewModel();
-            serviceListPageViewModel.Servisler= services;
+            var services = _context.Products.Where(x => x.CategoryID == categoryId && x.Deleted != true).OrderByDescending(x => x.Sorting).ToList();
+            ProductListPageViewModel productListPageViewModel = new ProductListPageViewModel();
+            productListPageViewModel.Products = services;
             return View();
         }
     }

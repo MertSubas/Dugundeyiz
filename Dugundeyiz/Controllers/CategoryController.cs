@@ -19,8 +19,8 @@ namespace Dugundeyiz.Controllers
             return View();
         }
 
-        [Route("Category/Service/{categoryName}")]
-        public IActionResult Service(string categoryName)
+        [Route("Category/Product/{categoryName}")]
+        public IActionResult Product(string categoryName)
         {
             // id parametresi ile istediğiniz işlemleri yapabilirsiniz
             var category = _context.Categories.Where(x => x.CategoryName == categoryName && x.Deleted != true).FirstOrDefault();
