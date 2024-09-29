@@ -2,10 +2,11 @@
 
 namespace Dugundeyiz.Entity
 {
-    public class Service
+    public class Product
+
     {
         [Key]
-        public int ServiceID { get; set; }
+        public int ProductID { get; set; }
         public int CategoryID { get; set; }
         public string? Name { get; set; }
         public string? Capacity { get; set; }

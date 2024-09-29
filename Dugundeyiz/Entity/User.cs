@@ -9,9 +9,14 @@ namespace Dugundeyiz.Entity
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Phone { get; set; }
-        public string Mail { get; set; }
-        public int Admin { get; set; }
-        public int Role { get; set; }
-        public Boolean Deleted { get; set; }
+        public string Email { get; set; }
+        public bool Admin { get; set; }
+        public Roles Role { get; set; }
+        public bool Deleted { get; set; }
+    }
+   public  enum Roles
+    {
+        Admin,User,Partner
+
     }
 }
