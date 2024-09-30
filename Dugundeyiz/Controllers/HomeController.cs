@@ -20,9 +20,11 @@ namespace Dugundeyiz.Controllers
 
         public IActionResult Index()
         {
-            var categories = _context.Categories.Where(x => x.Deleted != true).ToList();
+            var categories = _context.Categories.Where(x => x.Deleted != true && x.MainCategoryID==null).OrderBy(x=>x.Sorting).ToList();
+            var subcategories = _context.Categories.Where(x => x.Deleted != true && x.MainCategoryID!=null).ToList();
             HomeViewModel HomePageData = new HomeViewModel() { };
             HomePageData.Kategoriler = categories;
+            HomePageData.AltKategoriler = subcategories;
 
             return View(HomePageData);
         }

@@ -24,7 +24,18 @@ namespace Dugundeyiz.Controllers
             var services = _context.Products.Where(x => x.CategoryID == categoryId && x.Deleted != true).OrderByDescending(x => x.Sorting).ToList();
             ProductListPageViewModel productListPageViewModel = new ProductListPageViewModel();
             productListPageViewModel.Products = services;
-            return View();
+
+            ///kaldırılacak
+            var addTo = services.ElementAt(0);
+            for (int i = 0; i <= 22; i++)
+            {
+                services.Add(addTo);
+
+            }
+
+
+
+            return View(productListPageViewModel);
         }
     }
 }
