@@ -1,161 +1,342 @@
 ﻿@using Dugundeyiz.Entity
+@using static Dugundeyiz.Controllers.ManagmentController
 
 @{
     Layout = "~/Views/Shared/AdminLayout.cshtml"; // Kullandığınız layout dosyasının yolu
 }
 @model List<Category>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
 <style>
-    #category-list {
-        list-style-type: none;
-        padding: 0;
+    .category-row {
+        cursor: pointer;
     }
 
-        #category-list li {
-            padding: 10px;
-            margin: 5px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            cursor: move;
+    .hidden {
+        display: none;
+    }
+
+    .category-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .category-container label {
+            margin-right: 5px;
         }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        border-collapse: collapse;
-        max-height: 700px;
-        overflow-x: auto;
-        display: flow;
-        max-width: fit-content;
+    #imagePreview {
+        margin-left: 10px;
     }
 
-    th, td {
-        padding: 10px;
-        border: 1px solid #ccc;
-        text-align: left;
-    }
-
-    tbody tr {
-        background-color: #f0f0f0;
-        cursor: move;
-    }
-
-        tbody tr:hover {
-            background-color: #e0e0e0;
-        }
-
-    .table-container {
-        max-height: 700px; /* Maximum height of the container */
-        overflow-y: auto; /* Enables vertical scrolling */
-        display: block; /* Allow scrolling */
-    }
-
-
-    thead {
-        position: sticky; /* Make the header sticky */
-        top: 0; /* Stick to the top of the container */
-        background-color: #fff; /* Background color for the header */
-        z-index: 10; /* Ensure the header stays on top */
-    }
-
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2; /* Zebra striping effect for even rows */
-    }
 </style>
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Kategori Sıralaması</h1>
+        <h1 class="page-header">Kategori Yönetimi</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
-<div style="padding-bottom: 20px;">
-<table>
-    <thead>
-        <tr>
-                <th style="    width: 80%;">Kategori Adı</th>
-                <th style="    width: 20%;">Sırası</th>
-        </tr>
-    </thead>
-    <tbody id="category-list">
-        <!-- Backend'den kategoriler burada oluşturulacak -->
-            @{
-                int i = 0;
-            }
-            @foreach (var category in Model)
-            {
-                i++;
-            <tr data-id="@category.CategoryID" data-sorting="@category.Sorting">
+<div class="container">
+    <div class="row" style="display: block;border-radius: 10px;border: 1px solid #000 !important;!i;!;margin-bottom:20px;margin: 20px;">
+        <div class="" style=" ">
+            <div class="col-md-12" style="display:flex;align-items: center; margin: 6px; margin-bottom: 20px;min-height: 70px;">
+                <h2 class="">Kategori Ekleme Alanı</h2>
 
-                <td>@category.CategoryName</td>
-                <td>@category.Sorting</td>
+            </div>
+            <div class="col-md-12" style="display:flex;align-items: center; margin: 6px; margin-bottom: 20px;min-height: 70px;">
+                <div class="col-md-6" style="    margin-top: -20px;">
+                    <label class="" for="categoryName">Kategori Adı</label>
+                    <input type="text" name="categoryName" class="form-control category-name" id="categoryName" required="true" placeholder="Kategori Adını Yazınız">
+                </div>
+                <div class="col-md-4">
+                    <div>
+                        <input type="file" id="imageInput" style="display:none;" />
+                        <button type="button" class="btn btn-primary" id="imageUploadButton">Resim Ekle</button>
+                        <img id="imagePreview" src="" alt="Önizleme" style="display:none; width:150px; height:150px;" />
+                    </div>
 
-            </tr>
-            }
+                </div>
+                <div class="col-md-2">
+
+                    <button type="button" class="btn btn-success" id="addCategoryButton">Kategori Ekle</button>
+                </div>
+            </div>
+        </div>
 
 
-    </tbody>
-</table>
+    </div>
+    <div class="table-responsive" style="    border-radius: 10px;">
+        <table class="table table-bordered">
+            <thead style="    background-color: #fff0d0;">
+                <tr>
+                    <th>Kategori Adı</th>
+                    <th>Resim</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    @if (category.MainCategoryID == null)
+                    {
+                        <tr data-category-id="@category.CategoryID" class="category-row" data-main-category-id="@category.MainCategoryID">
+                            <td style="vertical-align: middle;">
+                                <input type="text" class="form-control category-name" value="@category.CategoryName" />
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <div class="wb-picture-wrapper" style="display:flex; max-width:100px; border-radius: 10px; align-items: center;">
+                                    <img alt="@category.CategoryName" style="max-width: 125px;" src="@category.Image" />
+                                    <input type="file" id="imageUpload_@category.CategoryID" accept=".jpg, .jpeg, .png" style="display: none;" />
+                                    <button style="    margin-left: 15px;" class="btn btn-primary change-image" onclick="document.getElementById('imageUpload_@category.CategoryID').click();">Resmi Değiştir</button>
+                                </div>
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <div style="    display: flex; justify-content: space-evenly;">
+                                    <div style="    max-width: 200px;">
+                                        <button class="btn btn-success save-category">Kaydet</button>
+                                        <button class="btn btn-danger delete-category">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Alt Kategoriler -->
+                        var subCategories = Model.Where(c => c.MainCategoryID == category.CategoryID).ToList();
+                        if (subCategories.Any())
+                        {
+                            <tr>
+                                <td colspan="3">
+                                    <div class="subcategories">
+                                        <table class="table" style="margin-left: 10px; margin-bottom: 0px;">
+                                            <tbody>
+                                                @foreach (var subCategory in subCategories)
+                                                {
+                                                    <tr data-category-id="@subCategory.CategoryID" class="subcategory-row">
+                                                        <td style="vertical-align: middle;">
+                                                            <div style="display: flex; position: relative; margin-top: -10px;">
+                                                                <span style="position: absolute; top: 0; left: 0; color:red">@category.CategoryName</span>
+                                                                <input type="text" class="form-control category-name" value="@subCategory.CategoryName" style="margin-top: 20px;" />
+                                                            </div>
+                                                        </td>
+                                                        <td style="vertical-align: middle;">
+                                                            @*                                                             <div class="wb-picture-wrapper" style="display:flex; max-width:100px; border-radius: 10px; align-items: center;">
+                                            <img alt="@subCategory.CategoryName" style="max-width: 125px;" src="~/@subCategory.Image" />
+                                            <input type="file" id="subImageUpload_@subCategory.CategoryID" accept=".jpg, .jpeg, .png" style="display: none;" />
+                                            <button class="btn btn-primary change-image" onclick="document.getElementById('subImageUpload_@subCategory.CategoryID').click();">Resmi Değiştir</button>
+                                            </div> *@
+                                                        </td>
+                                                        <td style="vertical-align: middle;">
+                                                            <button style="margin-top: 10px;" class="btn btn-success save-category">Kaydet</button>
+                                                            <button style="margin-top: 10px;" class="btn btn-danger delete-category">
+                                                                <i class="fa fa-trash "></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                                <tr class="subcategory-row" data-category-id="@category.CategoryID">
+                                                    <td style="vertical-align: middle;">
+                                                        <div style="display: flex; position: relative; margin-top: -10px;">
+                                                            <span style="position: absolute; top: 0; left: 0; color:red">Düğün Salonları Seçenek Ekleme</span>
+                                                            <input type="text" class="form-control subcategory-name" placeholder="Eklemek istediğiniz seçeneği yazınız" style="margin-top: 20px;">
+                                                        </div>
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+                                                        <button style="margin-top: 10px;" class="btn btn-success add-subcategory">Kaydet</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 <div class="loading-overlay">
     <div class="spinner"></div>
 </div>
 <script>
-
-    var sortable = new Sortable(document.getElementById('category-list'), {
-        animation: 150,
-        onEnd: function (evt) {
-            // Kategorinin taşındığı yeni sırayı ve eski yerini al
-            var draggedElement = evt.item;
-            var newIndex = evt.newIndex + 1; // sıralama 1'den başladığı için
-            var oldIndex = evt.oldIndex + 1;
-
-            // Taşınan kategorinin id'sini al
-            var categoryId = draggedElement.getAttribute('data-id');
-
-            // Veriyi backend'e gönder
-            updateSorting(categoryId, newIndex);
+    $(document).ready(function () {
+        function showLoading() {
+            document.querySelector('.loading-overlay').style.display = 'flex';
         }
+
+        // Loading spinner gizle
+        function hideLoading() {
+            document.querySelector('.loading-overlay').style.display = 'none';
+        }
+        // Resim yükleme ve önizleme
+        $('input[type="file"]').change(function (event) {
+            showLoading();
+
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            const imgElement = $(this).closest('.wb-picture-wrapper').find('img');
+
+            reader.onload = function (e) {
+                imgElement.attr('src', e.target.result); // Yüklenen resmin verisini img etiketine ata
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+            hideLoading();
+        });
+        // Kaydet butonuna basıldığında veriyi backend'e yolla
+        $('.save-category').click(function () {
+            showLoading();
+
+            var row = $(this).closest('tr');
+            var categoryId = row.data('category-id');
+            var categoryName = row.find('.category-name').val();
+            var fileInput = document.getElementById('imageUpload_' + categoryId);
+            var file = fileInput.files[0];
+
+            // FormData oluştur
+            var formData = new FormData();
+            formData.append("CategoryID", categoryId);
+            formData.append("CategoryName", categoryName);
+
+            if (file) {
+                formData.append("uploadedImage", file); // Dosyayı FormData'ya ekle
+            }
+
+            // AJAX ile POST isteği gönder
+            $.ajax({
+                url: '/YonetimPaneli/UpdateCategory',
+                type: 'POST',
+                data: formData,
+                contentType: false,  // FormData ile gönderdiğimiz için contentType ve processData false olacak
+                processData: false,               
+                success: function (response) {
+                    alert('Kategori başarıyla kaydedildi.');
+                    hideLoading();
+                },
+                error: function () {
+                    hideLoading();
+                    alert('Bir hata oluştu.');
+                }
+            });
+            hideLoading();
+
+        });
+
+        // Sil butonuna basıldığında kategori silinsin
+        $('.delete-category').click(function () {
+            if (!confirm('Bu kategoriyi silmek istediğinize emin misiniz?')) {
+                return;
+            }
+            showLoading();
+            var row = $(this).closest('tr');
+            var categoryId = row.data('category-id');
+
+            $.ajax({
+                url: '/YonetimPaneli/DeleteCategory',
+                type: 'POST',
+                data: { categoryId: categoryId },
+                success: function (response) {
+                    row.remove();
+                    alert('Kategori başarıyla silindi.');
+                    hideLoading();
+                },
+                error: function () {
+                    alert('Bir hata oluştu.');
+                    hideLoading();
+                }
+            });
+            hideLoading();
+        });
+
+        $('.add-subcategory').click(function () {
+            showLoading();
+
+            var row = $(this).closest('tr');
+            var categoryId = row.data('category-id');
+            var categoryName = row.find('.subcategory-name').val();
+
+            $.ajax({
+                url: '/YonetimPaneli/AddSubCategory',
+                type: 'POST',
+                data: { subcategoryName: categoryName, mainCategoryId: categoryId },
+                success: function (response) {
+                    row.remove();
+                    alert('Kategori başarıyla silindi.');
+                    hideLoading();
+                },
+                error: function () {
+                    alert('Bir hata oluştu.');
+                    hideLoading();
+                }
+            });
+            hideLoading();
+        });
+
     });
 
-    // Sorting güncelleme isteği
-    function updateSorting(categoryId, newSorting) {
-        showLoading();
 
-        fetch('/YonetimPaneli/UpdateCategorySorting', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                draggedCategoryId: categoryId,
-                newSorting: newSorting
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if (data.status == 'Ok') {
-                    alert('SIRALAMA BAŞARIYLA DEĞİŞTİRİLDİ !');
-                    location.reload();  // Sayfayı yenile
+        // Resim ekleme butonuna tıklandığında file input açılması
+        $('#imageUploadButton').on('click', function () {
+            $('#imageInput').click();
+        });
 
-                } else {
-                    alert('SIRALAMA DEĞİŞTİRİLMESİNDE HATA OLUŞTU !');
+        // Resim seçildiğinde önizlemenin gösterilmesi
+        $('#imageInput').on('change', function (e) {
+        showLoading()
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    $('#imagePreview').attr('src', event.target.result).show();
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            })
-            .finally(() => {
-                hideLoading();
-            });
-    }
-    function showLoading() {
-        document.querySelector('.loading-overlay').style.display = 'flex';
-    }
+                reader.readAsDataURL(file);
+            hideLoading()
+            }
+        hideLoading()
+        });
 
-    // Loading spinner gizle
-    function hideLoading() {
-        document.querySelector('.loading-overlay').style.display = 'none';
-    }
-    </script>
+        // Kategori Ekle butonuna tıklayınca verilerin ajax ile gönderilmesi
+        $('#addCategoryButton').on('click', function () {
+        showLoading()
+            const categoryName = $('#categoryName').val();
+            const file = $('#imageInput')[0].files[0];
+
+            if (categoryName && file) {
+                const formData = new FormData();
+                formData.append('categoryName', categoryName);
+                formData.append('image', file);
+
+                $.ajax({
+                    url: '/YonetimPaneli/AddCategory',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        alert('Kategori başarıyla eklendi!');
+                    hideLoading()
+                    },
+                    error: function () {
+                        alert('Bir hata oluştu.');
+                    hideLoading()
+                    }
+                });
+            hideLoading()
+            } else {
+
+                alert('Lütfen tüm alanları doldurun.');
+            hideLoading()
+            }
+        });
+
+
+
+</script>

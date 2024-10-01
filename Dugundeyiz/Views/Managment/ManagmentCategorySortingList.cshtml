@@ -1,0 +1,161 @@
+﻿@using Dugundeyiz.Entity
+
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml"; // Kullandığınız layout dosyasının yolu
+}
+@model List<Category>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<style>
+    #category-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        #category-list li {
+            padding: 10px;
+            margin: 5px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: move;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border-collapse: collapse;
+        max-height: 700px;
+        overflow-x: auto;
+        display: flow;
+        max-width: fit-content;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    tbody tr {
+        background-color: #f0f0f0;
+        cursor: move;
+    }
+
+        tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+
+    .table-container {
+        max-height: 700px; /* Maximum height of the container */
+        overflow-y: auto; /* Enables vertical scrolling */
+        display: block; /* Allow scrolling */
+    }
+
+
+    thead {
+        position: sticky; /* Make the header sticky */
+        top: 0; /* Stick to the top of the container */
+        background-color: #fff; /* Background color for the header */
+        z-index: 10; /* Ensure the header stays on top */
+    }
+
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Zebra striping effect for even rows */
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Kategori Sıralaması</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div style="padding-bottom: 20px;">
+<table>
+    <thead>
+        <tr>
+                <th style="    width: 80%;">Kategori Adı</th>
+                <th style="    width: 20%;">Sırası</th>
+        </tr>
+    </thead>
+    <tbody id="category-list">
+        <!-- Backend'den kategoriler burada oluşturulacak -->
+            @{
+                int i = 0;
+            }
+            @foreach (var category in Model)
+            {
+                i++;
+            <tr data-id="@category.CategoryID" data-sorting="@category.Sorting">
+
+                <td>@category.CategoryName</td>
+                <td>@category.Sorting</td>
+
+            </tr>
+            }
+
+
+    </tbody>
+</table>
+</div>
+<div class="loading-overlay">
+    <div class="spinner"></div>
+</div>
+<script>
+
+    var sortable = new Sortable(document.getElementById('category-list'), {
+        animation: 150,
+        onEnd: function (evt) {
+            // Kategorinin taşındığı yeni sırayı ve eski yerini al
+            var draggedElement = evt.item;
+            var newIndex = evt.newIndex + 1; // sıralama 1'den başladığı için
+            var oldIndex = evt.oldIndex + 1;
+
+            // Taşınan kategorinin id'sini al
+            var categoryId = draggedElement.getAttribute('data-id');
+
+            // Veriyi backend'e gönder
+            updateSorting(categoryId, newIndex);
+        }
+    });
+
+    // Sorting güncelleme isteği
+    function updateSorting(categoryId, newSorting) {
+        showLoading();
+
+        fetch('/YonetimPaneli/UpdateCategorySorting', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                draggedCategoryId: categoryId,
+                newSorting: newSorting
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data.status == 'Ok') {
+                    alert('SIRALAMA BAŞARIYLA DEĞİŞTİRİLDİ !');
+                    location.reload();  // Sayfayı yenile
+
+                } else {
+                    alert('SIRALAMA DEĞİŞTİRİLMESİNDE HATA OLUŞTU !');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                hideLoading();
+            });
+    }
+    function showLoading() {
+        document.querySelector('.loading-overlay').style.display = 'flex';
+    }
+
+    // Loading spinner gizle
+    function hideLoading() {
+        document.querySelector('.loading-overlay').style.display = 'none';
+    }
+    </script>

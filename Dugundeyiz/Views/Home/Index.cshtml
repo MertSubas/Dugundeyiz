@@ -372,7 +372,7 @@
                                         <div class="wb_content wb-layout-horizontal">
                                             @foreach(var item in Model.Kategoriler)
                                             {
-                                                <div id="homePageItemsMain" class="wb_element wb-layout-element" data-plugin="LayoutElement" style="cursor:pointer;    border-radius: 10px;" onclick="window.location.href='@Url.Action("Index", "Service", new { categoryName = item.CategoryName})'">
+                                                <div id="homePageItemsMain" class="wb_element wb-layout-element" data-plugin="LayoutElement" style="cursor:pointer;    border-radius: 10px;" onclick="window.location.href='@Url.Action("Index", "Product", new { categoryName = item.CategoryName})'">
                                                     <div class="wb_content wb-layout-vertical">
                                                         <div id="homePageıtemImg" class="wb_element wb_element_picture" data-plugin="Picture" title="@item.CategoryName">
                                                             <div class="wb_picture_wrap">
