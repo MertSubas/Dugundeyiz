@@ -37,5 +37,34 @@ namespace Dugundeyiz.Controllers
 
             return View(productListPageViewModel);
         }
+
+        [Route("samplePage/{categoryName}")]
+        public IActionResult SamplePage(string categoryName)
+        {
+            var categoryId = _context.Categories.Where(x => x.CategoryName == categoryName && x.Deleted != true).FirstOrDefault().CategoryID;
+            var services = _context.Products.Where(x => x.CategoryID == categoryId && x.Deleted != true).OrderByDescending(x => x.Sorting).ToList();
+            ProductListPageViewModel productListPageViewModel = new ProductListPageViewModel();
+            productListPageViewModel.Products = services;
+
+            ///kaldırılacak
+            var addTo = services.ElementAt(0);
+            for (int i = 0; i <= 22; i++)
+            {
+                services.Add(addTo);
+
+            }
+
+
+
+            return View(productListPageViewModel);
+        }
+
+
+        public IActionResult AddProduct(AddProductPageViewModel productToAdd)
+        {
+
+            return View(); 
+
+        }
     }
 }

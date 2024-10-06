@@ -27,7 +27,7 @@ namespace Dugundeyiz.Controllers
         }
 
         [Route("AddCategory")]
-        public IActionResult AddCategory([FromForm] Newcategory newCategory)
+        public JsonResult AddCategory([FromForm] Newcategory newCategory)
         {
             var fileExtension = Path.GetExtension(newCategory.image.FileName);
             var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
@@ -59,23 +59,23 @@ namespace Dugundeyiz.Controllers
 
                 _context.SaveChanges();
 
-                return View();
+                return new JsonResult(new { status = "Ok" });
 
             }
-            return View();
+            return new JsonResult(new { status = " error" });
         }
 
         [Route("DeleteCategory")]
-        public IActionResult DeleteCategory(int categoryId)
+        public JsonResult DeleteCategory(int categoryId)
         {
             var category = _context.Categories.Where(x => x.CategoryID == categoryId).FirstOrDefault();
             _context.Remove(category);
             _context.SaveChanges();
 
-            return View();
-        }       
+            return new JsonResult(new { status = "Ok" });
+        }
         [Route("AddSubCategory")]
-        public IActionResult AddSubCategory(int mainCategoryId, string subcategoryName)
+        public JsonResult AddSubCategory(int mainCategoryId, string subcategoryName)
         {
             var category = _context.Categories.Where(x => x.CategoryID == mainCategoryId && x.Deleted!=true).FirstOrDefault();
             if (category != null)
@@ -88,12 +88,12 @@ namespace Dugundeyiz.Controllers
 
             }
 
-            return View();
+            return new JsonResult(new { status = "Ok" });
         }
 
 
         [Route("UpdateCategory")]
-        public IActionResult UpdateCategory([FromForm] CategoryFormUpdate updatedCategory)
+        public JsonResult UpdateCategory([FromForm] CategoryFormUpdate updatedCategory)
         {
             try
             {
@@ -127,30 +127,30 @@ namespace Dugundeyiz.Controllers
                             category.CategoryName=updatedCategory.CategoryName;
                             _context.SaveChanges();
 
-                            return View();
+                            return new JsonResult(new { status = "hata" });
 
                         }
-                        return View();
+                        return new JsonResult(new { status = "hata" });
 
                     }
                     else
                     {
                         category.CategoryName = updatedCategory.CategoryName;
                         _context.SaveChanges();
-                        return View();
+                        return new JsonResult(new { status = "hata" });
 
                     }
 
                 }
                 else
                 {
-                    return View();
+                    return new JsonResult(new { status = "hata" });
 
                 }
             }
             catch (Exception e)
             {
-                return View();
+                return new JsonResult(new { status = "hata" });
 
             }
 
