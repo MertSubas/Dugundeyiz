@@ -1,0 +1,742 @@
+﻿@using Dugundeyiz.ViewModels
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model ProductListPageViewModel
+
+<style>
+    .price-style {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 10px;
+    }
+
+    .dgn__filter {
+        background: #fff;
+        -webkit-box-shadow: 0 0 2px 0 rgba(0, 0, 0, .4);
+        box-shadow: 0 0 2px 0 rgba(0, 0, 0, .4);
+        border-radius: 10px;
+        height: -webkit-fit-content;
+        height: -moz-fit-content;
+        height: fit-content;
+        position: sticky;
+        top: 20px;
+        max-height: 95vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 20px;
+    }
+
+    .list-inline-item:hover{
+        background-color: #ffeedd !important; /* Hafif pastel bej */
+        border-radius:7px;
+        cursor:pointer;
+    }
+
+    .dugundeyizButton{
+
+    }
+    .rating-box {
+        background-color: #0053b3; /* Mavi arka plan */
+        color: white; /* Beyaz yazı rengi */
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px; /* Kenarları yuvarlak */
+        display: inline-block; /* Yanına yazı gelsin diye inline-block */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+    .rating-text {
+        color: #333; /* Metin için koyu gri */
+        font-size: 12px;
+        margin-left: 10px; /* Puan kutusuyla metin arası boşluk */
+        display: inline-block; /* Yan yana gelsin diye inline-block */
+    }
+    /* Deneme 1/*/
+    /*
+                                    .bordererss {
+                                               background-color: #fff; /* İçeriğin arka plan rengi *
+                            padding: 20px; /* İçerik ile kenarlar arası boşluk */
+    box-shadow: inset 0 0px 16px 1px rgba(255, 255, 255, 0.8) !important;
+    border-radius: 13px !important;
+    }
+
+    /* Deneme 2/*/
+    /*     .bordererss {
+                                            background-color: #ffffff !important;
+                                            border-radius: 8px !important;
+                                            padding: 20px !important;
+                                            box-shadow: inset 0 0px 100px 42px rgb(0 0 0 / 80%) !important;
+                                            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+                                            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+                                        } */
+    /* Deneme 3/*/
+    .bordererss {
+        background-color: #f2f2f2 !important; /* Hafif açık gri */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        , /* Subtle shadow for soft depth */
+        0 8px 15px rgba(0, 0, 0, 0.15) !important;
+        ; /* Stronger shadow for more depth */
+        border-radius: 8px !important; /* Rounded corners for a modern look */
+        padding: 20px !important;
+        box-shadow: inset 0 0px 16px 1px rgba(255, 255, 255, 0.8) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important; /* Smooth animation */
+        border: 1px solid rgba(255, 255, 255, 0.05) !important; /* Subtle white border */
+    }
+
+        .bordererss:hover {
+            background-color: #ffeedd !important; /* Hafif pastel bej */
+            transform: translateY(-5px) !important; /* Adds a floating effect on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 15px 20px rgba(0, 0, 0, 0.2) !important; /* Stronger shadow on hover */
+
+        }
+
+    .price-filter {
+        margin: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    .slider {
+        position: relative;
+        width: 100%;
+        height: 5px;
+        background: #e0e0e0;
+    }
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 5px;
+        background: transparent; /* Set background to transparent */
+        position: absolute;
+        top: 0;
+    }
+
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #4CAF50;
+            cursor: pointer;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1; /* Make sure the thumb is above the track */
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background: #4CAF50;
+            cursor: pointer;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1; /* Make sure the thumb is above the track */
+        }
+
+    .ProductContent {
+        background-color: #f2f2f2 !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        border-radius: 8px !important;
+        margin: 10px;
+        max-width: 30%;
+    }
+
+        .ProductContent:hover {
+            background-color: #ffeedd !important; /* Hafif pastel bej */
+            cursor: pointer;
+            transform: translateY(-5px) !important; /* Adds a floating effect on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 15px 20px rgba(0, 0, 0, 0.2) !important; /* Stronger shadow on hover */
+        }
+
+
+    .dropdown-toggle {
+        background-color: #f2f2f2;
+        border-radius: 30px;
+        padding: 10px 20px;
+        color: #000000;
+        transition: background-color 0.3s ease;
+    }
+
+        .dropdown-toggle:hover {
+            background-color: #ffeedd; /* Hover efekti için daha koyu bir renk */
+        }
+
+    .dropdown-menu {
+        border-radius: 20px; /* Menü yuvarlak köşeleri */
+        padding: 10px 0;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Menüye gölge efekti */
+    }
+
+    .dropdown-item {
+        padding: 10px 20px; /* İç boşluk */
+        transition: background-color 0.3s ease; /* Geçiş efekti */
+    }
+
+        .dropdown-item:hover {
+            background-color: #e9ecef; /* Hover'da arkaplan rengi değişimi */
+            border-radius: 10px; /* Hover efekti sırasında yuvarlaklaşma */
+        }
+
+    .form-switch .form-check-input {
+        width: 4em;
+        height: 2em;
+    }
+
+    .form-check-input:checked {
+        background-color: #ffeedd;
+        border-color: #ffeedd;
+    }
+
+    .form-check-input::before {
+        background-color: #ff6b6b; /* Yuvarlak noktanın rengi */
+    }
+
+    .form-check-input:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 .25rem ff6b6b;
+    }
+
+    .btn-filter, .btn-clear {
+        background-color: #3498db; /* Mavi renk */
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-clear {
+        background-color: #ddbd5f; /* Kırmızı renk */
+    }
+
+        .btn-filter i, .btn-clear i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+    .btn-filter:hover {
+        background-color: #2980b9; /* Hover için koyu mavi */
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); /* Hover için gölge */
+    }
+
+    .btn-clear:hover {
+        background-color: #e7ba3c; /* Hover için koyu kırmızı */
+        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4); /* Hover için gölge */
+    }
+
+</style>
+
+<!-- Moment.js (DateRangePicker için gerekli) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script src="~/js/moment.min.js"></script>
+<!-- DateRangePicker CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+<!-- jQuery -->
+
+<!-- Moment.js -->
+
+<!-- DateRangePicker JS -->
+
+
+
+
+
+
+<div id="a188dd9a22120fecac69633dabda7368" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+    <a name="About-us" class="wb_anchor" data-popup-processed="true"></a>
+    <div class="wb_content wb-layout-vertical">
+        <div id="a19127a1984400deef261fad5c1153ff" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+            <div class="wb_content wb-layout-horizontal">
+                <div id="a188dd9a221213f1524ba5e8bf212ecc" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+                    <div class="wb_content wb-layout-horizontal">
+                        <div id="a188dd9a221214e6a235a9e37adaf66c" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+                            <div class="wb_content wb-layout-vertical">
+                                <div id="a188dd9a2212156b5f335a50fd7191e8" class="wb_element wb_element_picture" data-plugin="Picture" title="">
+                                    <div class="wb_picture_wrap">
+                                        <div class="wb-picture-wrapper"><img alt="" src="~/gallery_gen/5093a0de02e40f838a0ba9225ad9949f_500x500_fit.png?ts=1723818424"></div>
+                                    </div>
+                                </div>
+                                <div id="a188dd9a2212161c3de9dcfdf447344d" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;">
+                                    <h3 class="wb-stl-heading3" style="text-align: center;">Nedimenizle Tanışın</h3>
+                                </div>
+                                <div id="a188dd9a2212174eed0e9b8a228b3ac7" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+                                    <div class="wb_content wb-layout-horizontal">
+                                        <div id="a188dd9a221219732980d15375df0e6c" class="wb_element wb_element_picture" data-plugin="Picture" title="">
+                                            <div class="wb_picture_wrap" style="height: 100%">
+                                                <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><svg xmlns="http://www.w3.org/2000/svg" width="1793.982" height="1793.982" viewBox="0 0 1793.982 1793.982" style="direction: ltr; color:#f40cd8"><text x="129.501415" y="1537.02" font-size="1792" fill="currentColor" style="font-family: &quot;FontAwesome&quot;"></text></svg></div>
+                                            </div>
+                                        </div>
+                                        <div id="a188dd9a22121aa9d5afc963132c8fef" class="wb_element wb_element_picture" data-plugin="Picture" title="">
+                                            <div class="wb_picture_wrap" style="height: 100%">
+                                                <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><a href="#Home" data-popup-processed="true"><svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" style="direction: ltr; color:#ffffff"><text x="64" y="960" font-size="1024" fill="currentColor" style="font-family: &quot;builder-ui-icons-plugins&quot;"></text></svg></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="a188dd9a22121bf3b6879b59fd99b2c4" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+                            <div class="wb_content wb-layout-vertical">
+                                <div id="a188dd9a22121c61f739740d8c8e3cf3" class="wb_element wb-elm-orient-vertical" data-plugin="Line">
+                                    <div class="wb-elm-line"></div>
+                                </div>
+                                <div id="a191372e18610010289dffaa495db96d" class="wb_element wb_element_picture" data-plugin="Picture" title="">
+                                    <div class="wb_picture_wrap">
+                                        <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><svg xmlns="http://www.w3.org/2000/svg" width="1793.982" height="1793.982" viewBox="0 0 1793.982 1793.982" style="direction: ltr; color:#f00000"><text x="1.501415" y="1537.02" font-size="1792" fill="currentColor" style="font-family: &quot;FontAwesome&quot;"></text></svg></div>
+                                    </div>
+                                </div>
+                                <div id="a188dd9a22121de999cb7487d78c60a0" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;"></div>
+                                <div id="a188dd9a22121ec24ffd9d67505a721d" class="wb_element wb-elm-orient-vertical" data-plugin="Line">
+                                    <div class="wb-elm-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="a188dd9a22121f94440969b9f7d57b6a" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+                            <div class="wb_content wb-layout-vertical">
+                                <div id="a188dd9a2212206dfdaf4f70d5b113bc" class="wb_element wb_element_picture" data-plugin="Picture" title="">
+                                    <div class="wb_picture_wrap">
+                                        <div class="wb-picture-wrapper"><img alt="" src="~/gallery_gen/b741c788fd2cb770e749419852151a03_500x500_fit.png?ts=1723818424"></div>
+                                    </div>
+                                </div>
+                                <div id="a188dd9a221221327f116ae9a6bdc3b3" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;">
+                                    <h3 class="wb-stl-heading3" style="text-align: center;">siz seçin biz fiyat alalım<span class="wb-stl-special">&nbsp;</span></h3>
+                                </div>
+                                <div id="a188dd9a221222f507215819bdca677e" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+                                    <div class="wb_content wb-layout-horizontal">
+                                        <div id="a188dd9a221224183b731e6d554bcbc4" class="wb_element wb_element_picture" data-plugin="Picture" title="">
+                                            <div class="wb_picture_wrap" style="height: 100%">
+                                                <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><svg xmlns="http://www.w3.org/2000/svg" width="1793.982" height="1793.982" viewBox="0 0 1793.982 1793.982" style="direction: ltr; color:#1427e2"><text x="129.501415" y="1537.02" font-size="1792" fill="currentColor" style="font-family: &quot;FontAwesome&quot;"></text></svg></div>
+                                            </div>
+                                        </div>
+                                        <div id="a188dd9a221225bddec48338ca50aff9" class="wb_element wb_element_picture" data-plugin="Picture" title="">
+                                            <div class="wb_picture_wrap" style="height: 100%">
+                                                <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><a href="https://dugundeyiz.com.tr/" data-popup-processed="true"><svg xmlns="http://www.w3.org/2000/svg" width="1793.982" height="1793.982" viewBox="0 0 1793.982 1793.982" style="direction: ltr; color:#d90011"><text x="1.501415" y="1537.02" font-size="1792" fill="currentColor" style="font-family: &quot;FontAwesome&quot;"></text></svg></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="a188dd9a22122aad1df24301dbf11986" class="wb_element wb-layout-element" data-plugin="LayoutElement">
+    <a name="Gallery" class="wb_anchor" data-popup-processed="true"></a>
+    <div class="wb_content wb-layout-vertical">
+        <div id="a188dd9a221228037e290d8cfe47db18" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;margin-bottom:60px">
+            <p class="wb-stl-normal" style="text-align: center;">ÇÖZÜM ORTAKLARINIZ..</p>
+        </div>
+        <div class="container" style="margin-bottom:55px">
+            <div class="row">
+                <!-- Content -->
+                <div class="col-md-9 order-md-2">
+                    <div class="g-pl-15--lg">
+                        <!-- Filters -->
+                        <div class="d-flex justify-content-end align-items-center g-brd-bottom g-brd-gray-light-v4 g-pt-40 g-pb-20" style="    background: #fff; border-radius:10px;padding-bottom: 7px;margin-right: 24px; margin-left: -4px;">
+                            <!-- Show -->
+                            <div class="g-mr-60">
+                                <h2 class="h6 align-middle d-inline-block g-font-weight-400 text-uppercase g-pos-rel g-top-1 mb-0">İlan Sayısı:</h2>
+
+                                <!-- Secondary Button -->
+                                <div class="d-inline-block btn-group g-line-height-1_2" style="margin-right:10px">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle h6 align-middle g-brd-none g-color-gray-dark-v5 g-color-black--hover g-bg-transparent text-uppercase g-font-weight-300 g-font-size-12 g-pa-0 g-pl-10 g-ma-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        9
+                                    </button>
+                                    <div class="dropdown-menu rounded-0">
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">Hepsi</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">5</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">15</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">20</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">25</a>
+                                    </div>
+                                </div>
+                                <!-- End Secondary Button -->
+                            </div>
+                            <!-- End Show -->
+                            <!-- Sort By -->
+                            <div class="g-mr-60">
+                                <h2 class="h6 align-middle d-inline-block g-font-weight-400 text-uppercase g-pos-rel g-top-1 mb-0">Sıralama:</h2>
+
+                                <!-- Secondary Button -->
+                                <div class="d-inline-block btn-group g-line-height-1_2">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle h6 align-middle g-brd-none g-color-gray-dark-v5 g-color-black--hover g-bg-transparent text-uppercase g-font-weight-300 g-font-size-12 g-pa-0 g-pl-10 g-ma-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Önerilen
+                                    </button>
+                                    <div class="dropdown-menu rounded-0">
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">Önerilen</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">İsim</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">Fiyat</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">Kapasite</a>
+                                    </div>
+                                </div>
+                                <!-- End Secondary Button -->
+                            </div>
+                            <!-- End Sort By -->
+                            <!-- Sort By -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="u-icon-v2 u-icon-size--xs g-brd-gray-light-v3 g-brd-black--hover g-color-gray-dark-v5 g-color-black--hover" href="page-list-filter-left-sidebar-1.html">
+                                        <i class="icon-list"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="u-icon-v2 u-icon-size--xs g-brd-primary g-color-primary" href="page-grid-filter-left-sidebar-1.html">
+                                        <i class="icon-grid"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Sort By -->
+                        </div>
+                        <!-- End Filters -->
+                        <!-- Products -->
+                        <div class="row g-pt-30 g-mb-50">
+                            <div class="col-6 col-lg-4 g-mb-30 ProductContent">
+                                <!-- Product -->
+                                <div class="">
+                                    <figure class="g-pos-rel g-mb-20" style="padding-top: 15px;">
+                                        <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
+
+                                        @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
+                                        *@
+                                    </figure>
+
+                                    <div class="media">
+                                        <!-- Product Info -->
+                                        <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                                            <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
+                                                Bu alan SİZİN İçin Ayrılmıştır
+                                            </h5>
+                                            <h6 class="d-inline-block g-color-gray-dark-v5 g-font-size-13" href="#"></h6>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <div class="h6 g-color-black mb-1">
+                                            </div>
+@*                                             <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
+                                            <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span> *@
+                                            <div>
+                                                <div class="price-style">
+                                                 @*    <p> Kapasite:</p>
+                                                    <div>
+                                                        <h4 style="">400-500</h4>
+
+                                                    </div> *@
+                                                </div>
+                                                <div class="price-style">
+                                                  @*   <p> Kişi Başı Fiyat:</p>
+                                                    <div>
+                                                        <h4 style="color:red">150 ₺</h4>
+                                                        <h5 style="text-decoration: line-through;font-size: 15px;    text-align: end;">
+                                                            150 ₺
+                                                        </h5>
+                                                    </div> *@
+                                                </div>
+                                                <div style="   padding-top: 70px; display: flex; justify-content: space-evenly;;">
+                                                    <span class="rating-text" style="font-size:18px">İlan vermek için tıklayınız</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Product Info -->
+                                    <!-- Products Icons -->
+                                    <ul class="list-inline media-body text-right">
+                                        <li class="list-inline-item align-middle mx-0">
+                                            <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
+                                                <i class="icon-finance-100 u-line-icon-pro"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item align-middle mx-0">
+                                            <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
+                                                <i class="icon-medical-022 u-line-icon-pro"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- End Products Icons -->
+                                </div>
+                                <!-- End Product -->
+                            </div>
+                            @foreach (var product in Model.Products)
+                            {
+                                <div class="col-6 col-lg-4 g-mb-30 ProductContent">
+                                    <!-- Product -->
+                                    <div class="">
+                                        <figure class="g-pos-rel g-mb-20" style="padding-top: 15px;">
+                                            <img class="img-fluid" src="@product.Images" alt="@product.Name">
+
+                                            @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
+                                        *@
+                                        </figure>
+
+                                        <div class="media">
+                                            <!-- Product Info -->
+                                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                                                <h4 class="u-link-v5 g-color-black g-color-primary--hover" href="#">
+                                                    @product.Name
+                                                </h4>
+                                                <h6 class="d-inline-block g-color-gray-dark-v5 g-font-size-13" href="#">@product.City</h6>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                <div class="h6 g-color-black mb-1">
+                                                </div>
+                                                <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
+                                                <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
+                                                <div>
+                                                    <div class="price-style">
+                                                        <p> Kapasite:</p>
+                                                        <div>
+                                                            <h4 style="">400-500</h4>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="price-style">
+                                                        <p> Kişi Başı Fiyat:</p>
+                                                        <div>
+                                                            <h4 style="color:red">150 ₺</h4>
+                                                            <h5 style="text-decoration: line-through;font-size: 15px;    text-align: end;">
+                                                                150 ₺
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                    <div style="    padding-bottom: 15px;">
+                                                        <div class="rating-box">8.9</div>
+                                                        <span class="rating-text">Müthiş · 261 değerlendirme</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Product Info -->
+                                        <!-- Products Icons -->
+                                        <ul class="list-inline media-body text-right">
+                                            <li class="list-inline-item align-middle mx-0">
+                                                <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
+                                                    <i class="icon-finance-100 u-line-icon-pro"></i>
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item align-middle mx-0">
+                                                <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
+                                                    <i class="icon-medical-022 u-line-icon-pro"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <!-- End Products Icons -->
+                                    </div>
+                                    <!-- End Product -->
+                                </div>
+                            }
+
+                        </div>
+                        <!-- End Products -->
+
+                        <hr class="g-mb-60">
+
+                        <!-- Pagination -->
+                        <nav class="g-mb-100" aria-label="Page Navigation" style="display: flex; align-items: center; justify-content: space-evenly;background-color: #fff; border-radius: 10px; padding: 6px;">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item hidden-down">
+                                    <a class="active u-pagination-v1__item g-width-30 g-height-30 g-brd-gray-light-v3 g-brd-primary--active g-color-white g-bg-primary--active g-font-size-12 rounded-circle g-pa-5" href="#">1</a>
+                                </li>
+                                <li class="list-inline-item hidden-down">
+                                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#">2</a>
+                                </li>
+                                <li class="list-inline-item g-hidden-xs-down">
+                                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#">3</a>
+                                </li>
+                                <li class="list-inline-item hidden-down">
+                                    <span class="g-width-30 g-height-30 g-color-gray-dark-v5 g-font-size-12 rounded-circle g-pa-5">...</span>
+                                </li>
+                                <li class="list-inline-item g-hidden-xs-down">
+                                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#">15</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-brd-gray-light-v3 g-brd-primary--hover g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5 g-ml-15" href="#" aria-label="Next">
+                                        <span aria-hidden="true">
+                                            <i class="fa fa-angle-right"></i>
+                                        </span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item float-right">
+                                    <span class="u-pagination-v1__item-info g-color-gray-dark-v4 g-font-size-12 g-pa-5">Page 1 of 15</span>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+                <!-- End Content -->
+                <!-- Filters -->
+                <div class=" dgn__filter col-md-3 order-md-1 g-brd-right--lg g-brd-gray-light-v4 g-pt-40">
+                    <div class="g-pr-15--lg g-pt-60">
+                        <h3 class="h5 mb-3">Filtre</h3>
+
+                        <!-- Categories -->
+                        <div class="g-mb-30">
+                            <label for="ilanAdi" class="form-label">İlan Adı</label>
+                            <input type="text" class="form-control dropdown-toggle" id="ilanAdi" placeholder="İlan adı girin">
+
+                        </div>
+                        <hr>
+
+                        <div class="g-mb-30">
+                            <label for="kapasite" class="form-label">Kapasite </label>
+                            <input type="text" class="form-control dropdown-toggle" id="kapasite" placeholder="Kapasite girin">
+
+                        </div>
+                        <hr>
+
+                        <!-- End Categories -->
+                        <div class="g-mb-30">
+                            <div class="dropdown" style="padding-bottom: 15px;">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="width: 70%;">
+                                    Şehir
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">A</a></li>
+                                    <li><a class="dropdown-item" href="#">B</a></li>
+                                    <li><a class="dropdown-item" href="#">C</a></li>
+
+                                </ul>
+                            </div>
+
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="width: 70%;" disabled>
+                                    İlçe
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">A</a></li>
+                                    <li><a class="dropdown-item" href="#">B</a></li>
+                                    <li><a class="dropdown-item" href="#">C</a></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- Pricing -->
+                        <div class="g-mb-30">
+                            <h3 class="h5 mb-3">Fiyat Aralığı</h3>
+
+                            <div class="text-center">
+                                <div class="price-filter">
+                                    <div class="slider">
+                                        <input type="range" min="180" max="367" value="180" id="min-price" />
+                                        <input type="range" min="180" max="367" value="367" id="max-price" />
+                                    </div>
+                                    <p>Fiyat Aralığı: ₺<span id="price-range">180 - 367</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Pricing -->
+
+                        <hr>
+
+                        <!-- Brand -->
+
+                        <div class="g-mb-30" style="    ">
+                            <div class="form-check form-switch" style="display: flex; flex-direction: column;">
+                                <label class="form-check-label" for="flexSwitchCheckDefault" style="margin-left:-33px;">Tarih  - Tarih Aralığı</label>
+                                <input class="form-check-input" style="    margin-left: -20px;" type="checkbox" id="flexSwitchCheckDefault">
+@*                                 <div class="container mt-3">
+                                    <label for="daterange">Select Date Range:</label>
+                                    <input type="text" name="daterange" />
+                                </div> *@
+                            </div>
+
+                        </div>
+                        <hr>
+
+                        <div class="g-mb-30">
+                            <label for="kapasite" class="form-label">Kapasite</label>
+                            <input type="text" class="form-control dropdown-toggle" name="daterange" id="kapasite" placeholder="Kapasite girin">
+
+                        </div>
+                        <div class="" style="padding-top: 15px; display: flex; align-items: center; justify-content: space-around;">
+                            <button class="btn-filter">
+                                <i class="fas fa-filter"></i> Filtrele
+                            </button>
+
+                            <button class="btn-clear">
+                                <i class="fas fa-times-circle"></i> Temizle
+                            </button>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End Filters -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const minPriceInput = document.getElementById("min-price");
+        const maxPriceInput = document.getElementById("max-price");
+        const priceRangeDisplay = document.getElementById("price-range");
+
+        // Function to update the range display and ensure sliders don't cross
+        function updatePriceRange() {
+            const minValue = parseInt(minPriceInput.value);
+            const maxValue = parseInt(maxPriceInput.value);
+
+            // Adjust the minimum price if it exceeds the maximum price
+            if (minValue > maxValue) {
+                minPriceInput.value = maxValue;
+            }
+
+            // Adjust the maximum price if it is less than the minimum price
+            if (maxValue < minValue) {
+                maxPriceInput.value = minValue;
+            }
+
+            priceRangeDisplay.textContent = `${minPriceInput.value} - ${maxPriceInput.value}`;
+        }
+
+        // Event listeners for both range inputs
+        minPriceInput.addEventListener("input", updatePriceRange);
+        maxPriceInput.addEventListener("input", updatePriceRange);
+
+        // Initialize the display
+        updatePriceRange();
+
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        if ($.fn.daterangepicker) {
+            console.log("DateRangePicker yüklendi.");
+        } else {
+            console.log("DateRangePicker yüklenemedi.");
+        }
+
+        if (typeof $ !== 'undefined') {
+            console.log("jQuery yüklendi.");
+        } else {
+            console.log("jQuery yüklenemedi.");
+        }
+
+        $('input[name="daterange"]').daterangepicker();
+    });
+</script>
