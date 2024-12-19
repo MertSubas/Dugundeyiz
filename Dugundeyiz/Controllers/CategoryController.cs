@@ -1,4 +1,5 @@
 ﻿using Dugundeyiz.Context;
+using Dugundeyiz.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dugundeyiz.Controllers
@@ -16,7 +17,10 @@ namespace Dugundeyiz.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var categories = _context.Categories.Where(x => x.Deleted != true && x.MainCategoryID==null).ToList();
+            CategoryListPageViewModel categoryListPageViewModel = new CategoryListPageViewModel();
+            categoryListPageViewModel.Categories = categories;
+            return View(categoryListPageViewModel);
         }
 
         [Route("Category/Product/{categoryName}")]

@@ -1,0 +1,883 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+
+
+<style>
+    .price-style {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 10px;
+    }
+
+    .dgn__filter {
+        background: #fff;
+        -webkit-box-shadow: 0 0 2px 0 rgba(0, 0, 0, .4);
+        box-shadow: 0 0 2px 0 rgba(0, 0, 0, .4);
+        border-radius: 10px;
+        height: -webkit-fit-content;
+        height: -moz-fit-content;
+        height: fit-content;
+        position: sticky;
+        top: 20px;
+        max-height: 95vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 20px;
+    }
+
+    .list-inline-item:hover {
+        background-color: #ffeedd !important; /* Hafif pastel bej */
+        border-radius: 7px;
+        cursor: pointer;
+    }
+
+    .dugundeyizButton {
+    }
+
+    .rating-box {
+        background-color: #0053b3; /* Mavi arka plan */
+        color: white; /* Beyaz yazı rengi */
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px; /* Kenarları yuvarlak */
+        display: inline-block; /* Yanına yazı gelsin diye inline-block */
+        font-size: 16px; /* Yazı boyutu */
+    }
+
+    .rating-text {
+        color: #333; /* Metin için koyu gri */
+        font-size: 12px;
+        margin-left: 10px; /* Puan kutusuyla metin arası boşluk */
+        display: inline-block; /* Yan yana gelsin diye inline-block */
+    }
+    /* Deneme 1/*/
+    /*
+                                                        .bordererss {
+                                                                   background-color: #fff; /* İçeriğin arka plan rengi *
+                                                padding: 20px; /* İçerik ile kenarlar arası boşluk */
+    box-shadow: inset 0 0px 16px 1px rgba(255, 255, 255, 0.8) !important;
+    border-radius: 13px !important;
+    }
+
+    /* Deneme 2/*/
+    /*     .bordererss {
+                                                                background-color: #ffffff !important;
+                                                                border-radius: 8px !important;
+                                                                padding: 20px !important;
+                                                                box-shadow: inset 0 0px 100px 42px rgb(0 0 0 / 80%) !important;
+                                                                transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+                                                                border: 1px solid rgba(255, 255, 255, 0.05) !important;
+                                                            } */
+    /* Deneme 3/*/
+    .bordererss {
+        background-color: #f2f2f2 !important; /* Hafif açık gri */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        , /* Subtle shadow for soft depth */
+        0 8px 15px rgba(0, 0, 0, 0.15) !important;
+        ; /* Stronger shadow for more depth */
+        border-radius: 8px !important; /* Rounded corners for a modern look */
+        padding: 20px !important;
+        box-shadow: inset 0 0px 16px 1px rgba(255, 255, 255, 0.8) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important; /* Smooth animation */
+        border: 1px solid rgba(255, 255, 255, 0.05) !important; /* Subtle white border */
+    }
+
+        .bordererss:hover {
+            background-color: #ffeedd !important; /* Hafif pastel bej */
+            transform: translateY(-5px) !important; /* Adds a floating effect on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 15px 20px rgba(0, 0, 0, 0.2) !important; /* Stronger shadow on hover */
+        }
+
+    .price-filter {
+        margin: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    .slider {
+        position: relative;
+        width: 100%;
+        height: 5px;
+        background: #e0e0e0;
+    }
+
+    input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 5px;
+        background: transparent; /* Set background to transparent */
+        position: absolute;
+        top: 0;
+    }
+
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #4CAF50;
+            cursor: pointer;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1; /* Make sure the thumb is above the track */
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background: #4CAF50;
+            cursor: pointer;
+            border-radius: 50%;
+            position: relative;
+            z-index: 1; /* Make sure the thumb is above the track */
+        }
+
+    .ProductContent {
+        background-color: #f2f2f2 !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        border-radius: 8px !important;
+        margin: 10px;
+        /* max-width: 30%; */
+    }
+
+        .ProductContent:hover {
+            background-color: #ffeedd !important; /* Hafif pastel bej */
+            cursor: pointer;
+            transform: translateY(-5px) !important; /* Adds a floating effect on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 15px 20px rgba(0, 0, 0, 0.2) !important; /* Stronger shadow on hover */
+        }
+
+
+    .dropdown-toggle {
+        background-color: #f2f2f2;
+        border-radius: 30px;
+        padding: 10px 20px;
+        color: #000000;
+        transition: background-color 0.3s ease;
+    }
+
+        .dropdown-toggle:hover {
+            background-color: #ffeedd; /* Hover efekti için daha koyu bir renk */
+        }
+
+    .dropdown-menu {
+        border-radius: 20px; /* Menü yuvarlak köşeleri */
+        padding: 10px 0;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Menüye gölge efekti */
+    }
+
+    .dropdown-item {
+        padding: 10px 20px; /* İç boşluk */
+        transition: background-color 0.3s ease; /* Geçiş efekti */
+    }
+
+        .dropdown-item:hover {
+            background-color: #e9ecef; /* Hover'da arkaplan rengi değişimi */
+            border-radius: 10px; /* Hover efekti sırasında yuvarlaklaşma */
+        }
+
+    .form-switch .form-check-input {
+        width: 4em;
+        height: 2em;
+    }
+
+    .form-check-input:checked {
+        background-color: #ffeedd;
+        border-color: #ffeedd;
+    }
+
+    .form-check-input::before {
+        background-color: #ff6b6b; /* Yuvarlak noktanın rengi */
+    }
+
+    .form-check-input:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 .25rem ff6b6b;
+    }
+
+    .btn-filter, .btn-clear {
+        background-color: #3498db; /* Mavi renk */
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-clear {
+        background-color: #ddbd5f; /* Kırmızı renk */
+    }
+
+        .btn-filter i, .btn-clear i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+    .btn-filter:hover {
+        background-color: #2980b9; /* Hover için koyu mavi */
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); /* Hover için gölge */
+    }
+
+    .btn-clear:hover {
+        background-color: #e7ba3c; /* Hover için koyu kırmızı */
+        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4); /* Hover için gölge */
+    }
+
+    .custom-card-123 {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        text-align: center;
+        background-color: white;
+        margin: 2px;
+    }
+
+    .custom-container-123Capaign {
+        padding: 5px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        background: radial-gradient(circle, #ffffff, #e9e9e9);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-card-campaign {
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        position: relative;
+        background-color: #fff;
+        margin: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-discount-campaign {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #e5007e;
+        color: white;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 5px;
+    }
+
+    .custom-image-campaign {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .custom-content-campaign {
+        padding: 8px;
+        text-align: center;
+    }
+
+    .custom-title-campaign {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 5px 0;
+        color: #333;
+    }
+
+    .custom-location-campaign {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .custom-pricing-campaign {
+        font-size: 14px;
+        margin: 10px 0;
+    }
+
+    .custom-old-price-campaign {
+        text-decoration: line-through;
+        color: #999;
+        margin-right: 5px;
+    }
+
+    .custom-new-price-campaign {
+        color: #e5007e;
+        font-weight: bold;
+    }
+
+    .custom-per-person-campaign {
+        font-size: 12px;
+        color: #666;
+        margin-top: -7px;
+    }
+
+    .main-image-123 {
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    .containerCampaign {
+        width: 1075px;
+        padding-bottom: 35px;
+    }
+
+</style>
+
+<div id="wb_main_home_partners" class="wb_element wb-layout-element" data-plugin="LayoutElement" style="    background-color: #ece4d4;">
+    <a name="Gallery" class="wb_anchor" data-popup-processed="true"></a>
+    <div class="wb_content wb-layout-vertical">
+        <div id="a188dd9a221228037e290d8cfe47db18" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;margin-bottom:60px;padding-top:15px;">
+
+            <p class="wb-stl-normal" style="text-align: center;">Kampanyalar</p>
+
+        </div>
+        <div class="containerCampaign">
+
+
+            <div class="custom-container-123Capaign" style=" style=" padding-bottom: 35px;"">
+                <h2 style="    text-wrap: nowrap;text-align: center;">Öne Çıkan Kampanyalar</h2>
+                <div class="row g-4">
+                    <!-- Sol resim -->
+                    @* <div class="col-lg-3" style=" display: flex; align-items: center;    flex-direction: column;    justify-content: space-around; border-right: 1px dotted #ece4d4;">
+                    <div>
+
+
+                    </div>
+                    <div class="custom-container-mainImage" style=" padding: 15px;">
+                    <img src="~/gallery_gen/campaing.png" alt="Düğün Mekanı" class="main-image-123" style="border-radius:10px">
+                    </div>
+                    </div> *@
+                    <!-- Sağ taraf kartlar -->
+                    <div class="col-lg-12" style=" display: flex;align-items: center; justify-content: space-around;">
+                        <div id="cardCarousel3" class="carousel slide" data-bs-ride="carousel">
+                            <!-- Kaydırma Okları -->
+                            <button class="carousel-control-prev" type="button" style="margin:auto;width:5px;height:10px;margin-left:-10px;" data-bs-target="#cardCarousel3" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class=""><i class="fa-solid fa-angles-left" style="color:black;font-size:15px;"></i></span>
+                            </button>
+                            <button class="carousel-control-next" style="margin:auto;width:5px;height:10px;margin-right:-14px;" type="button" data-bs-target="#cardCarousel3" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class=""><i class="fa-solid fa-angles-right" style="color:black;font-size:15px;"></i></span>
+                            </button>
+
+                            <!-- Carousel İçeriği -->
+                            <div class="carousel-inner" style="max-width:1200px;width:1000px;">
+                                <!-- 1. Satır -->
+                                <div class="carousel-item active">
+                                    <div class="d-flex justify-content-center" style="justify-content: space-around !important;">
+
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="carousel-item ">
+                                    <div class="d-flex justify-content-center" style="justify-content: space-around !important;">
+
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+                                        <div class="custom-card-campaign">
+                                            <div class="custom-discount-campaign">%33</div>
+                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" alt="Güzelcehisar" class="custom-image-campaign">
+                                            <div class="custom-content-campaign">
+                                                <h3 class="custom-title-campaign">Bu Alan Sizin İçin Ayrılmıştır</h3>
+                                                <p class="custom-location-campaign"><i class="fa-solid fa-location-dot"></i>Karasu</p>
+                                                <div class="custom-pricing-campaign">
+                                                    <span class="custom-new-price-campaign">2.000 TL</span>
+                                                    <span class="custom-old-price-campaign">3.000 TL</span>
+                                                </div>
+                                                <p class="custom-per-person-campaign">Kişi Başı</p>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Filters -->
+                <div class=" dgn__filter col-md-3 order-md-1 g-brd-right--lg g-brd-gray-light-v4 g-pt-40">
+                    <div class="g-pr-15--lg g-pt-60">
+                        <h3 class="h5 mb-3">Filtre</h3>
+
+                        <!-- Categories -->
+                        <div class="g-mb-30">
+                            <label for="ilanAdi" class="form-label">İlan Adı</label>
+                            <input type="text" class="form-control dropdown-toggle" id="ilanAdi" placeholder="İlan adı girin">
+
+                        </div>
+                        <hr>
+
+                        <!-- End Categories --> 
+                        <div class="g-mb-30">
+                            <div class="dropdown" style="padding-bottom: 15px;">
+                                <button class="btn dropdown-toggle" type="button" id="cityDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 70%;">
+                                    Şehir
+                                </button>
+                                <ul class="dropdown-menu" id="cityDropdownMenu" style="    overflow: auto;  max-height: 300px;"></ul>
+                            </div>
+
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="districtDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 70%;" disabled>
+                                    İlçe
+                                </button>
+                                <ul class="dropdown-menu" id="districtDropdownMenu" style="    overflow: auto;  max-height: 300px;"></ul>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="g-mb-30">
+                            <div class="dropdown" style="padding-bottom: 15px;">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="width: 70%;">
+                                    Kategori
+                                </button>
+                                <ul class="dropdown-menu" id="categoryDropdown" style="    overflow: auto;  max-height: 300px;"></ul>
+
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- Pricing -->
+                        <div class="g-mb-30">
+                            <h3 class="h5 mb-3">Fiyat Aralığı</h3>
+
+                            <div class="text-center">
+                                <div class="price-filter">
+                                    <div class="slider">
+                                        <input type="range" min="180" max="367" value="180" id="min-price" />
+                                        <input type="range" min="180" max="367" value="367" id="max-price" />
+                                    </div>
+                                    <p>Fiyat Aralığı: ₺<span id="price-range">180 - 367</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Pricing -->
+
+                        <hr />
+                        <!-- Brand -->
+                        @* <div class="g-mb-30" style="    ">
+                        <div class="form-check form-switch" style="display: flex; flex-direction: column;">
+                        <label class="form-check-label" for="flexSwitchCheckDefault" style="margin-left:-33px;">Tarih  - Tarih Aralığı</label>
+                        <input class="form-check-input" style="    margin-left: -20px;" type="checkbox" id="flexSwitchCheckDefault">
+                        <div class="container mt-3">
+                        <label for="daterange">Select Date Range:</label>
+                        <input type="text" name="daterange" />
+                        </div>
+                        </div>
+
+                        </div> *@
+                        @* <hr> *@
+
+                        @* <div class="g-mb-30">
+                        <label for="kapasite" class="form-label">Kapasite</label>
+                        <input type="text" class="form-control dropdown-toggle" name="daterange" id="kapasite" placeholder="Kapasite girin">
+
+                        </div> *@
+                        <div class="" style="padding-top: 15px; display: flex; align-items: center; justify-content: space-around;">
+                            <button class="btn-filter">
+                                <i class="fas fa-filter"></i> Filtrele
+                            </button>
+
+                            <button class="btn-clear">
+                                <i class="fas fa-times-circle"></i> Temizle
+                            </button>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End Filters -->
+                <!-- Content -->
+                <div class="col-md-9 order-md-2">
+                    <div class="g-pl-15--lg">
+                        <!-- Filters -->
+                        <div class="d-flex justify-content-end align-items-center g-brd-bottom g-brd-gray-light-v4 g-pt-40 g-pb-20" style="    background: #fff; border-radius:10px;padding-bottom: 7px;margin-right: 24px; margin-left: -4px;">
+                            <!-- Show -->
+                            @* <div class="g-mr-60">
+                            <h2 class="h6 align-middle d-inline-block g-font-weight-400 text-uppercase g-pos-rel g-top-1 mb-0">İlan Sayısı:</h2>
+
+                            <!-- Secondary Button -->
+                            <div class="d-inline-block btn-group g-line-height-1_2" style="margin-right:10px">
+                            <button type="button" class="btn btn-secondary dropdown-toggle h6 align-middle g-brd-none g-color-gray-dark-v5 g-color-black--hover g-bg-transparent text-uppercase g-font-weight-300 g-font-size-12 g-pa-0 g-pl-10 g-ma-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            9
+                            </button>
+                            <div class="dropdown-menu rounded-0">
+                            <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">Hepsi</a>
+                            <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">5</a>
+                            <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">15</a>
+                            <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">20</a>
+                            <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">25</a>
+                            </div>
+                            </div>
+                            <!-- End Secondary Button -->
+                            </div> *@
+                            <!-- End Show -->
+                            <!-- Sort By -->
+                            <div class="g-mr-60">
+                                <h2 class="h6 align-middle d-inline-block g-font-weight-400 text-uppercase g-pos-rel g-top-1 mb-0">Sıralama:</h2>
+
+                                <!-- Secondary Button -->
+                                <div class="d-inline-block btn-group g-line-height-1_2">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle h6 align-middle g-brd-none g-color-gray-dark-v5 g-color-black--hover g-bg-transparent text-uppercase g-font-weight-300 g-font-size-12 g-pa-0 g-pl-10 g-ma-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Önerilen
+                                    </button>
+                                    <div class="dropdown-menu rounded-0">
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">Önerilen</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">Fiyata Göre Artan</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">Fiyata Göre Azalan</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">İndirim Oranı Artan</a>
+                                        <a class="dropdown-item g-color-gray-dark-v4 g-font-weight-300" href="#">İndirim Oranı Azalan</a>
+
+                                    </div>
+                                </div>
+                                <!-- End Secondary Button -->
+                            </div>
+                            <!-- End Sort By -->
+                            <!-- Sort By -->
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="u-icon-v2 u-icon-size--xs g-brd-gray-light-v3 g-brd-black--hover g-color-gray-dark-v5 g-color-black--hover" href="page-list-filter-left-sidebar-1.html">
+                                        <i class="icon-list"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="u-icon-v2 u-icon-size--xs g-brd-primary g-color-primary" href="page-grid-filter-left-sidebar-1.html">
+                                        <i class="icon-grid"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- End Sort By -->
+                        </div>
+                        <!-- End Filters -->
+                        <!-- Products -->
+                        <div class="row g-pt-30 g-mb-50">
+                            <div class="col-6 col-lg-4 g-mb-30 ProductContent">
+                                <!-- Product -->
+                                <div class="">
+                                    <figure class="g-pos-rel g-mb-20" style="padding-top: 15px;">
+                                        <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
+
+                                        @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
+                                        *@
+                                    </figure>
+
+                                    <div class="media">
+                                        <!-- Product Info -->
+                                        <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                                            <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
+                                                Bu alan SİZİN İçin Ayrılmıştır
+                                            </h5>
+                                            <h6 class="d-inline-block g-color-gray-dark-v5 g-font-size-13" href="#"></h6>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <div class="h6 g-color-black mb-1">
+                                            </div>
+                                            @*                                             <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
+                                            <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span> *@
+                                            <div>
+                                                <div class="price-style">
+                                                    @*    <p> Kapasite:</p>
+                                                    <div>
+                                                    <h4 style="">400-500</h4>
+
+                                                    </div> *@
+                                                </div>
+                                                <div class="price-style">
+                                                    @*   <p> Kişi Başı Fiyat:</p>
+                                                    <div>
+                                                    <h4 style="color:red">150 ₺</h4>
+                                                    <h5 style="text-decoration: line-through;font-size: 15px;    text-align: end;">
+                                                    150 ₺
+                                                    </h5>
+                                                    </div> *@
+                                                </div>
+                                                <div style="   padding-top: 70px; display: flex; justify-content: space-evenly;;">
+                                                    <span class="rating-text" style="font-size:18px">İlan vermek için tıklayınız</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Product Info -->
+                                    <!-- Products Icons -->
+                                    <ul class="list-inline media-body text-right">
+                                        <li class="list-inline-item align-middle mx-0">
+                                            <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
+                                                <i class="icon-finance-100 u-line-icon-pro"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item align-middle mx-0">
+                                            <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
+                                                <i class="icon-medical-022 u-line-icon-pro"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- End Products Icons -->
+                                </div>
+                                <!-- End Product -->
+                            </div>
+
+                            <!-- End nOT BURAYA GELECEK -->
+
+                        </div>
+                        <!-- End Products -->
+
+
+                        <hr class="g-mb-60">
+
+                        <!-- Pagination -->
+                        <nav class="g-mb-100" aria-label="Page Navigation" style="display: flex; align-items: center; justify-content: space-evenly;background-color: #fff; border-radius: 10px; padding: 6px;">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item hidden-down">
+                                    <a class="active u-pagination-v1__item g-width-30 g-height-30 g-brd-gray-light-v3 g-brd-primary--active g-color-white g-bg-primary--active g-font-size-12 rounded-circle g-pa-5" href="#">1</a>
+                                </li>
+                                <li class="list-inline-item hidden-down">
+                                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#">2</a>
+                                </li>
+                                <li class="list-inline-item g-hidden-xs-down">
+                                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#">3</a>
+                                </li>
+                                <li class="list-inline-item hidden-down">
+                                    <span class="g-width-30 g-height-30 g-color-gray-dark-v5 g-font-size-12 rounded-circle g-pa-5">...</span>
+                                </li>
+                                <li class="list-inline-item g-hidden-xs-down">
+                                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5" href="#">15</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="u-pagination-v1__item g-width-30 g-height-30 g-brd-gray-light-v3 g-brd-primary--hover g-color-gray-dark-v5 g-color-primary--hover g-font-size-12 rounded-circle g-pa-5 g-ml-15" href="#" aria-label="Next">
+                                        <span aria-hidden="true">
+                                            <i class="fa fa-angle-right"></i>
+                                        </span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item float-right">
+                                    <span class="u-pagination-v1__item-info g-color-gray-dark-v4 g-font-size-12 g-pa-5">Page 1 of 15</span>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+                <!-- End Content -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Şehirleri yükle
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/Services/cities",
+            type: "GET",
+            success: function (data) {
+                let cityDropdownMenu = $('#cityDropdownMenu');
+                cityDropdownMenu.empty(); // Temizle
+                data.forEach(city => {
+                    cityDropdownMenu.append(
+                        `<li><a class="dropdown-item" href="#" data-id="${city.id}">${city.cityName}</a></li>`
+                    );
+                });
+
+                // Şehir seçildiğinde ilçeleri yükle
+                $('#cityDropdownMenu .dropdown-item').click(function (e) {
+                    e.preventDefault();
+                    const cityId = $(this).data('id');
+                    $('#cityDropdown').text($(this).text()); // Seçili şehri göster
+                    loadDistricts(cityId);
+                });
+            }
+        });
+        $.ajax({
+            url: "/api/Services/categories",
+            type: "GET",
+            success: function (data) {
+                let cityDropdownMenu = $('#categoryDropdown');
+                cityDropdownMenu.empty(); // Temizle
+                data.forEach(city => {
+                    cityDropdownMenu.append(
+                        `<li><a class="dropdown-item" href="#" data-id="${city.categoryID}">${city.categoryName}</a></li>`
+                    );
+                });
+
+                // Şehir seçildiğinde ilçeleri yükle
+                $('#cityDropdownMenu .dropdown-item').click(function (e) {
+                    e.preventDefault();
+                    const cityId = $(this).data('id');
+                    $('#cityDropdown').text($(this).text()); // Seçili şehri göster
+                    loadDistricts(cityId);
+                });
+            }
+        });
+    });
+
+    // İlçeleri yükle
+    function loadDistricts(cityId) {
+        $.ajax({
+            url: `/api/Services/districts/${cityId}`,
+            type: "GET",
+            success: function (data) {
+                let districtDropdownMenu = $('#districtDropdownMenu');
+                districtDropdownMenu.empty(); // Temizle
+                data.forEach(district => {
+                    districtDropdownMenu.append(
+                        `<li><a class="dropdown-item" href="#" data-id="${district.id}">${district.townName}</a></li>`
+                    );
+                });
+
+                $('#districtDropdown').prop('disabled', false); // İlçe dropdown'ı aktif et
+                $('#districtDropdownMenu .dropdown-item').click(function (e) {
+                    e.preventDefault();
+                    const districtId = $(this).data('id');
+                    $('#districtDropdown').text($(this).text()); // Seçili ilçeyi göster
+                });
+            }
+        });
+    }
+</script>

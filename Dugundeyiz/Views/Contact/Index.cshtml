@@ -1,0 +1,245 @@
+﻿<style>
+
+
+    ul {
+        list-style-type: none; /* Liste işaretlerini kaldırır */
+        padding: 0; /* İç boşluğu sıfırlar */
+        margin: 0; /* Dış boşluğu sıfırlar */
+    }
+
+    .contact-info-4455 {
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 8px;
+        display: flex;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+    }
+
+    .contact-item-4455 {
+        margin-bottom: 20px;
+    }
+
+        .contact-item-4455 h5 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .contact-item-4455 p {
+            font-size: 16px;
+        }
+</style>
+<div style=" padding-bottom:20px;background-color:#ece4d4">
+
+    <div class="" style="">
+        <div class="container" style="padding-top:35px;padding-bottom:35px;">
+
+
+            <div class="contact-info-4455">
+                <div class="row">
+                    <div class="col-md-4" style="    display: flex; flex-direction: column; justify-content: space-between;">
+                        <div class="row">
+
+
+                            <div class="row contact-item-4455">
+                                <h5>Adres</h5>
+                                <p>ESENTEPE MAH. BÜYÜKDERE CAD. MAYA AKAR CENTER (B BLOK) NO:102 İÇ KAPI NO:63 ŞİŞLİ/İSTANBUL</p>
+                            </div>
+                            <div class="row contact-item-4455">
+                                <h5>Email</h5>
+                                <p>vildan@dugundeyiz.com.tr</p>
+                                <p>info@dugundeyiz.com.tr</p>
+                            </div>     
+                            <div class="row contact-item-4455">
+                                <h5>Telefon</h5>
+                                <p>+90 554 663 0125</p>
+                            </div>
+                        </div>
+                        <div class="row" style="    align-items: center;height: 100%;justify-content: space-evenly;">
+                            <img src="~/gallery_gen/mainLogoNoBack.png" alt="" class="nedime-modal-image" style="width:200px;height:200px;object-fit: contain;">
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-8" style="    margin: auto;">
+                        <div class="" style="text-align:center;display: flex;justify-content: space-evenly;">
+
+                            <div class="form-container-custom">
+                                <div class="header-custom2">
+                                </div>
+                                <div class="header-custom">
+                                    <h1>Bizimle İletişime Geçin</h1>
+                                    <p>Lütfen bilgilerinizi aşağıda doldurun</p>
+                                </div>
+                                <form id="contact-form-custom">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="name">Ad Soyad</label>
+                                            <input type="text" id="name" name="name" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="email">E-posta</label>
+                                            <input type="email" id="email" name="email" required pattern="^[^@@\s]+@@[^@@\s]+\.[^@@\s]+$">
+                                            <small class="error-message" id="email-error" style="display:none;color:red;">Lütfen geçerli bir e-posta adresi girin.</small>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="phone">Cep Telefonunuz</label>
+                                            <input type="text" id="phone" name="phone" required maxlength="14" placeholder="(000)-000-00-00">
+                                            <small class="error-message" id="phone-error" style="display:none;color:red;">Lütfen geçerli bir telefon numarası girin.</small>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="subject">Konu</label>
+                                            <input type="text" id="subject" name="subject" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="message">Mesajınız</label>
+                                            <textarea id="message" name="message" rows="4" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+                                            <input type="checkbox" id="permission-checkbox" name="permission" required style="margin-right: 10px;">
+                                            <label for="permission-checkbox" style="display: flex; flex-direction: column;">
+                                                <a href="#" id="open-modal-link">İletişim izinlerini kabul ediyorum</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button type="submit">Gönder</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-overlay112211" id="modal-overlay112211">
+                            <div class="modal-content112211">
+                                <span class="close-btn112211" id="close-modal-btn112211">&times;</span>
+                                <div class="modal-title112211" style="text-align: center; padding-bottom: 15px;">Açık Rıza İzin Metni</div>
+                                <div style="display:flex;height: 100%;justify-content: space-evenly;">
+                                    <div class="pdfView" style="    height: 100%;width: 825px;">
+                                        <iframe src="/gallery_gen/dugundeyizAcikRizaMetni.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                                                width="100%"
+                                                height="600px"
+                                                style="border: none;">
+                                        </iframe>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal'ı gösterme işlevi
+        const openModalLink = document.getElementById('open-modal-link');
+        const modalOverlay = document.getElementById('modal-overlay112211');
+        const modalContent = document.getElementById('mmodal-content112211');
+        const closeModalBtn = document.getElementById('close-modal-btn112211');
+
+        // Modal'ı açma
+        openModalLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        modalOverlay.style.display = 'block'; // Modal'ı göster
+                    });
+
+        // Modal'ı kapama
+        closeModalBtn.addEventListener('click', function () {
+                        modalOverlay.style.display = 'none'; // Modal'ı gizle
+                    });
+
+        // Modal dışına tıklanırsa modalı kapatma
+        document.getElementById("modal-overlay112211").addEventListener("click", function (e) {
+                        if (e.target === document.getElementById("modal-overlay112211")) {
+                            this.style.display = "none";
+                        }
+                    });
+
+
+
+        document.getElementById('contact-form-custom').addEventListener('submit', function (event) {
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const emailError = document.getElementById('email-error');
+            const phoneError = document.getElementById('phone-error');
+
+            // Reset error messages
+            emailError.style.display = 'none';
+            phoneError.style.display = 'none';
+
+            // Email validation
+            const emailPattern = /^[^@@\s]+@@[^@@\s]+\.[^@@\s]+$/;
+            if (!emailPattern.test(emailInput.value)) {
+                emailError.style.display = 'block';
+                event.preventDefault();
+            }
+
+            // Phone validation
+            const phonePattern = /^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/;
+            if (!phonePattern.test(phoneInput.value)) {
+                phoneError.style.display = 'block';
+                event.preventDefault();
+            } else {
+                // Reformat phone value for submission (0000000000)
+                phoneInput.value = phoneInput.value.replace(/\D/g, '');
+                event.preventDefault();
+                const formData = {
+                    email: emailInput.value,
+                    phone: phoneInput.value,
+                    name: document.getElementById('name').value,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value
+                };
+
+                // Verileri AJAX ile gönderme
+                fetch('/api/services/submit-form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Form başarıyla gönderildi!');
+                            document.getElementById('contact-form-custom').reset();
+                        } else {
+                            alert('Bir hata oluştu: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Hata:', error);
+                        alert('Form gönderilirken bir hata oluştu.');
+                    });
+            }
+        });
+
+        // Phone input formatting
+        document.getElementById('phone').addEventListener('input', function (event) {
+            const input = event.target;
+            let value = input.value.replace(/\D/g, ''); // Remove all non-digit characters
+
+            // Limit to 10 digits
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+            }
+
+            // Apply formatting: (000)-000-00-00
+            const formattedValue = value
+                .replace(/^(\d{3})(\d{3})(\d{2})(\d{2})$/, '($1)-$2-$3-$4')
+                .replace(/^(\d{3})(\d{3})(\d{2})/, '($1)-$2-$3')
+                .replace(/^(\d{3})(\d{3})/, '($1)-$2');
+
+            input.value = formattedValue;
+        });
+
+    </script>

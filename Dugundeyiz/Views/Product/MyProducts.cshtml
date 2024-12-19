@@ -1,0 +1,325 @@
+﻿@using Dugundeyiz.ViewModels
+@{
+    ViewData["Title"] = "İlanlarım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model ProductListByUser
+
+<style>
+    .table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        background-color: #ffffff;
+        border-collapse: collapse;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .table thead {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: middle !important;
+        }
+
+        .table th {
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s;
+        }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.875rem;
+        border-radius: 5px;
+        color: #fff;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border: none;
+    }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border: none;
+        color: #212529;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .fas {
+        font-size: 1rem;
+    }
+
+    img {
+        border-radius: 5px;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .description {
+        padding: 20px;
+    }
+
+        .description p {
+            padding-top: 10px;
+        }
+
+    .description-symbol {
+        padding: 10px;
+    }
+
+        .description-symbol ul li {
+            padding: 5px;
+        }
+</style>
+
+<div class="container">
+    <div class="title">
+        <h3>İlanlarınız Sayfası</h3>
+    </div>
+    <div class="description">
+        <p>İlanlarınızı aşağıdaki tablo üzerindeki butonlar ile Düzeneleme yapabilir, rapor ve analiz çıkartabilir, silebilir ve gizleyebilirsiniz</p>
+
+        <p> İlan silme işleminin sonucunda ilanınızın tekrar yayınlayamaz ve görüntüleyemezsiniz.</p>
+
+        <p> İlanınızı silmek yerine pasife yani gizli hale çekerek gelecekte tekrar bu ilanı yayınlayabilirsiniz</p>
+    </div>
+    <div class="" style="    padding-right: 25px; text-align: end;">
+        <button class="btn btn-primary" onclick="redirectToProductAdd()" style="font-size: 12px;font-weight: 700;">
+            Yeni İlan Ekle
+        </button>
+
+    </div>
+    <div style="padding:25px;    overflow: auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Kategori Adı</th>
+                    <th>İlan Adı</th>
+                    <th>Kapak Fotoğrafı</th>
+                    <th>Analiz ve Rapor</th>
+                    <th>İşlemler</th>
+                    <th>Durumu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample row -->@foreach (var ilan in Model.Products)
+                {
+                    <tr>
+                        <td>@ilan.CategoryName</td>
+                        <td>@ilan.Name</td>
+                        <td><img src="@ilan.Images" alt="Kapak Fotoğrafı" width="80" height="80"></td>
+                        <td>
+                            <button class="btn btn-info" onclick="report(@ilan.ProductID, @Model.userID)">Analiz ve Rapor</button>
+                        </td>
+                        <td>
+                            @* <button class="btn btn-success" onclick="modify(@ilan.ProductID, @Model.userID)"><i class="fas fa-edit"></i></button> *@
+                            <button class="btn btn-danger" onclick="remove(@ilan.ProductID, @Model.userID)"><i class="fas fa-trash"></i></button>
+                            @if (ilan.Visibility != false)
+                            {
+                                <button class="btn btn-primary" title="Bu ilanı görünür hale getir" onclick="view(@ilan.ProductID, @Model.userID)"><i class="fas fa-eye"></i></button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-warning" title="Bu ilanı gizle" onclick="view(@ilan.ProductID, @Model.userID)"><i class="fas fa-eye-slash"></i></button>
+                            }
+                            <button type="button" class="btn btn-secondary" onclick="comments(@ilan.ProductID)"><i class="fa-solid fa-comments"></i></button>
+
+                        </td>
+                        @if (ilan.AproveByAdmin == 1)
+                        {
+                            if (ilan.Visibility == true)
+                            {
+                                <td><div class="badge bg-success">Yayında</div></td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <div class="badge bg-warning" style="background-color: #00000080 !important;">Gizlendi</div>
+                                </td>
+                            }
+                        }
+                        else if (ilan.AproveByAdmin == 2)
+                        {
+                            <td>
+                                <div class="badge bg-warning">Onay bekliyor</div>
+                            </td>
+                        }
+                        else if (ilan.AproveByAdmin == 3)
+                        {
+                            <td>
+                                <div class="badge bg-danger">Reddedildi</div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="description-symbol">
+        <h5>Sembol Açıklamaları:</h5>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li>
+                <button class="btn btn-danger" style="cursor: default; pointer-events: none;">
+                    <i class="fas fa-trash"></i>
+                </button>
+                => İlanı SİLMEK-KALDIRMAK için kullanılır.
+            </li>
+            <li>
+                <button class="btn btn-primary" style="cursor: default; pointer-events: none;">
+                    <i class="fas fa-eye"></i>
+                </button>
+                => İlanı GÖRÜNÜR hale getirmek için kullanılır.
+            </li>
+            <li>
+                <button class="btn btn-warning" style="cursor: default; pointer-events: none;">
+                    <i class="fas fa-eye-slash"></i>
+                </button>
+                => İlanı GİZLEMEK hale getirmek için kullanılır.
+            </li>
+            <li>
+                <button class="btn btn-success" style="cursor: default; pointer-events: none;">
+                    <i class="fas fa-edit"></i>
+                </button>
+                => İlanı DÜZENLEMEK için kullanılır.
+            </li>
+            <li>
+                <button type="button" class="btn btn-secondary"><i class="fa-solid fa-comments"></i></button>
+                => İlanınızın yorum yönetimi sayfasına gitmenizi sağlar.
+
+            </li>
+            <li>
+                <button class="btn btn-primary" style="cursor: default; pointer-events: none;">
+                    Analiz ve Rapor
+                </button>
+                => İlanınız hakkında çevrenizdeki ilanlara göre analizini ve raporlamasını çıkartır.
+            </li>
+
+        </ul>
+    </div>
+</div>
+<script>
+    function report(ilanID, userID) {
+        $.ajax({
+            url: '/Hizmetler/RaporPage',
+            type: 'POST',
+            data: { ilanID: ilanID, userID: userID },
+            success: function (response) {
+                if (response == "Izin verildi") {
+                    console.log('Rapor başarıyla çıkarıldı:', response);
+                    window.location.href = `/Hizmetler/ilanlarim/raporlar/${ilanID}`;
+                }
+                else {
+                    alert("Bu ilanın Analiz ve Raporlama hakkı yoktur, Fiyatlar ve Bilgilendirme için Lütfen iletişime geçiniz ");
+                }
+            },
+            error: function (error) {
+                console.error('Hata oluştu:', error);
+            }
+        });
+    }
+    function comments(ilanId) {
+        window.location.href = `/Hizmetler/ilanlarim/${ilanId}/yorumlar`;
+
+    }
+    function modify(ilanID, userID) {
+        // $.ajax({
+        //     url: `/Hizmetler/ilanlarim/${ilanId}`,
+        //     type: 'POST',
+        //     data: { ilanID: ilanID, userID: userID },
+        //     success: function (response) {
+        //         console.log('Ürün başarıyla güncellendi:', response);
+        //     },
+        //     error: function (error) {
+        //         console.error('Hata oluştu:', error);
+        //     }
+        // });
+        window.location.href = `/Hizmetler/ilanlarim/${ilanID}`;
+
+    }
+
+    function remove(ilanID, userID) {
+        $.ajax({
+            url: '/Hizmetler/RemoveProduct',
+            type: 'POST',
+            data: { ilanID: ilanID, userID: userID },
+            success: function (response) {
+                console.log('Ürün başarıyla kaldırıldı:', response);
+                alert(response);
+                location.reload();  // Sayfayı yenile
+            },
+            error: function (error) {
+                console.error('Hata oluştu:', error);
+            }
+        });
+    }
+
+    function view(ilanID, userID) {
+        $.ajax({
+            url: '/Hizmetler/VisiblytProduct',
+            type: 'POST',
+            data: { ilanID: ilanID, userID: userID },
+            success: function (response) {
+                alert(response);
+                location.reload();  // Sayfayı yenile
+            },
+            error: function (error) {
+                console.error('Hata oluştu:', error);
+            }
+        });
+    }
+
+    function redirectToProductAdd() {
+        window.location.href = '@Url.Action("ProductAdd", "Product")';
+    }
+</script>

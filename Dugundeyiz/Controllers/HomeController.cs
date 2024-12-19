@@ -3,6 +3,9 @@ using Dugundeyiz.ViewModels;
 using Dugundeyiz.Context;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Dugundeyiz.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Dugundeyiz.Controllers
 {
@@ -10,22 +13,35 @@ namespace Dugundeyiz.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DugundeyizContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
 
-        public HomeController(ILogger<HomeController> logger, DugundeyizContext context)
+        public HomeController(ILogger<HomeController> logger, DugundeyizContext context, UserManager<AppUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
+
         }
 
-        public IActionResult Index()
+        [AllowAnonymous]
+        public async Task<IActionResult> Index()
         {
-            var categories = _context.Categories.Where(x => x.Deleted != true && x.MainCategoryID==null).OrderBy(x=>x.Sorting).ToList();
-            var subcategories = _context.Categories.Where(x => x.Deleted != true && x.MainCategoryID!=null).ToList();
+
+            var categories = _context.Categories.Where(x => x.Deleted != true && (x.MainCategoryID==null || x.MainCategoryID == 0)).OrderBy(x=>x.Sorting).ToList();
+            var subcategories = _context.Categories.Where(x => x.Deleted != true && x.MainCategoryID != 0 && x.MainCategoryID!=null).ToList();
             HomeViewModel HomePageData = new HomeViewModel() { };
             HomePageData.Kategoriler = categories;
             HomePageData.AltKategoriler = subcategories;
 
+            //var user = await _userManager.GetUserAsync(User);
+
+            //if (user != null)
+            //{
+            //    user.
+            //    var userRole=_context.Users.Where(x=>x.)
+
+            //}
             return View(HomePageData);
         }
         public IActionResult Checking()

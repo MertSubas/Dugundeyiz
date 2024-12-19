@@ -1,0 +1,832 @@
+﻿@using Dugundeyiz.ViewModels
+@{
+    ViewData["Title"] = "İlan Düzenleme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model ProductMap
+
+
+
+<style>
+    /*     .dropdown-menu {
+                    display: none;
+                    position: absolute;
+                    background-color: white;
+                    border: 1px solid #ccc;
+                    z-index: 1000;
+                    width: 100%;
+                    padding: 0;
+                    margin: 0;
+                    list-style: none;
+                }
+
+                    .dropdown-menu li {
+                        padding: 10px;
+                    }
+
+                        .dropdown-menu li:hover {
+                            background-color: #f8f8f8;
+                            cursor: pointer;
+                        } */
+
+    body {
+        background-color: #f4f5f7;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .photo-preview-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .photo-preview {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+    }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .delete-photo {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+        .delete-photo:hover {
+            background: rgba(255, 0, 0, 0.8);
+        }
+
+    .tooltip-icon {
+        color: #007bff;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    .form-control {
+        border-radius: 8px;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="card p-4">
+        <h2 class="text-center mb-4">Yeni İlan Sayfası</h2>
+        <form id="productAddPage">
+            <!-- İlan Başlığı -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">İlan Başlığı</label>
+                        <input type="text" class="form-control" id="title" placeholder="İlan başlığını girin" required>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <!-- Kapasite -->
+                    <div class="mb-3">
+                        <label for="capacity" class="form-label">Kapasite</label>
+                        <input type="text" class="form-control" id="capacity" placeholder="Maksimum kapasite" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kişi Başı Fiyat -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Kişi Başı Fiyat</label>
+                        <input type="text" class="form-control" id="price" placeholder="Fiyat girin (₺)" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Ekleme -->
+            <div class="row">
+                <div class="mb-3">
+                    <label for="video" class="form-label">
+                        Video Ekleme
+                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Max 40mb">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                    </label>
+                    <input type="file" class="form-control" id="video" accept="video/*">
+                    <div id="videoError" class="text-danger mt-2" style="display: none;">Video boyutu 40 MB'ı aşamaz!</div>
+
+                </div>
+            </div>
+
+            <!-- Fotoğraf Ekleme -->
+            <div class="row">
+                <div class="mb-3">
+                    <label for="photos" class="form-label">
+                        Fotoğraf Ekleme
+                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="En fazla 10 fotoğraf yükleyebilirsiniz.">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                    </label>
+                    <input type="file" class="form-control" id="photos" accept="image/*" multiple>
+                    <small class="text-muted d-block mt-1">Maksimum 10 fotoğraf yükleyebilirsiniz.</small>
+                    <div id="photoPreviewContainer" class="photo-preview-container"></div>
+                </div>
+            </div>
+
+            <!-- Kapak Fotoğrafı -->
+            <div class="row">
+                <div class="mb-3">
+                    <label for="coverPhoto" class="form-label">Kapak Fotoğrafı</label>
+                    <input type="file" class="form-control" id="coverPhoto" accept="image/*">
+                </div>
+                <div id="kapakPhotoPreviewContainer" class="photo-preview-container"></div>
+            </div>
+
+            <!-- Kategori -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Kategori</label>
+                        <select class="form-select dropdown-toggle" id="category" style="max-height:350ğx;overflow:auto" required>
+                            <option value="">Kategori Seçin</option> <!-- İlk başta bir boş seçenek ekleyebilirsiniz -->
+
+                        </select>
+                    </div>
+                </div>
+
+                <!-- İlan Sahibi -->
+                <div class="col-md-6 mb-3">
+
+                    <div class="mb-3">
+                        <label class="form-label">İlan Sahibi</label>
+                        <input type="text" class="form-control" value="Mevcut Kullanıcı" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Şehir ve İlçe -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="cityDropdown" class="form-label">Şehir</label>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="cityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Şehir Seçin
+                        </button>
+                        <ul class="dropdown-menu w-100" id="cityDropdownMenu" style=" display:none; overflow: auto; height: 300px;"></ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="districtDropdown" class="form-label">İlçe</label>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="districtDropdown" data-bs-toggle="dropdown" aria-expanded="false" disabled>
+                            İlçe Seçin
+                        </button>
+                        <ul class="dropdown-menu w-100" id="districtDropdownMenu" style="display:none;overflow: auto; height: 300px;"></ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- İlan Açıklaması -->
+            <div class="mb-3">
+                <label for="description" class="form-label">İlan Açıklaması</label>
+                <textarea class="form-control" id="description" rows="4" placeholder="Açıklama yazın..." required></textarea>
+            </div>
+            <div class="mb-3 " id="gelinlikMulti" style="display:none">
+                <label for="Features">Özellikler</label>
+                <select id="FeaturesGelinlik" name="fruits" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
+                    <option value="Kişiye Özel Dikim">Kişiye Özel Dikim</option>
+                    <option value="Hazır Model Gelinlik">Hazır Model Gelinlik</option>
+                    <option value="Abiye">Abiye</option>
+                    <option value="Nişanlık">Nişanlık</option>
+                    <option value="Tesettür">Tesettür</option>
+                </select>
+            </div>
+            <div class="mb-3 " id="damatlikMulti" style="display:none">
+                <label for="Features">Özellikler</label>
+                <select id="FeaturesDamatlik" name="damatlik" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
+                    <option value="Kiralama">Kiralama</option>
+                    <option value="Takım Elbise">Takım Elbise</option>
+                    <option value="Frak">Frak</option>
+                    <option value="Smokin">Smokin</option>
+                    <option value="Kişiye Özel Dikim">Kişiye Özel Dikim</option>
+                </select>
+            </div>
+            <div class="mb-3 " id="cicekciMulti" style="display:none">
+                <label for="Features">Özellikler</label>
+                <select id="FeaturesCicekci" name="damatlik" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
+                    <option value="Canlı Çiçek">Canlı Çiçek</option>
+                    <option value="Yapay Çiçek">Yapay Çiçek</option>
+                    <option value="Saksı Çiçeği">Saksı Çiçeği</option>
+                    <option value="Söz  & Nişan & İsteme Çiçeği">Söz  & Nişan & İsteme Çiçeği</option>
+                    <option value="Gelin Çiçeği">Gelin Çiçeği</option>
+                    <option value="Damat Yaka Çiçeği">Damat Yaka Çiçeği</option>
+                    <option value="Masa Süslemesi">Masa Süslemesi</option>
+                    <option value="Gelin Arabası Süsleme">Gelin Arabası Süsleme</option>
+                    <option value="Mekan Süslemesi">Mekan Süslemesi</option>
+
+                </select>
+            </div>
+            <div id="deliveryTimeDiv" class="mb-3" style="display:none">
+                <label for="deliveryTime" class="form-label">Teslimat Süresi</label>
+                <input type="text" class="form-control" id="deliveryTime" placeholder="Teslimat Süresi (Örn: 3 veya 4 - 9)">
+            </div>
+
+            <div id="davetAlaniDiv" class="mb-3" style="display:none">
+                <label for="davetAlani" class="form-label">Davet Alanı</label>
+                <select class="form-select dropdown-toggle" id="davetAlani" style="max-height:350ğx;overflow:auto">
+                    <option value="1">Açık Alan</option> <!-- İlk başta bir boş seçenek ekleyebilirsiniz -->
+                    <option value="2">Kapalı Alan</option> <!-- İlk başta bir boş seçenek ekleyebilirsiniz -->
+                    <option value="3">Açık ve Kapalı Alan</option> <!-- İlk başta bir boş seçenek ekleyebilirsiniz -->
+
+                </select>
+            </div>
+            <div class="mb-3 " id="dugunFizikselMulti" style="display:none">
+                <label for="FeaturesDugunFiziksel">Özellikler</label>
+                <select id="FeaturesDugunFiziksel" name="damatlik" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
+                    <option value="Bahçe">Bahçe</option>
+                    <option value="Çim Alan">Çim Alan</option>
+                    <option value="Havuz Başı">Havuz Başı</option>
+                    <option value="Orman İçinde">Orman İçinde</option>
+                    <option value="Şehir Merkezi">Şehir Merkezi</option>
+                    <option value="Göl Kenarı">Göl Kenarı</option>
+                    <option value="Teras">Teras</option>
+                </select>
+            </div>
+            <div class="mb-3 " id="dugunViewMulti" style="display:none">
+                <label for="FeaturesDugunView">Manzara Özellikleri</label>
+                <select id="FeaturesDugunView" name="damatlik" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
+                    <option value="Ada manzaralı">Ada Manzaralı</option>
+                    <option value="Boğaz manzaralı">Boğaz Manzaralı</option>
+                    <option value="Deniz Manzaralı">Deniz Manzaralı</option>
+                    <option value="Göl Manzaralı">Göl Manzaralı</option>
+                    <option value="Doğa Manzaralı">Doğa Manzaralı</option>
+                </select>
+            </div>
+            <!-- Öne Çıkarma Önerileri -->
+            <div class="accordion mb-3" id="suggestions">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#suggestionContent">
+                            İlanınızı Öne Çıkarmak İçin Öneriler
+                        </button>
+                    </h2>
+                    <div id="suggestionContent" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Başlık ve açıklama detaylı ve özgün olsun.</li>
+                                <li>Kaliteli fotoğraflar ekleyin.</li>
+                                <li>Kategorinizi doğru seçin.</li>
+                                <li>Şehir ve ilçe bilgilerini eksiksiz doldurun.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kaydet Butonu -->
+            <div style="    text-align: center;">
+
+                <button class="btn btn-primary" id="submitButton" style="font-size: 15px;font-weight: 700; height: 50px;width: 150px;">
+                    Yeni İlan Ekle
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+    // Tooltip initialization
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(tooltip => new bootstrap.Tooltip(tooltip));
+
+    // Photo preview and delete functionality
+    const photosInput = document.getElementById('photos');
+    const photoPreviewContainer = document.getElementById('photoPreviewContainer');
+    let photosArray = []; // To store photos
+
+    photosInput.addEventListener('change', () => {
+        const files = Array.from(photosInput.files);
+
+        if (photosArray.length + files.length > 10) {
+            alert("En fazla 10 fotoğraf yükleyebilirsiniz!");
+            return;
+        }
+
+        files.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const photoId = Date.now() + index; // Unique ID for photo
+                photosArray.push({ id: photoId, file });
+
+                // Create preview
+                const photoDiv = document.createElement('div');
+                photoDiv.classList.add('photo-preview');
+                photoDiv.dataset.id = photoId;
+
+                const img = document.createElement('img');
+                img.src = reader.result;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('delete-photo');
+                deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                deleteBtn.onclick = () => deletePhoto(photoId);
+
+                photoDiv.appendChild(img);
+                photoDiv.appendChild(deleteBtn);
+                photoPreviewContainer.appendChild(photoDiv);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Clear input value to allow re-upload of same files
+        photosInput.value = '';
+    });
+    document.getElementById("coverPhoto").addEventListener("change", function (event) {
+        var previewContainer = document.getElementById("kapakPhotoPreviewContainer");
+
+        // Önceden eklenen önizlemeyi temizle
+        previewContainer.innerHTML = "";
+
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // Yeni bir img öğesi oluşturuyoruz
+                var imgElement = document.createElement("img");
+                imgElement.src = e.target.result;
+                imgElement.classList.add("img-thumbnail");  // Görünüm için stil ekleyebilirsiniz
+                imgElement.style.maxWidth = "150px";  // Fotoğrafın sığmasını sağlamak için
+                imgElement.style.maxHeight = "150px";  // Fotoğrafın sığmasını sağlamak için
+                imgElement.style.height = "auto";    // Yüksekliği otomatik ayarlamak için
+
+                // Fotoğrafı önizleme container'ına ekliyoruz
+                previewContainer.appendChild(imgElement);
+            };
+            reader.readAsDataURL(file);  // Dosyayı okuyor ve base64 formatına çeviriyor
+        }
+    });
+
+    document.getElementById('video').addEventListener('change', function (event) {
+        const videoFile = event.target.files[0]; // Seçilen dosyayı al
+        const maxSizeMB = 40; // Maksimum dosya boyutu (MB)
+        const maxSizeBytes = maxSizeMB * 1024 * 1024; // MB'den byte'a çevir
+
+        if (videoFile && videoFile.size > maxSizeBytes) {
+            // Hata mesajı göster
+            document.getElementById('videoError').style.display = 'block';
+
+            // Input'u sıfırla
+            event.target.value = '';
+        } else {
+            // Hata mesajını gizle
+            document.getElementById('videoError').style.display = 'none';
+        }
+    });
+    function deletePhoto(photoId) {
+        // Remove from array
+        photosArray = photosArray.filter(photo => photo.id !== photoId);
+
+        // Remove preview
+        const photoDiv = photoPreviewContainer.querySelector(`[data-id="${photoId}"]`);
+        if (photoDiv) {
+            photoDiv.remove();
+        }
+    }
+
+        document.getElementById('productAddPage').addEventListener('submit', function (event) {
+
+        event.preventDefault(); // Sayfanın yenilenmesini önler.
+
+        // Form verilerini oluştur
+        const formData = new FormData();
+
+        // Temel alanlar
+        const title = document.getElementById('title').value;
+        const capacity = document.getElementById('capacity').value;
+        const price = document.getElementById('price').value;
+        const category = document.getElementById('category').value;
+        const city = $('#cityDropdown').text().trim();
+
+        const district = $('#districtDropdown').text().trim();
+
+        const description = document.getElementById('description').value;
+        // Kontroller
+        if (isNaN(capacity) || isNaN(price)) {
+            alert("Capacity ve Price alanları sadece sayı olmalıdır.");
+            return;
+        }
+
+
+        if (!title || !capacity || !price || !category || !city || !district || !description) {
+            alert("Tüm alanları doldurun.");
+            return; // Hata durumunda fonksiyonu sonlandırır
+        }
+
+        // Şehir ve İlçe kontrolü
+        if (city === "Şehir Seçin" || city === "" || district === "İlçe Seç" || district === "") {
+            alert("Lütfen geçerli bir şehir ve ilçe seçin.");
+            return; // Hata durumunda fonksiyonu sonlandırır
+        }
+        if (category == "1") {
+            const selectedValues = multiselectGelinlik.selectedValues; // Burada selected özelliği kullanılabilir
+            const deliveryTime = document.getElementById('deliveryTime').value;
+
+            formData.append('Features', selectedValues);
+            formData.append('DeliveryTime', deliveryTime);
+
+
+        } else if (category == "2") {
+            const selectedValues = multiselectDamatlik.selectedValues; // Burada selected özelliği kullanılabilir
+            const deliveryTime = document.getElementById('deliveryTime').value;
+
+            formData.append('Features', selectedValues);
+            formData.append('DeliveryTime', deliveryTime);
+
+
+        } else if (category == "9") {
+            const selectedValues = multiselectCicekci.selectedValues; // Burada selected özelliği kullanılabilir
+            const deliveryTime = document.getElementById('deliveryTime').value;
+
+            formData.append('Features', selectedValues);
+            formData.append('DeliveryTime', deliveryTime);
+
+
+        } else if (category === "22" ||
+            category === "23" ||
+            category === "26" ||
+            category === "30" ||
+            category === "37" ||
+            category === "38" ||
+            category === "39" ||
+            category === "40"
+        ) {
+            const selectedValues = multiselectDugunFiziksel.selectedValues; // Burada selected özelliği kullanılabilir
+            const selectedValues2 = multiselectDugunView.selectedValues; // Burada selected özelliği kullanılabilir
+            const selectedValue3 = document.getElementById('davetAlani').value;
+            formData.append('Features', selectedValues);
+            formData.append('FeaturesView', selectedValues2);
+            formData.append('davetAlani', selectedValue3);
+
+        }
+
+        formData.append('title', title);
+        formData.append('capacity', capacity);
+        formData.append('price', price);
+        formData.append('category', category);
+        formData.append('city', city);
+        formData.append('district', district);
+        formData.append('description', description);
+
+        // Video kontrolü
+        const videoInput = document.getElementById('video');
+        if (videoInput.files.length > 0) {
+            formData.append('video', videoInput.files[0]);
+        }
+
+        // Kapak fotoğrafı kontrolü
+        const coverPhotoInput = document.getElementById('coverPhoto');
+        if (coverPhotoInput.files.length > 0) {
+            formData.append('coverPhoto', coverPhotoInput.files[0]);
+        }
+
+        // Diğer fotoğraflar
+        photosArray.forEach((photo, index) => {
+            formData.append(`Photos`, photo.file); // Alan adı "Photos" olmalı
+        });
+
+        // İlan Tarihi
+
+
+        // Veriyi sunucuya gönder
+        addProduct(formData);
+    });
+
+    // Verileri gönderen method
+    function addProduct(formData) {
+        $.ajax({
+            url: 'AddProduct',
+            type: 'POST',
+            data: formData,
+            processData: false, // FormData kullanırken bunu false olarak ayarlayın
+            contentType: false, // Varsayılan olarak `application/x-www-form-urlencoded` kullanılır, bu yüzden kapatılır
+            success: function (data) {
+                alert('İlan başarıyla güncellendi!');
+                console.log(data);
+            },
+            error: function (xhr, status, error) {
+                alert('Bir hata oluştu: ' + xhr.responseText || error);
+            }
+        });
+    }
+    $(document).ready(function () {
+        // Şehirleri Yükle
+        $.ajax({
+            url: "/api/Services/cities",
+            type: "GET",
+            success: function (data) {
+                let cityDropdownMenu = $('#cityDropdownMenu');
+                cityDropdownMenu.empty();
+
+                // Şehir arama kutusu ekle
+                cityDropdownMenu.append(`
+                                <li class="p-2">
+                                    <input type="text" id="citySearch" class="form-control" placeholder="Şehir ara..." />
+                                </li>
+                            `);
+
+                // Şehirleri ekle
+                data.forEach(city => {
+                    cityDropdownMenu.append(`
+                                    <li><a class="dropdown-item" href="#" data-id="${city.id}">${city.cityName}</a></li>
+                                `);
+                });
+
+                // Şehir seçildiğinde
+                $('#cityDropdownMenu .dropdown-item').click(function (e) {
+                    e.preventDefault();
+                    $('#cityDropdownMenu').hide();
+                    const cityId = $(this).data('id');
+                    $('#cityDropdown').text($(this).text()); // Seçili şehri göster
+                    $('#districtDropdown').text('İlçe Seçin').prop('disabled', false); // İlçe aktif et
+                    loadDistricts(cityId); // İlçeleri yükle
+                });
+
+                // Şehir arama
+                $('#citySearch').on('input', function () {
+                    const searchTerm = normalizeTurkish($(this).val());
+                    $('#cityDropdownMenu .dropdown-item').each(function () {
+                        const cityName = normalizeTurkish($(this).text());
+                        if (cityName.includes(searchTerm)) {
+                            $(this).parent().show();
+                        } else {
+                            $(this).parent().hide();
+                        }
+                    });
+                });
+            },
+            error: function () {
+                alert('Şehirler yüklenemedi.');
+            }
+        });
+
+        // İlçeleri Yükle
+        function loadDistricts(cityId) {
+            $.ajax({
+                url: `/api/Services/districts/${cityId}`,
+                type: "GET",
+                success: function (data) {
+                    let districtDropdownMenu = $('#districtDropdownMenu');
+                    districtDropdownMenu.empty();
+
+                    // İlçe arama kutusu ekle
+                    districtDropdownMenu.append(`
+                                    <li class="p-2">
+                                        <input type="text" id="districtSearch" class="form-control" placeholder="İlçe ara..." />
+                                    </li>
+                                `);
+
+                    // İlçeleri ekle
+                    data.forEach(district => {
+                        districtDropdownMenu.append(`
+                                        <li><a class="dropdown-item" href="#" data-id="${district.id}">${district.townName}</a></li>
+                                    `);
+                    });
+
+                    // İlçe seçildiğinde
+                    $('#districtDropdownMenu .dropdown-item').click(function (e) {
+                        e.preventDefault();
+                        $('#districtDropdownMenu').hide();
+                        const districtId = $(this).data('id');
+                        $('#districtDropdown').text($(this).text()); // Seçili ilçeyi göster
+                    });
+
+                    // İlçe arama
+                    $('#districtSearch').on('input', function () {
+                        const searchTerm = normalizeTurkish($(this).val());
+                        $('#districtDropdownMenu .dropdown-item').each(function () {
+                            const townName = normalizeTurkish($(this).text());
+                            if (townName.includes(searchTerm)) {
+                                $(this).parent().show();
+                            } else {
+                                $(this).parent().hide();
+                            }
+                        });
+                    });
+                },
+                error: function () {
+                    alert('İlçeler yüklenemedi.');
+                }
+            });
+        }
+
+        // Türkçe karakterleri normalize eden fonksiyon
+        function normalizeTurkish(text) {
+            if (!text) return "";
+            return text
+                .toLocaleLowerCase('tr-TR')
+                .replace(/ç/g, 'c')
+                .replace(/ğ/g, 'g')
+                .replace(/ı/g, 'i')
+                .replace(/ö/g, 'o')
+                .replace(/ş/g, 's')
+                .replace(/ü/g, 'u');
+        }
+    });
+
+    $(document).ready(function () {
+        // Şehir dropdown kontrolü
+        const cityDropdown = $('#cityDropdown');
+        const cityDropdownMenu = $('#cityDropdownMenu');
+
+        // İlçe dropdown kontrolü
+        const districtDropdown = $('#districtDropdown');
+        const districtDropdownMenu = $('#districtDropdownMenu');
+
+        // Şehir butonuna tıklayınca menüyü aç/kapat
+        cityDropdown.on('click', function (e) {
+            e.stopPropagation(); // Tıklama olayını üst elementlere iletme
+            toggleMenu(cityDropdownMenu);
+        });
+
+        // İlçe butonuna tıklayınca menüyü aç/kapat
+        districtDropdown.on('click', function (e) {
+            e.stopPropagation();
+            toggleMenu(districtDropdownMenu);
+        });
+
+        // Sayfa üzerinde herhangi bir yere tıklandığında menüleri kapat
+        $(document).on('click', function () {
+            cityDropdownMenu.hide();
+            districtDropdownMenu.hide();
+        });
+
+        // Menülerde tıklama olayını engelle
+        cityDropdownMenu.on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        districtDropdownMenu.on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        // Menü görünürlüğünü değiştir
+        function toggleMenu(menu) {
+            if (menu.css('display') === 'none') {
+                menu.show();
+            } else {
+                menu.hide();
+            }
+        }
+    });
+    // Sayısal olmayan karakterleri engellemek için keyup olayı
+    document.getElementById('capacity').addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, ''); // Yalnızca sayıları bırak
+    });  
+    document.getElementById('deliveryTime').addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9-]/g, ''); // Yalnızca sayıları bırak
+    });
+
+    document.getElementById('price').addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, ''); // Yalnızca sayıları bırak
+    });
+    $(document).ready(function () {
+        $.ajax({
+            url: '/api/Services/getCategoriesProductAdd',  // Controller'ın route'ı
+            type: 'GET',
+            success: function (data) {
+                var selectElement = $('#category');
+                selectElement.empty(); // Var olan seçenekleri temizle
+
+                // Boş bir seçenek ekleyebilirsiniz
+                selectElement.append('<option value="">Kategori Seçin</option>');
+
+                // Gelen veriyi döngü ile seçmelere ekleyin
+                $.each(data, function (index, category) {
+                    selectElement.append('<option value="' + category.categoryID + '">' + category.categoryName + '</option>');
+                });
+            },
+            error: function (err) {
+                console.log('Hata oluştu: ', err);
+            }
+        });
+    });        // Kategori select elementini seçiyoruz
+    const categorySelect = document.getElementById('category');
+    const dynamicContainer = document.getElementById('dynamic-container');
+
+    // Seçim değiştiğinde çalışacak event listener
+    categorySelect.addEventListener('change', function () {
+        const selectedValue = categorySelect.value;
+
+        // Eğer kategori ID 1 seçildiyse bir div ekle
+        if (selectedValue === "1") {
+            //gelinlik
+            removeMultiSelects();
+            document.getElementById('deliveryTimeDiv').style.display = "block";
+            document.getElementById('gelinlikMulti').style.display = "block";
+
+        } else if (selectedValue === "2") {
+            //damatlik
+            removeMultiSelects();
+            document.getElementById('deliveryTimeDiv').style.display = "block";
+            document.getElementById('damatlikMulti').style.display = "block"
+
+
+        } else if (selectedValue === "22" ||
+            selectedValue === "23" ||
+            selectedValue === "26" ||
+            selectedValue === "30" ||
+            selectedValue === "37" ||
+            selectedValue === "38" ||
+            selectedValue === "39" ||
+            selectedValue === "40"
+        ) {
+            removeMultiSelects();
+            document.getElementById('davetAlaniDiv').style.display = "block"
+            document.getElementById('dugunViewMulti').style.display = "block";
+            document.getElementById('dugunFizikselMulti').style.display = "block";
+
+            //damatlik
+
+        }
+        else if (selectedValue === "9") {
+            //çiçekçicler
+            removeMultiSelects();
+            document.getElementById('deliveryTimeDiv').style.display = "block";
+            document.getElementById('cicekciMulti').style.display = "block";
+
+
+       
+
+        }
+
+        else {
+            // Eğer seçilen kategori 1 değilse, dinamik div'i kaldır
+
+            removeMultiSelects();
+
+        }
+    });
+    function removeMultiSelects() {
+        document.getElementById('gelinlikMulti').style.display = "none";
+        document.getElementById('damatlikMulti').style.display = "none";
+        document.getElementById('cicekciMulti').style.display = "none";
+        document.getElementById('deliveryTimeDiv').style.display = "none";
+        document.getElementById('davetAlaniDiv').style.display = "none";
+        document.getElementById('dugunViewMulti').style.display = "none";
+        document.getElementById('dugunFizikselMulti').style.display = "none";
+
+    }
+    var multiselectGelinlik = new MultiSelect('#FeaturesGelinlik', {
+        onChange: function (value, text, element) {
+            console.log('Change:', value, text);
+        }
+    });
+    var multiselectDamatlik = new MultiSelect('#FeaturesDamatlik', {
+        onChange: function (value, text, element) {
+            console.log('Change:', value, text);
+        }
+    });  
+    var multiselectCicekci = new MultiSelect('#FeaturesCicekci', {
+        onChange: function (value, text, element) {
+            console.log('Change:', value, text);
+        }
+    });
+    var multiselectDugunView = new MultiSelect('#FeaturesDugunView', {
+        onChange: function (value, text, element) {
+            console.log('Change:', value, text);
+        }
+    });
+    var multiselectDugunFiziksel = new MultiSelect('#FeaturesDugunFiziksel', {
+        onChange: function (value, text, element) {
+            console.log('Change:', value, text);
+        }
+    });
+</script>
+
+

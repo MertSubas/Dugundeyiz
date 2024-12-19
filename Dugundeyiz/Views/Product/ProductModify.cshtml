@@ -1,0 +1,285 @@
+﻿@using Dugundeyiz.ViewModels
+@{
+    ViewData["Title"] = "İlan Düzenleme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model ProductMap
+
+
+
+<style>
+    body {
+        background-color: #f4f5f7;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .photo-preview-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .photo-preview {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+    }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .delete-photo {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+        .delete-photo:hover {
+            background: rgba(255, 0, 0, 0.8);
+        }
+
+    .tooltip-icon {
+        color: #007bff;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="card p-4">
+        <h2 class="text-center mb-4">İlan Düzenleme</h2>
+        <form>
+            <!-- İlan Başlığı -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">İlan Başlığı</label>
+                        <input type="text" class="form-control" id="title" placeholder="İlan başlığını girin" required>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <!-- Kapasite -->
+                    <div class="mb-3">
+                        <label for="capacity" class="form-label">Kapasite</label>
+                        <input type="number" class="form-control" id="capacity" placeholder="Maksimum kapasite" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kişi Başı Fiyat -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Kişi Başı Fiyat</label>
+                        <input type="number" class="form-control" id="price" placeholder="Fiyat girin (₺)" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Ekleme -->
+            <div class="row">
+                <div class="mb-3">
+                    <label for="video" class="form-label">
+                        Video Ekleme
+                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="En fazla video süresi: 0 saniye">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                    </label>
+                    <input type="file" class="form-control" id="video" accept="video/*" disabled>
+                </div>
+            </div>
+
+            <!-- Fotoğraf Ekleme -->
+            <div class="row">
+                <div class="mb-3">
+                    <label for="photos" class="form-label">
+                        Fotoğraf Ekleme
+                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="En fazla 10 fotoğraf yükleyebilirsiniz.">
+                            <i class="fas fa-info-circle"></i>
+                        </span>
+                    </label>
+                    <input type="file" class="form-control" id="photos" accept="image/*" multiple>
+                    <small class="text-muted d-block mt-1">Maksimum 10 fotoğraf yükleyebilirsiniz.</small>
+                    <div id="photoPreviewContainer" class="photo-preview-container"></div>
+                </div>
+            </div>
+
+            <!-- Kapak Fotoğrafı -->
+            <div class="row">
+                <div class="mb-3">
+                    <label for="coverPhoto" class="form-label">Kapak Fotoğrafı</label>
+                    <input type="file" class="form-control" id="coverPhoto" accept="image/*">
+                </div>
+            </div>
+
+            <!-- Kategori -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Kategori</label>
+                        <select class="form-select" id="category">
+                            <option value="1">Kategori 1</option>
+                            <option value="2">Kategori 2</option>
+                            <option value="3">Kategori 3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- İlan Sahibi -->
+                <div class="col-md-6 mb-3">
+
+                    <div class="mb-3">
+                        <label class="form-label">İlan Sahibi</label>
+                        <input type="text" class="form-control" value="Mevcut Kullanıcı" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Şehir ve İlçe -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="city" class="form-label">Şehir</label>
+                    <select class="form-select" id="city">
+                        <option value="1">Şehir 1</option>
+                        <option value="2">Şehir 2</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="district" class="form-label">İlçe</label>
+                    <select class="form-select" id="district">
+                        <option value="1">İlçe 1</option>
+                        <option value="2">İlçe 2</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- İlan Tarihi -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="mb-3">
+                        <label class="form-label">İlan Tarihi</label>
+                        <div class="d-flex align-items-center">
+                            <input type="date" class="form-control" value="2024-11-21" readonly>
+                            <button type="button" class="btn btn-warning ms-3" style="border-radius:10px;">Bugüne Güncelle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- İlan Açıklaması -->
+            <div class="mb-3">
+                <label for="description" class="form-label">İlan Açıklaması</label>
+                <textarea class="form-control" id="description" rows="4" placeholder="Açıklama yazın..."></textarea>
+            </div>
+
+            <!-- Öne Çıkarma Önerileri -->
+            <div class="accordion mb-3" id="suggestions">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#suggestionContent">
+                            İlanınızı Öne Çıkarmak İçin Öneriler
+                        </button>
+                    </h2>
+                    <div id="suggestionContent" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Başlık ve açıklama detaylı ve özgün olsun.</li>
+                                <li>Kaliteli fotoğraflar ekleyin.</li>
+                                <li>Kategorinizi doğru seçin.</li>
+                                <li>Şehir ve ilçe bilgilerini eksiksiz doldurun.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kaydet Butonu -->
+            <button type="submit" class="btn btn-primary">Güncelle</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Tooltip initialization
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(tooltip => new bootstrap.Tooltip(tooltip));
+
+    // Photo preview and delete functionality
+    const photosInput = document.getElementById('photos');
+    const photoPreviewContainer = document.getElementById('photoPreviewContainer');
+    let photosArray = []; // To store photos
+
+    photosInput.addEventListener('change', () => {
+        const files = Array.from(photosInput.files);
+
+        if (photosArray.length + files.length > 10) {
+            alert("En fazla 10 fotoğraf yükleyebilirsiniz!");
+            return;
+        }
+
+        files.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const photoId = Date.now() + index; // Unique ID for photo
+                photosArray.push({ id: photoId, file });
+
+                // Create preview
+                const photoDiv = document.createElement('div');
+                photoDiv.classList.add('photo-preview');
+                photoDiv.dataset.id = photoId;
+
+                const img = document.createElement('img');
+                img.src = reader.result;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('delete-photo');
+                deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                deleteBtn.onclick = () => deletePhoto(photoId);
+
+                photoDiv.appendChild(img);
+                photoDiv.appendChild(deleteBtn);
+                photoPreviewContainer.appendChild(photoDiv);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Clear input value to allow re-upload of same files
+        photosInput.value = '';
+    });
+
+    function deletePhoto(photoId) {
+        // Remove from array
+        photosArray = photosArray.filter(photo => photo.id !== photoId);
+
+        // Remove preview
+        const photoDiv = photoPreviewContainer.querySelector(`[data-id="${photoId}"]`);
+        if (photoDiv) {
+            photoDiv.remove();
+        }
+    }
+</script>
+
+

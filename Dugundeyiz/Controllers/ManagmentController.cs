@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Dugundeyiz.Entity;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dugundeyiz.Controllers
 {
@@ -222,7 +223,7 @@ namespace Dugundeyiz.Controllers
         [Route("KategoriSiralamasi")]
         public IActionResult ManagmentCategorySortingList()
         {
-            var categories = _context.Categories.Where(x=>x.MainCategoryID==null && x.Deleted !=true).OrderBy(c => c.Sorting).ToList();
+            var categories = _context.Categories.Where(x=>x.MainCategoryID==null && x.Deleted !=true && x.MainCategoryID != 0).OrderBy(c => c.Sorting).ToList();
 
             return View(categories);
         }
@@ -257,6 +258,39 @@ namespace Dugundeyiz.Controllers
             var categories = _context.Categories.OrderBy(c => c.Sorting).ToList();
 
             return View(categories);
+        }
+        
+        [HttpGet]
+        [Route("PartnerOnay")]
+        public async Task<IActionResult> ApprovePartner(string token)
+        {
+            var approval = await _context.UserApprovals
+        .FirstOrDefaultAsync(ua => ua.ApprovalToken == token);
+
+            if (approval != null)
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserID == approval.UserId);
+                if (user != null)
+                {
+                    user.IsApproved = true;
+                    _context.UserApprovals.Remove(approval); // Artık gereksiz, silinir
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    return NotFound("Onay isteği bulunamadı.");
+
+                }
+            }
+            else
+            {
+                return NotFound("Onay isteği bulunamadı.");
+
+            }
+
+
+
+            return Ok("Üyelik onaylandı!");
         }
 
     }

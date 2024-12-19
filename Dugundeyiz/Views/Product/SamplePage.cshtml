@@ -6,262 +6,86 @@
 }
 @model ProductListPageViewModel
 
-<style>
-    .price-style {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 10px;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiselect Dropdown</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .multiselect-dropdown {
+            position: relative;
+        }
 
-    .rating-box {
-        background-color: #0053b3; /* Mavi arka plan */
-        color: white; /* Beyaz yazı rengi */
-        font-weight: bold;
-        padding: 5px 10px;
-        border-radius: 5px; /* Kenarları yuvarlak */
-        display: inline-block; /* Yanına yazı gelsin diye inline-block */
-        font-size: 16px; /* Yazı boyutu */
-    }
+        .dropdown-menu {
+            max-height: 200px;
+            overflow-y: auto;
+        }
 
-    .rating-text {
-        color: #333; /* Metin için koyu gri */
-        font-size: 14px;
-        margin-left: 10px; /* Puan kutusuyla metin arası boşluk */
-        display: inline-block; /* Yan yana gelsin diye inline-block */
-    }
-    /* Deneme 1/*/
-    /*
-            .bordererss {
-                       background-color: #fff; /* İçeriğin arka plan rengi *
-    padding: 20px; /* İçerik ile kenarlar arası boşluk */
-    box-shadow: inset 0 0px 16px 1px rgba(255, 255, 255, 0.8) !important;
-    border-radius: 13px !important;
-    }
+        .selected-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
 
-    /* Deneme 2/*/
-    /*     .bordererss {
-                    background-color: #ffffff !important;
-                    border-radius: 8px !important;
-                    padding: 20px !important;
-                    box-shadow: inset 0 0px 100px 42px rgb(0 0 0 / 80%) !important;
-                    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-                    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-                } */
-    /* Deneme 3/*/
-    .bordererss {
-        background-color: #f2f2f2 !important; /* Hafif açık gri */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-        , /* Subtle shadow for soft depth */
-        0 8px 15px rgba(0, 0, 0, 0.15) !important;
-        ; /* Stronger shadow for more depth */
-        border-radius: 8px !important; /* Rounded corners for a modern look */
-        padding: 20px !important;
-        box-shadow: inset 0 0px 16px 1px rgba(255, 255, 255, 0.8) !important;
-        transition: transform 0.3s ease, box-shadow 0.3s ease !important; /* Smooth animation */
-        border: 1px solid rgba(255, 255, 255, 0.05) !important; /* Subtle white border */
-    }
+        .selected-item {
+            background-color: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
 
-    .bordererss:hover {
-        background-color: #ffeedd !important; /* Hafif pastel bej */
+            .selected-item span {
+                margin-left: 5px;
+                cursor: pointer;
+            }
+    </style>
+</head>
+<body>
+    <label for="fruits">Fruits</label>
+    <select id="fruits" name="fruits" data-placeholder="Select fruits" multiple data-multi-select>
+        <option value="Apple">Apple</option>
+        <option value="Banana">Banana</option>
+        <option value="Blackberry">Blackberry</option>
+        <option value="Blueberry">Blueberry</option>
+        <option value="Cherry">Cherry</option>
+        <option value="Cranberry">Cranberry</option>
+        <option value="Grapes">Grapes</option>
+        <option value="Kiwi">Kiwi</option>
+        <option value="Mango">Mango</option>
+        <option value="Orange">Orange</option>
+        <option value="Peach">Peach</option>
+        <option value="Pear">Pear</option>
+        <option value="Pineapple">Pineapple</option>
+        <option value="Raspberry">Raspberry</option>
+        <option value="Strawberry">Strawberry</option>
+        <option value="Watermelon">Watermelon</option>
+    </select>
+</body>
 
-        transform: translateY(-5px) !important; /* Adds a floating effect on hover */
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 15px 20px rgba(0, 0, 0, 0.2) !important; /* Stronger shadow on hover */
-    }
-</style>
-<div id="a188dd9a22120fecac69633dabda7368" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-    <a name="About-us" class="wb_anchor" data-popup-processed="true"></a>
-    <div class="wb_content wb-layout-vertical">
-        <div id="a19127a1984400deef261fad5c1153ff" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-            <div class="wb_content wb-layout-horizontal">
-                <div id="a188dd9a221213f1524ba5e8bf212ecc" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                    <div class="wb_content wb-layout-horizontal">
-                        <div id="a188dd9a221214e6a235a9e37adaf66c" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                            <div class="wb_content wb-layout-vertical">
-                                <div id="a188dd9a2212156b5f335a50fd7191e8" class="wb_element wb_element_picture" data-plugin="Picture" title="">
-                                    <div class="wb_picture_wrap">
-                                        <div class="wb-picture-wrapper"><img alt="" src="~/gallery_gen/5093a0de02e40f838a0ba9225ad9949f_500x500_fit.png?ts=1723818424"></div>
-                                    </div>
-                                </div>
-                                <div id="a188dd9a2212161c3de9dcfdf447344d" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;">
-                                    <h3 class="wb-stl-heading3" style="text-align: center;">Nedimenizle Tanışın</h3>
-                                </div>
-                                <div id="a188dd9a2212174eed0e9b8a228b3ac7" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                                    <div class="wb_content wb-layout-horizontal">
-                                        <div id="a188dd9a221219732980d15375df0e6c" class="wb_element wb_element_picture" data-plugin="Picture" title="">
-                                            <div class="wb_picture_wrap" style="height: 100%">
-                                                <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><svg xmlns="http://www.w3.org/2000/svg" width="1793.982" height="1793.982" viewBox="0 0 1793.982 1793.982" style="direction: ltr; color:#f40cd8"><text x="129.501415" y="1537.02" font-size="1792" fill="currentColor" style="font-family: &quot;FontAwesome&quot;"></text></svg></div>
-                                            </div>
-                                        </div>
-                                        <div id="a188dd9a22121aa9d5afc963132c8fef" class="wb_element wb_element_picture" data-plugin="Picture" title="">
-                                            <div class="wb_picture_wrap" style="height: 100%">
-                                                <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><a href="#Home" data-popup-processed="true"><svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" style="direction: ltr; color:#ffffff"><text x="64" y="960" font-size="1024" fill="currentColor" style="font-family: &quot;builder-ui-icons-plugins&quot;"></text></svg></a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="a188dd9a22121bf3b6879b59fd99b2c4" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                            <div class="wb_content wb-layout-vertical">
-                                <div id="a188dd9a22121c61f739740d8c8e3cf3" class="wb_element wb-elm-orient-vertical" data-plugin="Line">
-                                    <div class="wb-elm-line"></div>
-                                </div>
-                                <div id="a191372e18610010289dffaa495db96d" class="wb_element wb_element_picture" data-plugin="Picture" title="">
-                                    <div class="wb_picture_wrap">
-                                        <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><svg xmlns="http://www.w3.org/2000/svg" width="1793.982" height="1793.982" viewBox="0 0 1793.982 1793.982" style="direction: ltr; color:#f00000"><text x="1.501415" y="1537.02" font-size="1792" fill="currentColor" style="font-family: &quot;FontAwesome&quot;"></text></svg></div>
-                                    </div>
-                                </div>
-                                <div id="a188dd9a22121de999cb7487d78c60a0" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;"></div>
-                                <div id="a188dd9a22121ec24ffd9d67505a721d" class="wb_element wb-elm-orient-vertical" data-plugin="Line">
-                                    <div class="wb-elm-line"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="a188dd9a22121f94440969b9f7d57b6a" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                            <div class="wb_content wb-layout-vertical">
-                                <div id="a188dd9a2212206dfdaf4f70d5b113bc" class="wb_element wb_element_picture" data-plugin="Picture" title="">
-                                    <div class="wb_picture_wrap">
-                                        <div class="wb-picture-wrapper"><img alt="" src="~/gallery_gen/b741c788fd2cb770e749419852151a03_500x500_fit.png?ts=1723818424"></div>
-                                    </div>
-                                </div>
-                                <div id="a188dd9a221221327f116ae9a6bdc3b3" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;">
-                                    <h3 class="wb-stl-heading3" style="text-align: center;">siz seçin biz fiyat alalım<span class="wb-stl-special">&nbsp;</span></h3>
-                                </div>
-                                <div id="a188dd9a221222f507215819bdca677e" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                                    <div class="wb_content wb-layout-horizontal">
-                                        <div id="a188dd9a221224183b731e6d554bcbc4" class="wb_element wb_element_picture" data-plugin="Picture" title="">
-                                            <div class="wb_picture_wrap" style="height: 100%">
-                                                <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><svg xmlns="http://www.w3.org/2000/svg" width="1793.982" height="1793.982" viewBox="0 0 1793.982 1793.982" style="direction: ltr; color:#1427e2"><text x="129.501415" y="1537.02" font-size="1792" fill="currentColor" style="font-family: &quot;FontAwesome&quot;"></text></svg></div>
-                                            </div>
-                                        </div>
-                                        <div id="a188dd9a221225bddec48338ca50aff9" class="wb_element wb_element_picture" data-plugin="Picture" title="">
-                                            <div class="wb_picture_wrap" style="height: 100%">
-                                                <div class="wb-picture-wrapper" style="overflow: visible; display: flex"><a href="https://dugundeyiz.com.tr/" data-popup-processed="true"><svg xmlns="http://www.w3.org/2000/svg" width="1793.982" height="1793.982" viewBox="0 0 1793.982 1793.982" style="direction: ltr; color:#d90011"><text x="1.501415" y="1537.02" font-size="1792" fill="currentColor" style="font-family: &quot;FontAwesome&quot;"></text></svg></a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="a188dd9a22122aad1df24301dbf11986" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-    <a name="Gallery" class="wb_anchor" data-popup-processed="true"></a>
-    <div class="wb_content wb-layout-vertical">
-        <div id="a188dd9a221228037e290d8cfe47db18" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;">
-            <p class="wb-stl-normal" style="text-align: center;">ÇÖZÜM ORTAKLARINIZ..</p>
-        </div>
-        <div class="container">
-            <div>
-                <div class="row g-3 align-items-end">
-                    <!-- İlan Adı -->
-                    <div class="col-md-2">
-                        <label for="ilanAdi" class="form-label">İlan Adı</label>
-                        <input type="text" class="form-control" id="ilanAdi" placeholder="İlan adı girin">
-                    </div>
+</html>
+<script>
+    const multiselect = new MultiSelect('#fruits', {
+        onChange: function (value, text, element) {
+            console.log('Change:', value, text);
+        }
+    });
+    setTimeout(() => {
+        const selectElement = document.querySelector('#fruits');
 
-                    <!-- Kapasite -->
-                    <div class="col-md-2">
-                        <label for="kapasite" class="form-label">Kapasite</label>
-                        <input type="text" class="form-control" id="kapasite" placeholder="Kapasite girin">
-                    </div>
+        // MultiSelect sınıfının içindeki selected öğelere erişmeye çalışalım
+        // Bu örnekte varsayılan olarak MultiSelect sınıfı, veriyi kendi içinde tutabilir
+        const selectedValues = multiselect.selectedValues; // Burada selected özelliği kullanılabilir
 
-                    <!-- Tarih Aralığı -->
-                    <div class="col-md-2">
-                        <label for="tarih" class="form-label">Tarih Aralığı</label>
-                        <input type="text" class="form-control" id="tarih" placeholder="Tarih aralığı veya tarih seçin">
-                    </div>
+        if (selectedValues && selectedValues.length > 0) {
+            console.log('Selected Values after 15 seconds:', selectedValues);
+        } else {
+            console.error('No values selected or selected not available.');
+        }
+    }, 5000); // 15 saniye = 15000 ms
+</script>
 
-                    <!-- Fiyat -->
-                    <div class="col-md-2">
-                        <label for="fiyat" class="form-label">Fiyat</label>
-                        <input type="text" class="form-control" id="fiyat" placeholder="Fiyat girin">
-                    </div>
-
-                    <!-- Şehir -->
-                    <div class="col-md-2">
-                        <label for="fiyat" class="form-label">Şehir</label>
-                        <input type="text" class="form-control" id="sehir" placeholder="Şehir girin">
-                    </div>
-                    <!-- Sıralama -->
-                    <div class="col-md-2">
-                        <label for="siralama" class="form-label">Sıralama</label>
-                        <select class="form-select" id="siralama">
-                            <option selected>Önerilen Sıralama</option>
-                            <option value="ad_asc">Ada Göre</option>
-                            <option value="kapasite_asc">Kapasiteye Göre Artan</option>
-                            <option value="kapasite_desc">Kapasiteye Göre Azalan</option>
-                            <option value="fiyat_asc">Fiyata Göre Artan</option>
-                            <option value="fiyat_desc">Fiyata Göre Azalan</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Filtrele</button>
-                    <button type="reset" class="btn btn-secondary">Temizle</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="a19136eedcc800ca708bfabf2cc4291f" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-            <div class="wb_content wb-layout-horizontal">
-                <div id="a188dd9a22122bdda4bcfa34ff5ae0b0" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                    <div class="wb_content wb-layout-vertical">
-                        <div id="homePageItems" class="wb_element wb-layout-element" data-plugin="LayoutElement">
-                            <div class="wb_content wb-layout-horizontal">
-                                @foreach (var item in Model.Products)
-                                {
-                                    <div id="homePageItemsMain" class="wb_element wb-layout-element" data-plugin="LayoutElement" style="cursor:pointer;    border-radius: 10px;padding-right: 10px; padding-bottom: 25px;" onclick="window.location.href='@Url.Action("Index", "Product", new { categoryName = item.Name})'">
-                                        <div class="wb_content wb-layout-vertical bordererss" style="">
-                                            <div id="homePageıtemImg" class="wb_element wb_element_picture" data-plugin="Picture" title="@item.Name" style="    padding-top: 20px;">
-                                                <div class="wb_picture_wrap">
-                                                    <div class="wb-picture-wrapper" style="    border-radius: 10px;"><img alt="@item.Name" src="@item.Images"></div>
-                                                </div>
-                                            </div>
-                                            <div class="wb-store-cart-details">
-                                                <h3>İstanbul</h3>
-                                            </div>
-                                            <div id="homePageItemsText" class="wb_element wb_text_element wb-anim wb-anim-zoom-in" data-plugin="TextArea" style=" line-height: normal;">
-                                                <p style="text-align: center; font-size:25px !important;"><span style="color:#e7d1d1;"><span style="background-color:transparent;"><span class="wb-stl-custom11" style="font-size:25px !important;">@item.Name</span></span></span></p>
-                                            </div>
-                                            <div class="wb-store-cart-details" style="width: 85%;">
-                                                <div class="price-style">
-                                                    <p> Kapasite:</p>
-                                                    <div>
-                                                        <h4 style="">400-500</h4>
-
-                                                    </div>
-                                                </div>
-                                                <div class="price-style">
-                                                    <p> Kişi Başı Fiyat:</p>
-                                                    <div>
-                                                        <h4 style="color:red">150 ₺</h4>
-                                                        <h5 style="text-decoration: line-through;font-size: 15px;    text-align: end;">
-                                                            150 ₺
-                                                        </h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div style="    padding-bottom: 15px;">
-                                                <div class="rating-box">8.9</div>
-                                                <span class="rating-text">Müthiş · 261 değerlendirme</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

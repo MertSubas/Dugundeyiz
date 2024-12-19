@@ -1,0 +1,445 @@
+﻿@using Dugundeyiz.ViewModels
+@{
+    ViewData["Title"] = "Analiz ve Rapor Sayfası";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="html2pdf.bundle.min.js"></script>
+
+
+
+<style>
+
+    .container2 {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-container {
+        margin: 20px 0;
+        width: 400px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-direction: column-reverse;
+        padding-bottom: 20px;
+    }
+
+        .chart-container canvas {
+            width: 100%;
+            height: auto;
+        }
+
+    .text-center {
+        font-weight: bold;
+        color: #333;
+    }
+
+        .text-center p {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+    .table-container {
+        margin-top: 30px;
+    }
+
+    h1, h4 {
+        color: #333;
+    }
+
+    .suggestions {
+        background-color: #f1f1f1;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 30px;
+    }
+
+    .highlight {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .chartsDouble {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding-bottom: 25px;
+    }
+
+    .pdfButton {
+        display: flex;
+        flex-direction: row-reverse;
+        position: relative;
+        z-index: 9999;
+    }
+
+    #pdfPrint {
+        margin-top: 0px;
+        max-width: 1130px;
+        display: flow-root;
+        margin-top: -20px;
+        position: relative;
+        top: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .main-containerAnalysis {
+        margin-top: -60px;
+        margin-bottom: -65px;
+    }
+
+    .header-left {
+        display: flex;
+        padding: 20px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .logo img {
+        width: 200px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .logo {
+        position: relative;
+        left: -7%;
+        width: 300px;
+        height: 300px; /* İhtiyacınıza göre yüksekliği ayarlayın */
+    }
+
+    .outer-image img {
+        width: 100%;
+        width: 300px;
+        height: auto;
+    }
+
+    .inner-image {
+        position: absolute;
+        top: 50%;
+        left: 57%;
+        transform: translate(-50%, -50%);
+        width: 50%; /* Merkez logo boyutunu ayarlayın */
+    }
+
+        .inner-image img {
+            width: 70%;
+            width: 105px;
+            height: auto;
+        }
+
+    .header-content {
+        font-family: 'Arial', sans-serif;
+        color: #333;
+        margin-left: -45px;
+    }
+
+        .header-content h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            color: #222;
+        }
+
+    .report-info {
+        font-size: 14px;
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .additional-info {
+        font-size: 13px;
+        margin: 3px 0;
+        color: #777;
+    }
+
+    .header-right {
+        width: 35%; /* 3/5 oranı */
+        padding: 20px;
+        background-color: #ffffff; /* Sağ tarafa içerik eklenecek */
+    }
+
+</style>
+
+<div class="container container2">
+    <div class="pdfButton">
+        <button class="btn btn-primary" style="display: flex;align-items: center;" id="downloadPdf">
+            Pdf Olarak İndir    <i class="fa-solid fa-file-pdf" style="font-size:25px;padding-left:5px;"></i>
+        </button>
+
+    </div>
+
+    <div id="pdfPrint" style="    margin-top: -20px;">
+        <div class="main-containerAnalysis">
+            <div class="header-left">
+                <div class="logo" style="    width: 300px;">
+                    <div class="outer-image">
+                        <img src="/gallery_gen/oie_transparent_1.png" alt="Dış Katman" />
+                    </div>
+                    <div class="inner-image">
+                        <img src="/gallery_gen/oie_transparent_2.png" alt="Merkez Logo" />
+                    </div>
+                </div>
+                <div class="header-content">
+                    <h1 style="    color: #ccc6b9;font-size: 31px;">dugundeyiz.com.tr</h1>
+                    <h1>İlan Analizi ve Rapor Sistemi</h1>
+                    <p class="report-info">Bu rapor gelinlik kategorisindeki Mert Gelinlik ilanı için düzenlenmiştir.</p>
+                    <p class="report-info">Grafikler ve oranlarda, yakın çevrenizdeki Gelinlik kategorisindeki diğer ilanlar değerlendirmeye alınmıştır.</p>
+                    <p class="additional-info">Rapor, son 30 gün içindeki analizlere dayanmaktadır.</p>
+                    <p class="additional-info">Öne çıkan trendler ve ilan performans verileri rapor kapsamında sunulmuştur.</p>
+                </div>
+            </div>
+            <div class="header-right">
+            </div>
+        </div>
+
+        <h1 class="text-center">Mert Gelinlik </h1>
+        <div class="row chartsDouble">
+            <div class="col-md-6 chart-container">
+                <canvas id="pieChart"></canvas>
+                <p class="text-center mt-3">Aynı Kategoride Çevredeki İlanlara Göre Tıklanma Oranları</p>
+            </div>
+            <div class="col-md-6 chart-container">
+                <canvas id="barChart"></canvas>
+                <p class="text-center mt-3">Aylık Görüntülenme Sayısı</p>
+            </div>
+        </div>
+        <div class="table-container">
+            <h4>İlan İstatistikleri</h4>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Kategori</th>
+                        <th>Görüntülenme</th>
+                        <th>Tıklanma Oranı (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>İlan 1</td>
+                        <td>120</td>
+                        <td>37.5</td>
+                    </tr>
+                    <tr>
+                        <td>İlan 2</td>
+                        <td>100</td>
+                        <td>30.0</td>
+                    </tr>
+                    <tr>
+                        <td>İlan 3</td>
+                        <td>80</td>
+                        <td>25.0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row chartsDouble">
+            <div class="col-md-12 chart-container" style="width: 55%;">
+                <canvas id="lineChart"></canvas>
+                <p class="text-center mt-3">Zamana Göre Tıklanma Sayıları</p>
+            </div>
+        </div>
+        <div class="row chartsDouble">
+            <div class="col-md-6 chart-container">
+                <div class="chart-container">
+                    <canvas id="viewPriceRatioChart"></canvas>
+                    <p class="text-center mt-3">Fiyat Aralıklarına Göre Ortalama Görüntülenme Sayısı</p>
+                </div>
+            </div>  n    
+            <div class="col-md-6 chart-container">
+                <div class="chart-container">
+                    <canvas id="priceComparisonChart"></canvas>
+                    <p class="text-center mt-3">Fiyat Aralıklarına Göre İlan Sayısı</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="text-center mt-3" style="text-wrap-mode: nowrap;">
+                    <p><strong>Sizin fiyatınızdaki ilanların ortalama görüntülenme sayısı:</strong> 135</p>
+                    <p><strong>Sizin çevrenizdeki ilanların ortalama görüntülenme sayısı:</strong> 120</p>
+                    <p><strong>Sizin ilanınızın ortalama görüntülenme sayısı:</strong> 127</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="suggestions">
+            <h4>İlanı Daha İyi Hale Getirmek İçin Öneriler</h4>
+            <ul>
+                <li>İlan başlığınızı daha <span class="highlight">dikkat çekici</span> yaparak kullanıcıların ilgisini çekebilirsiniz.</li>
+                <li>Yüksek çözünürlüklü ve <span class="highlight">farklı açılardan</span> çekilmiş görseller kullanın.</li>
+                <li>İlan açıklamasını <span class="highlight">detaylı</span> ve <span class="highlight">ikna edici</span> hale getirin.</li>
+                <li>İlanınızı sosyal medyada <span class="highlight">tanıtın</span> ve daha fazla kişiye ulaşın.</li>
+                <li>Doğru kategoride olduğundan <span class="highlight">emin olun</span> ve anahtar kelimeler kullanın.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    // Pie Chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['İlan 1', 'İlan 2', 'İlan 3', 'Diğerleri'],
+            datasets: [{
+                data: [35, 25, 20, 20],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // Bar Chart
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs'],
+            datasets: [{
+                label: 'Görüntülenme Sayısı',
+                data: [120, 150, 170, 130, 180],
+                backgroundColor: '#36A2EB'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Line Chart
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: ['1. Hafta', '2. Hafta', '3. Hafta', '4. Hafta'],
+            datasets: [{
+                label: 'Tıklanma Sayısı',
+                data: [300, 400, 350, 500],
+                borderColor: '#FF6384',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const priceCtx = document.getElementById('priceComparisonChart').getContext('2d');
+    const priceComparisonChart = new Chart(priceCtx, {
+        type: 'bar',
+        data: {
+            labels: ['1000-2000 TL', '2000-3000 TL', '3000-4000 TL', '4000-5000 TL'],
+            datasets: [{
+                label: 'İlan Sayısı',
+                data: [8, 15, 10, 5], // Her fiyat aralığındaki ilan sayısı statik verilerle
+                backgroundColor: '#FF6384', // Bar rengini belirler
+                borderColor: '#FF6384',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 5 // Y ekseninde her 5 adımda bir aralık
+                    }
+                }
+            }
+        }
+    });
+    // Fiyat Aralıklarına Göre Görüntülenme Sayısı ve Oranı - Line Chart
+    const viewPriceRatioCtx = document.getElementById('viewPriceRatioChart').getContext('2d');
+    const viewPriceChart = new Chart(viewPriceRatioCtx, {
+        type: 'line', // Çizgi grafiği
+        data: {
+            labels: ['2000-3000 TL', '3000-4000 TL', '4000-5000 TL'], // Fiyat aralıkları
+            datasets: [{
+                label: 'Görüntülenme Sayısı',
+                data: [500, 1200, 850], // Görüntülenme sayıları
+                borderColor: '#36A2EB', // Çizgi rengi
+                tension: 0.1, // Yumuşaklık
+                borderWidth: 2,
+                fill: false, // Doldurulmuş alan yok
+                pointRadius: 5, // Veri noktalarının büyüklüğü
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true, // Sıfırdan başlasın
+                }
+            }
+        }
+    });
+    document.getElementById('downloadPdf').addEventListener('click', function () {
+
+        var element = document.getElementById('pdfPrint');
+
+        // A4 yatay sayfa boyutu
+        // var pageWidth = 11; // A4 yatay sayfa genişliği (inç)
+        // var pageHeight = 8.5; // A4 sayfa yüksekliği (inç)
+
+        // // Div genişliğini alıyoruz
+        // var elementWidth = element.offsetWidth;
+
+        // // Ölçek oranını hesaplıyoruz (element genişliği A4 sayfa genişliğine sığacak şekilde)
+        // var scale = pageWidth / (elementWidth / 72); // 72, px'i inç'e çeviren faktördür (1 inç = 72 px)
+
+        // html2pdf ayarları
+        var opt = {
+            margin: [0, 0, 0, 0],  // Üst, sağ, alt, sol margin sıfırlanır
+            filename: 'myfile.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: {
+                scale: 7,  // Daha yüksek çözünürlük için scale değerini artırıyoruz
+                dpi: 400,  // DPI'yi artırarak daha keskin bir çıktı alıyoruz
+                letterRendering: true,  // Harflerin düzgün işlenmesi için
+                y: 0,  // Görselin yukarı kaymasını engelle
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',  // A4 formatı
+                orientation: 'landscape'  // Yatay yön
+            }
+        };
+
+        // html2pdf'i çalıştırarak PDF'yi indir
+        html2pdf().set(opt).from(element).save();
+
+    });
+
+
+
+</script>

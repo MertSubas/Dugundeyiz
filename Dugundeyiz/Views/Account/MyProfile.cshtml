@@ -1,0 +1,659 @@
+﻿@using Dugundeyiz.ViewModels
+@{
+    ViewData["Title"] = "Profil Bilgilerim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model ProfileDatatoSend
+<style>
+    .profile-card2711 {
+        max-width: 80%;
+        width: 80%;
+    }
+
+        .profile-card2711 p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+    .btn-primary,
+    .btn-success {
+        font-weight: bold;
+    }
+
+
+    .pad input {
+        border-radius: 6px;
+        border: 1px solid black;
+    }
+
+    .row .col-md-8 p {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row .col-md-8 p span {
+            font-size: 18px;
+        }
+
+        .row .col-md-8 p strong {
+            font-size: 18px;
+        }
+
+    .pad {
+        padding-bottom: 15px;
+        padding: 15px;
+        margin: 5px;
+        border-radius: 10px;
+        background-color: aliceblue;
+    }
+
+    .row .col-md-5 p {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row .col-md-5 p span {
+            font-size: 18px;
+            justify-content: space-between;
+        }
+
+        .row .col-md-5 p strong {
+            font-size: 18px;
+        }
+
+    .card-new h5 {
+        padding-bottom: 15px;
+    }
+
+    .card-new {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+        background-color: white;
+    }
+
+    .mb-3 {
+        text-align: left;
+    }
+
+    .dropdown-menuz {
+        list-item: none;
+    }
+</style>
+<div style="background-color:#ece4d4;min-height:400px;">
+    <div class="container" style="background-color:#ffffffb8;min-height:400px;">
+
+        <div class="container mt-5" style="    display: flex; justify-content: space-evenly;">
+            <div class="profile-card2711">
+                <h3 class="text-center mb-4" style="padding-bottom:35px;">Profil Bilgileri</h3>
+                <div id="profile-view2711">
+                    <div class="card-new">
+                        <h5>İletişim Bilgileri</h5>
+                        <div class="row pad">
+                            <div class="col-md-5" style="">
+
+                                <p><strong>Ad Soyad:</strong> <span id="fullName">@Model.Profile.Name @Model.Profile.Surname</span></p>
+
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-5">
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row pad">
+                            <div class="col-md-5" style="margin-bottom: 29px;">
+
+                                <p><strong>Telefon:</strong> <span id="phone">@Model.Profile.Phone</span></p>
+
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-5">
+                                <p><strong>Mail:</strong> <span id="email">@Model.Profile.Email</span></p>
+
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.UserpartnerInfo != null)
+                    {
+                        <div class="card-new">
+                            <div class="card-header-new">
+                                <h5>Firma Bilgileri</h5>
+                            </div>
+
+
+                            <div class="row pad" style="  ">
+                                <div class="col-md-5">
+                                    <p><strong>Firma Adı:</strong> <span id="companyName">@Model.UserpartnerInfo.CompanyName</span></p>
+
+                                </div>
+                            </div>
+                            <div class="row pad" style="  ">
+                                <div class="col-md-5" style="margin-bottom: 29px;">
+                                    <p><strong>Şehir:</strong> <span id="city">@Model.CityName</span></p>
+
+                                </div>
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-md-5">
+                                    <p><strong>İlçe:</strong> <span id="district">@Model.DistrictName</span></p>
+
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row pad">
+                                <div class="col-md-8">
+                                    <p><strong>Adres:</strong> <span id="address">@Model.UserpartnerInfo.Adress</span></p>
+
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row pad" style="display:none;">
+                                <div class="col-md-8">
+                                    <p><strong>Adres Tarifi:</strong> <span id="addressDesc">******   *******************</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+
+                    <div class="row pad" style="   margin-bottom:25px; display: flex; justify-content: space-evenly;background-color: #faf7f3;">
+                        <button id="editProfileBtn" class="btn btn-primary mt-3" style="max-width:250px; ">
+                            <i class="fas fa-edit"></i> Profili Düzenle
+                        </button>
+                        @*                         <button id="sifreDegistir" class="btn btn-primary mt-3" style="max-width:250px;">
+                        <i class="fas fa-key"></i> Şifrem Değiştir
+                        </button> *@
+                    </div>
+
+                </div>
+
+                <div id="sifreDegis" class="changePass d-none" style="padding-bottom:20px;">
+                    <div class="card-new ">
+                        <h5>Şifre Değiştirme Ekranı</h5>
+                        <div class="row pad">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="addressInput" class="form-label">Mevcut Şifreniz</label>
+                                    <input type="text" class="form-control " id="passwordOld" value="****">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="newPassword" class="form-label">Yeni Şifreniz</label>
+                                    <input type="text" class="form-control " id="passwordNew" value="****">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="addressDescInput" class="form-label">Yeni Şifreniz (Tekrar)</label>
+                                    <input type="text" class="form-control " id="repeatPassawordNew" value="*******">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pad" style="background-color:#faf7f3; text-align: center;">
+                        <div class="col-md-6">
+                            <button type="button" id="saveProfileBtn" class="btn btn-primary  w-45" style="border-radius:10px;">
+                                <i class="fas fa-save"></i> Düzenlemeyi Kaydet
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" id="cancelProfileBtn" class="btn btn-danger  w-55" style="border-radius:10px;">
+                                <i class="fas fa-times"></i> Düzenlemeyi İptal Et
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="profile-edit2711" class="d-none" style="padding-bottom:20px;">
+                    <form id="updateProfileForm">
+                        <div class="card-new">
+                            <h5> Profil Bilgileri Düzenleme Ekranı</h5>
+                            <div class="row pad">
+                                <div class="col-md-6">
+
+                                    <div class="mb-3">
+                                        <label for="fullNameInput" class="form-label">Ad</label>
+                                        <input type="text" class="form-control " id="nameInput" value="@Model.Profile.Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="mb-3">
+                                        <label for="surnameInput" class="form-label">Soyad</label>
+                                        <input type="text" class="form-control " id="surnameInput" value="@Model.Profile.Surname">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row pad">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="phoneInput" class="form-label">Telefon</label>
+                                        <input type="text" class="form-control " id="phoneInput" value="@Model.Profile.Phone">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="emailInput" class="form-label">Mail</label>
+                                        <input type="email" class="form-control " id="emailInput" value="@Model.Profile.Email">
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.Profile.WeddingDate != null)
+                            {
+                                <div class="row pad">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="phoneInput" class="form-label">Düğün Tarihi</label>
+                                            <input type="text" class="form-control " id="WeddingDate" value="@Model.Profile.WeddingDate">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            @if (Model.UserpartnerInfo != null)
+                            {
+                                <div class="row pad">
+                                    <div class="col-md-6">
+
+                                        <div class="mb-3">
+                                            <label for="companyNameInput" class="form-label">Firma Adı</label>
+                                            <input type="text" class="form-control " id="companyNameInput" value="@Model.UserpartnerInfo.CompanyName">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pad">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="editProfileCityDropdown" class="form-label">Şehir</label>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle w-100" id="editProfileCityDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    Şehir Seç
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-partner w-100" id="editProfileCityDropdownMenu" style="max-height:300px;overflow:auto"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="editProfileDistrictDropdown" class="form-label">İlçe</label>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle w-100" id="editProfileDistrictDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
+                                                    İlçe Seç
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-partner w-100" id="editProfileDistrictDropdownMenu" style="max-height:300px;overflow:auto"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row pad">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="addressInput" class="form-label">Adres</label>
+                                            <textarea class="form-control " id="addressInput" value=" " rows="4" cols="50" style="border-color:black">@Model.UserpartnerInfo.Adress</textarea>
+
+                                        </div>
+                                    </div>
+                                    @*  <div class="col-md-6">
+
+                                <div class="mb-3">
+                                <label for="addressDescInput" class="form-label">Adres Tarifi</label>
+                                <input type="text" class="form-control " id="addressDescInput" value="*******">
+                                </div>
+                                </div> *@
+                                </div>
+                            }
+
+                        </div>
+                        <div class="row pad" style="background-color:#faf7f3; text-align: center;">
+                            <div class="col-md-6">
+                                <button type="button" id="saveProfileBtn" class="btn btn-primary" onclick="validateAndUpdateProfile()" w-45" style="border-radius:10px;">
+                                    <i class="fas fa-save"></i> Düzenlemeyi Kaydet
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" id="cancelProfileBtn1" class="btn btn-danger  w-55" style="border-radius:10px;">
+                                    <i class="fas fa-times"></i> Düzenlemeyi İptal Et
+                                </button>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                        <div class="d-flex justify-content-between">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+<script>
+    // Güvenli bir şekilde ID ile elementi al
+    function getElementByIdSafe(id) {
+        const element = document.getElementById(id);
+        if (!element) {
+            console.warn(`Element not found: ${id}`);
+        }
+        return element;
+    }
+
+    // Düzenleme işlemini başlat
+    getElementByIdSafe("editProfileBtn")?.addEventListener("click", () => {
+        // Orijinal bilgileri sakla
+        const originalProfile = {
+            fullName: getElementByIdSafe("fullName")?.textContent || "",
+            companyName: getElementByIdSafe("companyName")?.textContent || "",
+            address: getElementByIdSafe("address")?.textContent || "",
+            addressDesc: getElementByIdSafe("addressDesc")?.textContent || "",
+            phone: getElementByIdSafe("phone")?.textContent || "",
+            email: getElementByIdSafe("email")?.textContent || "",
+            city: getElementByIdSafe("city")?.textContent || "",
+            district: getElementByIdSafe("district")?.textContent || "",
+        };
+
+        // Görünüm ve düzenleme formunu değiştir
+        getElementByIdSafe("profile-view2711")?.classList.add("d-none");
+        getElementByIdSafe("profile-edit2711")?.classList.remove("d-none");
+
+        // İptal butonu işlemi
+        getElementByIdSafe("cancelProfileBtn1")?.addEventListener("click", () => {
+            // Orijinal bilgileri geri yükle
+            const inputs = [
+                { id: "fullNameInput", value: originalProfile.fullName },
+                { id: "companyNameInput", value: originalProfile.companyName },
+                { id: "addressInput", value: originalProfile.address },
+                { id: "addressDescInput", value: originalProfile.addressDesc },
+                { id: "phoneInput", value: originalProfile.phone },
+                { id: "emailInput", value: originalProfile.email },
+                { id: "cityInput", value: originalProfile.city },
+                { id: "districtInput", value: originalProfile.district },
+            ];
+
+            inputs.forEach((input) => {
+                const element = getElementByIdSafe(input.id);
+                if (element) {
+                    element.value = input.value;
+                }
+            });
+
+            // Formu kapat ve profil görünümünü göster
+            getElementByIdSafe("profile-view2711")?.classList.remove("d-none");
+            getElementByIdSafe("profile-edit2711")?.classList.add("d-none");
+        });
+    });
+
+    getElementByIdSafe("sifreDegistir")?.addEventListener("click", () => {
+        // Orijinal bilgileri sakla
+        const originalProfile = {
+            fullName: getElementByIdSafe("fullName")?.textContent || "",
+            companyName: getElementByIdSafe("companyName")?.textContent || "",
+            address: getElementByIdSafe("address")?.textContent || "",
+            addressDesc: getElementByIdSafe("addressDesc")?.textContent || "",
+            phone: getElementByIdSafe("phone")?.textContent || "",
+            email: getElementByIdSafe("email")?.textContent || "",
+            city: getElementByIdSafe("city")?.textContent || "",
+            district: getElementByIdSafe("district")?.textContent || "",
+        };
+
+        // Görünüm ve düzenleme formunu değiştir
+        getElementByIdSafe("profile-view2711")?.classList.add("d-none");
+        getElementByIdSafe("profile-edit2711")?.classList.add("d-none");
+        getElementByIdSafe("sifreDegis")?.classList.remove("d-none");
+
+        getElementByIdSafe("cancelProfileBtn")?.addEventListener("click", () => {
+            // Orijinal bilgileri geri yükle
+            const inputs = [
+                { id: "fullNameInput", value: originalProfile.fullName },
+                { id: "companyNameInput", value: originalProfile.companyName },
+                { id: "addressInput", value: originalProfile.address },
+                { id: "addressDescInput", value: originalProfile.addressDesc },
+                { id: "phoneInput", value: originalProfile.phone },
+                { id: "emailInput", value: originalProfile.email },
+                { id: "cityInput", value: originalProfile.city },
+                { id: "districtInput", value: originalProfile.district },
+            ];
+
+            inputs.forEach((input) => {
+                const element = getElementByIdSafe(input.id);
+                if (element) {
+                    element.value = input.value;
+                }
+            });
+
+            // Görünüm ve düzenleme formunu değiştir
+            getElementByIdSafe("profile-view2711")?.classList.remove("d-none");
+            getElementByIdSafe("sifreDegis")?.classList.add("d-none");
+        });
+    });
+
+    // Profili kaydet
+    function validateAndUpdateProfile() {
+        // Form verilerini alalım
+        var updatedProfile = {};
+
+        // Ad ve Soyad zorunlu
+        if ($('#nameInput').length && !$('#nameInput').val()) {
+            alert('Ad alanı zorunludur!');
+            return; // Formu göndermeden çık
+        } else {
+            updatedProfile.name = $('#nameInput').val();
+        }
+
+        if ($('#surnameInput').length && !$('#surnameInput').val()) {
+            alert('Soyad alanı zorunludur!');
+            return;
+        } else {
+            updatedProfile.surname = $('#surnameInput').val();
+        }
+
+        // Telefon ve Mail zorunlu
+        if ($('#phoneInput').length && !$('#phoneInput').val()) {
+            alert('Telefon alanı zorunludur!');
+            return;
+        } else {
+            updatedProfile.phone = $('#phoneInput').val();
+        }
+
+        if ($('#emailInput').length && !$('#emailInput').val()) {
+            alert('Mail alanı zorunludur!');
+            return;
+        } else {
+            updatedProfile.email = $('#emailInput').val();
+        }
+
+        // Eğer WeddingDate varsa, zorunlu
+        if ($('#WeddingDate').length && !$('#WeddingDate').val()) {
+            alert('Düğün Tarihi alanı zorunludur!');
+            return;
+        } else {
+            updatedProfile.weddingDate = $('#WeddingDate').val();
+        }
+
+        // Eğer UserpartnerInfo varsa, zorunlu alanlar
+        if ($('#companyNameInput').length && !$('#companyNameInput').val()) {
+            alert('Firma Adı zorunludur!');
+            return;
+        } else {
+            updatedProfile.companyName = $('#companyNameInput').val();
+        }
+
+        // Şehir kontrolü
+        if ($('#editProfileCityDropdown').length && $('#editProfileCityDropdown').text().trim() === 'Şehir Seç') {
+            alert('Şehir zorunludur!');
+            return;
+        } else {
+            updatedProfile.city = $('#editProfileCityDropdown').text().trim();
+        }
+
+        // İlçe kontrolü
+        if ($('#editProfileDistrictDropdown').length && $('#editProfileDistrictDropdown').text().trim() === 'İlçe Seç') {
+            alert('İlçe zorunludur!');
+            return;
+        } else {
+            updatedProfile.district = $('#editProfileDistrictDropdown').text().trim();
+        }
+
+
+        if ($('#addressInput').length && !$('#addressInput').val()) {
+            alert('Adres zorunludur!');
+            return;
+        } else {
+            updatedProfile.address = $('#addressInput').val();
+        }
+
+        // Eğer tüm doğrulama başarılıysa veriyi gönder
+        fetch("/account/UpdateProfile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedProfile),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    alert("Profil başarıyla güncellendi!");
+                    location.reload(); // Sayfayı yeniden yükle
+                } else {
+                    alert("Profil güncelleme başarısız!");
+                }
+            })
+            .catch((error) => {
+                console.error("Profil güncellenirken hata oluştu:", error);
+            });
+    }
+
+    // Butona onclick ile fonksiyonu bağlayalım
+    $(document).ready(function () {
+        const selectedCityValue = "@Model.UserpartnerInfo?.City" || null;
+        const selectedDistrictValue = "@Model.UserpartnerInfo?.District" || null;
+        if (selectedCityValue != null || selectedDistrictValue != null) {
+            // Şehir Dropdown'u Doldur
+            $.ajax({
+                url: "/api/Services/cities",
+                type: "GET",
+                success: function (data) {
+                    const cityDropdownMenu = $('#editProfileCityDropdownMenu');
+                    cityDropdownMenu.append(`
+                        <li class="sticky-header p-2">
+                            <input type="text" id="editProfileCitySearch" class="form-control" placeholder="Şehir ara..." />
+                        </li>
+                    `);
+
+                    data.forEach(city => {
+                        const isSelected = city.id == selectedCityValue ? 'selected' : '';
+                        cityDropdownMenu.append(`
+                            <li>
+                                    <a class="dropdown-itemEditProfile" ${isSelected}" href="#" data-id="${city.id}">${city.cityName}</a>
+                            </li>
+                        `);
+                        if (isSelected) {
+                            $('#editProfileCityDropdown').text(city.cityName);
+                            loadDistricts(city.id, selectedDistrictValue);
+                        }
+                    });
+
+                    // Şehir Arama
+                    $('#editProfileCitySearch').on('input', function () {
+                        const searchTerm = $(this).val().toLowerCase();
+                        $('#editProfileCityDropdownMenu .dropdown-itemEditProfile').each(function () {
+                            const text = $(this).text().toLowerCase();
+                            $(this).toggle(text.includes(searchTerm));
+                        });
+                    });
+
+                    // Şehir Seçimi
+                    $('#editProfileCityDropdownMenu').on('click', '.dropdown-itemEditProfile', function (e) {
+                        e.preventDefault();
+                        const cityId = $(this).data('id');
+                        const cityName = $(this).text();
+                        $('#editProfileDistrictDropdown').text('İlçe Seç');
+                        $('#editProfileCityDropdown').text(cityName);
+                        loadDistricts(cityId, null);
+                    });
+                }
+            });
+
+            // İlçe Dropdown'u Doldur
+            function loadDistricts(cityId, selectedDistrict) {
+                $.ajax({
+                    url: `/api/Services/districts/${cityId}`,
+                    type: "GET",
+                    success: function (data) {
+                        const districtDropdownMenu = $('#editProfileDistrictDropdownMenu');
+                        districtDropdownMenu.empty();
+                        $('#editProfileDistrictDropdown').prop('disabled', false);
+
+                        districtDropdownMenu.append(`
+                            <li class="sticky-header p-2">
+                                <input type="text" id="editProfileDistrictSearch" class="form-control" placeholder="İlçe ara..." />
+                            </li>
+                        `);
+
+                        data.forEach(district => {
+                            const isSelected = district.id == selectedDistrict ? 'selected' : '';
+                            districtDropdownMenu.append(`
+                                <li>
+                                    <a class="dropdown-itemEditProfile" ${isSelected}" href="#" data-id="${district.id}">${district.townName}</a>
+                                </li>
+                            `);
+                            if (isSelected) {
+                                $('#editProfileDistrictDropdown').text(district.townName);
+                            }
+                        });
+
+                        // İlçe Arama
+                        $('#editProfileDistrictSearch').on('input', function () {
+                            const searchTerm = $(this).val().toLowerCase();
+                            $('#editProfileDistrictDropdownMenu .dropdown-itemEditProfile').each(function () {
+                                const text = $(this).text().toLowerCase();
+                                $(this).toggle(text.includes(searchTerm));
+                            });
+                        });
+
+                        // İlçe Seçimi
+                        $('#editProfileDistrictDropdownMenu').on('click', '.dropdown-itemEditProfile', function (e) {
+                            e.preventDefault();
+                            const districtName = $(this).text();
+                            $('#editProfileDistrictDropdown').text(districtName);
+                        });
+                    }
+                });
+            }
+        }
+    });
+
+
+
+
+</script>

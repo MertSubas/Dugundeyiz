@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dugundeyiz.Components
 {
-    public class LayoutDataViewComponent : ViewComponent
+    public class LayoutDataCategoriesViewComponent : ViewComponent
     {
-        private readonly ILogger<LayoutDataViewComponent> _logger;
+        private readonly ILogger<LayoutDataCategoriesViewComponent> _logger;
         private readonly DugundeyizContext _context;
-        public LayoutDataViewComponent(ILogger<LayoutDataViewComponent> logger, DugundeyizContext context)
+        public LayoutDataCategoriesViewComponent(ILogger<LayoutDataCategoriesViewComponent> logger, DugundeyizContext context)
         {
             _logger = logger;
             _context = context;
@@ -21,9 +21,9 @@ namespace Dugundeyiz.Components
 
         public IViewComponentResult Invoke()
         {
-            var subCategories = _context.Categories.Where(x=>x.Deleted!=true&&x.MainCategoryID!=null && x.MainCategoryID != 0).ToList();
+            var subCategories = _context.Categories.Where(x=>x.Deleted!=true&&x.MainCategoryID==null).OrderBy(x=>x.Sorting).ToList();
             LayoutviewModel dataForLayout = new LayoutviewModel();
-            dataForLayout.LayoutAltKategoriler = subCategories;
+            dataForLayout.LayoutKategoriler = subCategories;
             return View(dataForLayout);
         }
     }

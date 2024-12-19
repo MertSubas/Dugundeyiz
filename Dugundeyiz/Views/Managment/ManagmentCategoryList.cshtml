@@ -77,7 +77,7 @@
             <tbody>
                 @foreach (var category in Model)
                 {
-                    @if (category.MainCategoryID == null)
+                    @if (category.MainCategoryID == null || category.MainCategoryID == 0)
                     {
                         <tr data-category-id="@category.CategoryID" class="category-row" data-main-category-id="@category.MainCategoryID">
                             <td style="vertical-align: middle;">
@@ -176,7 +176,6 @@
         }
         // Resim yükleme ve önizleme
         $('input[type="file"]').change(function (event) {
-            showLoading();
 
             const file = event.target.files[0];
             const reader = new FileReader();
@@ -189,7 +188,6 @@
             if (file) {
                 reader.readAsDataURL(file);
             }
-            hideLoading();
         });
         // Kaydet butonuna basıldığında veriyi backend'e yolla
         $('.save-category').click(function () {
@@ -199,7 +197,7 @@
             var categoryId = row.data('category-id');
             var categoryName = row.find('.category-name').val();
             var fileInput = document.getElementById('imageUpload_' + categoryId);
-            var file = fileInput.files[0];
+            if (fileInput) { var file = fileInput.files[0]; }
 
             // FormData oluştur
             var formData = new FormData();
@@ -220,6 +218,8 @@
                 success: function (response) {
                     alert('Kategori başarıyla kaydedildi.');
                     hideLoading();
+                    location.reload();  // Sayfayı yenile
+
                 },
                 error: function () {
                     hideLoading();
@@ -247,6 +247,8 @@
                     row.remove();
                     alert('Kategori başarıyla silindi.');
                     hideLoading();
+                    location.reload();  // Sayfayı yenile
+
                 },
                 error: function () {
                     alert('Bir hata oluştu.');
@@ -269,8 +271,10 @@
                 data: { subcategoryName: categoryName, mainCategoryId: categoryId },
                 success: function (response) {
                     row.remove();
-                    alert('Kategori başarıyla silindi.');
+                    alert('Alt Kategori başarıyla eklendi.');
                     hideLoading();
+                    location.reload();  // Sayfayı yenile
+
                 },
                 error: function () {
                     alert('Bir hata oluştu.');
@@ -280,7 +284,6 @@
             hideLoading();
         });
 
-    });
 
 
         // Resim ekleme butonuna tıklandığında file input açılması
@@ -290,7 +293,6 @@
 
         // Resim seçildiğinde önizlemenin gösterilmesi
         $('#imageInput').on('change', function (e) {
-        showLoading()
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -323,6 +325,8 @@
                     success: function (response) {
                         alert('Kategori başarıyla eklendi!');
                     hideLoading()
+                    location.reload();  // Sayfayı yenile
+
                     },
                     error: function () {
                         alert('Bir hata oluştu.');
@@ -337,6 +341,7 @@
             }
         });
 
+    });
 
 
 </script>

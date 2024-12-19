@@ -1,3 +1,264 @@
-﻿@{
-    ViewData["Title"] = "Header";
-}
+﻿
+<style>
+
+    .services {
+        height: calc(100% - 60px)
+    }
+
+    .services-container li {
+        margin-bottom: 14px
+    }
+
+    .services img {
+        max-height: 40px;
+        max-width: 40px;
+        margin-right: 10px;
+        min-width: 32px;
+        width: auto
+    }
+
+    .services li:nth-last-child(-n+3) {
+        margin-bottom: 0
+    }
+
+    [data-src="newSrc"] {
+        display: none
+    }
+
+    .services-container a {
+        display: flex;
+        align-items: center;
+        color: #333;
+        border-radius: 3px;
+        padding: 20px;
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        border-radius: 4px;
+        box-shadow: 0 0 1px #ccc;
+        justify-content: center;
+        flex-flow: column;
+        align-items: flex-start
+    }
+
+        .services-container  {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: scaleY(0);
+            transform-origin: bottom center;
+            background: #fff;
+            z-index: -1;
+            border-radius: 2px;
+            transition: transform .2s
+        }
+
+
+
+
+
+    .services-container i {
+        font-size: 30px;
+        margin-right: 10px
+    }
+
+    .service-container {
+        display: flex;
+        align-items: center
+    }
+
+    .service-desc p {
+        line-height: 1.3
+    }
+
+        .service-desc p:first-child {
+            font-size: 14px;
+            font-weight: bold
+        }
+
+        .service-desc p:last-child {
+            font-size: 12px;
+            color: #fff;
+            max-width: 120px;
+        }
+
+</style>
+<section class="services">
+    <div class="new-heading">
+        <h1>Aplikime &amp; Informacione</h1>
+    </div>
+    <ul class="content-full col-3 services-container">
+        <li>
+            <a style="background-color:#f6a500" href="https://web.archive.org/web/20230307221302/https://tirana.al/kategori/punesimi">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="https://web.archive.org/web/20230307221302im_/https://tirana.al/uploads/images/articleCategory/worker1.svg" style="display: block;">
+                    <img data-src="newSrc" src="https://web.archive.org/web/20230307221302im_/https://tirana.al/uploads/images/articleCategory/worker-k.svg" style="display: none;">
+                    <div class="service-desc">
+                        <p>Punësimi</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+
+        <li>
+            <a style="background-color:#2baee5" href="/web/20230307221302/https://tirana.al/sherbimi/one-stop-shop">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads/images/articleCategory/20200220103409_arkiva.svg" style="display: block;">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads/images/articleCategory/20200220103409_arkiva-k.svg" style="display: none;">
+                    <div class="service-desc">
+                        <p>One Stop Shop</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#f6a500" href="https://web.archive.org/web/20230307221302/https://tirana.al/faqe/planifikim-dhe-zhvillim-territori">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\map-of-roads.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\map-of-roads-k.svg">
+                    <div class="service-desc">
+                        <p>Planifikim dhe Zhvillim Territori</p>
+
+
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#dd242a" href="/web/20230307221302/https://tirana.al/sherbimi/strehimi">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\strehim.svg" style="display: block;">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\strehim-k.svg" style="display: none;">
+                    <div class="service-desc">
+                        <p>Strehimi</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#a1c52b" href="/web/20230307221302/https://tirana.al/sherbimi/bashkepronesia">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\bashkepronesi.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\bashkepronesi-k.svg">
+                    <div class="service-desc">
+                        <p>Bashkëpronësia</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#2baee5" href="/web/20230307221302/https://tirana.al/sherbimi/procedura-ankimimi">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\procedura-ankimim.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\procedura-ankimim-k.svg">
+                    <div class="service-desc">
+                        <p>Procedura Ankimimi</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#a1c52b" href="/web/20230307221302/https://tirana.al/sherbimi/kultura">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\theatre-masks.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\theatre-masks-k.svg">
+                    <div class="service-desc">
+                        <p>Kultura</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#f6a500" href="/web/20230307221302/https://tirana.al/sherbimi/zyrat-e-gjendjes-civile">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\zyrat.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\zyrat-k.svg">
+                    <div class="service-desc">
+                        <p>Zyrat e Gjendjes Civile</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#dd242a" href="/web/20230307221302/https://tirana.al/sherbimi/emergjenca-civile">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\emergjenca.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\emergjenca-k.svg">
+                    <div class="service-desc">
+                        <p>Emergjenca Civile</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#2baee5" href="/web/20230307221302/https://tirana.al/sherbimi/transporti">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\transporti.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\transporti-k.svg">
+                    <div class="service-desc">
+                        <p>Transporti</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#dd242a" href="/web/20230307221302/https://tirana.al/sherbimi/banimi">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\banim.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\banim-k.svg">
+                    <div class="service-desc">
+                        <p>Banimi</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#f6a500" href="/web/20230307221302/https://tirana.al/sherbimi/ujesjelles-kanalizime">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\tap.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\tap-k.svg">
+                    <div class="service-desc">
+                        <p>Ujësjellës Kanalizime</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#a1c52b" href="/web/20230307221302/https://tirana.al/sherbimi/toke">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\toka.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\toka-k.svg">
+                    <div class="service-desc">
+                        <p>Tokë</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#2baee5" href="/web/20230307221302/https://tirana.al/sherbimi/sherbimi-social">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\sherbimi-social.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\sherbimi-social-k.svg">
+                    <div class="service-desc">
+                        <p>Shërbimi Social</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a style="background-color:#a1c52b" href="/web/20230307221302/https://tirana.al/sherbimi/prone">
+                <div class="service-container">
+                    <img data-src="imgSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\prone.svg">
+                    <img data-src="newSrc" src="/web/20230307221302im_/https://tirana.al/uploads\images\articleCategory\prone-k.svg">
+                    <div class="service-desc">
+                        <p>Pronë</p>
+                    </div>
+                </div>
+            </a>
+        </li>
+
+    </ul>
+</section>

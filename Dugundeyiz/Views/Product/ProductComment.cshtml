@@ -1,0 +1,267 @@
+﻿@using Dugundeyiz.ViewModels
+@{
+    ViewData["Title"] = "Analiz ve Rapor Sayfası";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model ProductCommentPageViewModel
+<style>
+    .reply-section {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .card {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 5px 16px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .btn-primary {
+        border-radius: 20px;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+
+        .btn-primary:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+    .btn-danger {
+        border-radius: 20px;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+
+        .btn-danger:hover {
+            color: white;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 5px 16px rgba(0, 0, 0, 0.2) !important;
+        }
+
+    .btn-success {
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+
+    .textpart {
+        padding-bottom: 12px;
+    }
+
+    .namePart {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: -5px;
+    }
+
+    .advertisement-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        max-width: 600px;
+        margin: 20px auto;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 64%;
+    }
+
+    .advertisement-image img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .advertisement-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .advertisement-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 5px 0;
+    }
+
+    .advertisement-city,
+    .advertisement-district,
+    .advertisement-rating {
+        font-size: 14px;
+        color: #555;
+        margin: 3px 0;
+    }
+
+    .rating-box {
+        background-color: #0053b3; /* Mavi arka plan */
+        color: white; /* Beyaz yazı rengi */
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px; /* Kenarları yuvarlak */
+        display: inline-block; /* Yanına yazı gelsin diye inline-block */
+        font-size: 16px; /* Yazı boyutu */
+        max-width: 44px;
+    }
+
+</style>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <div class="card shadow" style="margin-bottom: 25px;">
+                <div class="card-body" style="display: grid; justify-items: center;">
+                    <h3 class="text-center mb-4">Yorumlar & Değerlendirmeler</h3>
+                    <h2 class="text-center mb-4"></h2>
+                    <div class="advertisement-container">
+                        <div class="advertisement-image">
+                            <img src="@Model.Ilan.Images" alt="İlan Resmi">
+                        </div>
+                        <div class="advertisement-info">
+                            <h3 class="advertisement-title">İlan Adı: @Model.Ilan.Name</h3>
+                            <p class="advertisement-city">Şehir: : @Model.Ilan.City</p>
+                            <p class="advertisement-district">İlçe: @Model.Ilan.District</p>
+                            <p class="advertisement-rating">Değerlendirme:<div class="rating-box">8.9</div> </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-10">
+                        @foreach (var comment in Model.Comments.Where(c => c.ReplyToCommentID == null))
+                        {
+                            <div class="mb-4" style="    padding-top: 10px;">
+                                <!-- Yorum Kartı -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@comment.Title</h5>
+                                        <p class="card-text textpart">@comment.Message</p>
+                                        <p class="card-text namePart">İsim Soyisim</p>
+                                        <small class="text-muted">@comment.CreateDate.ToString("dd/MM/yyyy HH:mm")</small>
+                                        <div class="text-end mt-2">
+                                            @if (comment.Checking == true)
+                                            {
+                                                <button class="btn btn-danger btn-sm" disabled
+                                                        data-comment-id="@comment.CommentID">
+                                                    Kontrol ediliyor
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-danger btn-sm rapor-btn"
+                                                        data-comment-id="@comment.CommentID">
+                                                    Şikayet Et
+                                                </button>
+                                            }
+                                            <button class="btn btn-primary btn-sm reply-btn"
+                                                    data-comment-id="@comment.CommentID">
+                                                Cevapla
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Yanıt Bölümü -->
+                                <div id="reply-section-@comment.CommentID" class="reply-section mt-3" style="display:none;">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="reply-title-@comment.CommentID" class="form-label">Başlık</label>
+                                                    <input type="text" id="reply-title-@comment.CommentID"
+                                                           class="form-control" placeholder="Başlık giriniz" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="reply-message-@comment.CommentID" class="form-label">Mesaj</label>
+                                                    <textarea id="reply-message-@comment.CommentID"
+                                                              class="form-control" rows="3"
+                                                              placeholder="Mesajınızı yazın"></textarea>
+                                                </div>
+                                                <button type="button" class="btn btn-success"
+                                                        onclick="sendReply(@comment.CommentID)">
+                                                    Gönder
+                                                </button>
+                                                <button type="button" class="btn btn-secondary reply-cancel-btn">
+                                                    İptal
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Cevaplar -->
+                                @foreach (var reply in Model.Comments.Where(c => c.ReplyToCommentID == comment.CommentID))
+                                {
+                                    <div class="card mt-2 ms-5">
+                                        <div class="card-body">
+                                            <h6 class="card-subtitle text-muted">@reply.Title</h6>
+                                            <p class="card-text">@reply.Message</p>
+                                            <small class="text-muted">@reply.CreateDate.ToString("dd/MM/yyyy HH:mm")</small>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <hr />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.querySelectorAll('.reply-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const commentId = this.getAttribute('data-comment-id');
+            const replySection = document.getElementById(`reply-section-${commentId}`);
+            replySection.style.display = replySection.style.display === 'none' ? 'block' : 'none';
+        });
+    });
+
+    document.querySelectorAll('.reply-cancel-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const replySection = this.closest('.reply-section');
+            replySection.style.display = 'none';
+        });
+    });
+
+    function sendReply(commentId) {
+        const title = document.getElementById(`reply-title-${commentId}`).value;
+        const message = document.getElementById(`reply-message-${commentId}`).value;
+
+        const data = {
+            ReplyToCommentID: commentId,
+            Title: title,
+            Message: message,
+            CreateDate: new Date().toISOString(),
+        };
+
+        fetch('/api/comments/reply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Bir hata oluştu, lütfen tekrar deneyin.');
+                }
+            });
+    }
+
+
+</script>

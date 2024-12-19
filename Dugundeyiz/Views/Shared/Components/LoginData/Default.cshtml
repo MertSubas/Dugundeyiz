@@ -1,0 +1,183 @@
+﻿@model Dugundeyiz.ViewModels.HeaderUserViewModel
+
+
+@if (!User.Identity.IsAuthenticated)
+{
+
+    <div class="regularScreen" style="width: 100%;margin-top: 10px;display: grid;justify-items: end;display: flex;flex-direction: row-reverse;padding-bottom: 20px;" id="regularScreen">
+        <!-- Chrome-like Tab Navigation -->
+        <ul class="nav nav-tabs justify-content-center" id="loginTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="member-tab" data-toggle="tab" href="#memberForm" role="tab" aria-controls="memberForm" aria-selected="true" style="font-size: 12px;">
+                    Çiftlerimize Özel
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="partner-tab" data-toggle="tab" href="#partnerForm" role="tab" aria-controls="partnerForm" aria-selected="false" style="font-size: 12px;">
+                    Çözüm Ortaklarımıza Özel
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container mainHeadercontainer regularScreen" style="    flex-direction: row-reverse; padding-top: 7px;position: absolute; z-index: 99; display: flex;    padding-right: 0;margin-left: -15px !important;" id="regularScreenLogins">
+        <div style="">
+            <!-- Tab Content -->
+            <div class="tab-content" id="loginTabContent" style="  width: 336px;display:none;">
+                <!-- Üyelerimize Özel Form -->
+                <div class="tab-pane fade" id="memberForm" role="tabpanel" aria-labelledby="member-tab">
+                    <h5 style="font-size:15px;">Üyelerimize Özel Giriş</h5>
+                    <br />
+                    <div id="user-login-error" class="alert alert-danger d-none" role="alert"></div> <!-- Genel Hata Mesajı -->
+
+                    <div class="textbox">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="user-username" placeholder="Kullanıcı Adı" name="" value="" style="font-size:15px;">
+                        <div id="user-username-error" class="invalid-feedback position-absolute" style="top: 100%;"></div> <!-- Hata mesajı -->
+                    </div>
+                    <div class="textbox">
+                        <i class="fas fa-key"></i>
+                        <input type="password" placeholder="Şifre" id="user-password" name="" value="" style="font-size:15px;">
+                        <div id="user-password-error" class="invalid-feedback position-absolute" style="top: 100%;"></div> <!-- Hata mesajı -->
+
+                    </div>
+                    <br />
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            @*                                                         <a href="#" class="text-primary">Şifremi Unuttum</a>
+                        *@
+                            <a href="#" class="text-primary ms-3" id="openCustomerModal">Üye Ol</a>
+                        </div>
+                        <button class="btn btn-primary" onclick="validateAndLogin('user')">
+                            <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="partnerForm" role="tabpanel" aria-labelledby="partner-tab">
+                    <h5 style="font-size:15px;">Çözüm Ortaklarımıza Özel Giriş</h5>
+                    <br />
+
+                    <div id="partner-login-error" class="alert alert-danger d-none" role="alert"></div> <!-- Genel Hata Mesajı -->
+                    <div class="textbox">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="partner-username" placeholder="Kullanıcı Adı" name="" value="" style="font-size:15px;">
+                        <div id="partner-username-error" class="invalid-feedback position-absolute" style="top: 100%;"></div> <!-- Hata mesajı -->
+                    </div>
+                    <div class="textbox">
+                        <i class="fas fa-key"></i>
+                        <input type="password" placeholder="Şifre" id="partner-password" name="" value="" style="font-size:15px;">
+                        <div id="partner-password-error" class="invalid-feedback position-absolute" style="top: 100%;"></div> <!-- Hata mesajı -->
+
+                    </div>
+                    <br />
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            @*                                                         <a href="#" class="text-primary">Şifremi Unuttum</a>
+                        *@
+                            <a href="#" class="text-primary ms-3" id="openPartnerModal">Çözüm Ortaklarımıza Katıl </a>
+                        </div>
+                        <button class="btn btn-primary" onclick="validateAndLogin('partner')">
+                            <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="custom-login-container position-relative mobilScreen" id="mobilScreen">
+        <div>
+
+
+            <div class="custom-dropdown-login">
+                <button class="custom-dropdown-login-btn">
+                    <div style="text-wrap:nowrap;">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Giriş Yap
+                    </div>
+
+                    @* <i class=" custom-dropdown-arrow fa-solid fa-angle-down"></i> *@
+                </button>
+                <ul class="custom-dropdown-login-menu">
+                    <li><a href="#" class="custom-dropdown-login-item user-login-dropdown" id="user-login-dropdown">Çiftlerimize Özel</a></li>
+                    <li>
+                        <a href="#" class="custom-dropdown-login-item partner-login-dropdown" id="partner-login-dropdown">
+                            Çözüm Ortaklarımıza Özel
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+else
+{
+
+    <nav class="profile-navbar regularScreen" style="z-index:8;" id="regularProfileScreen">
+        <ul class="profile-navbar-list">
+
+@*             <li class="profile-navbar-item">
+                <a href="#" class="profile-link colorChangeAnimation" style="    font-size: 12px;">
+                    <i class="fas fa-comments colorChangeAnimationRing"></i>3 Yeni Yorumunuz Var!
+                </a>
+            </li> *@
+            <li class="profile-navbar-item">
+                <form action="/Hizmetler/ilanlarim" id="ilanlarForm" method="POST">
+                    <input type="hidden" name="userID" value="@Model.userID">
+                </form>
+                <a href="javascript:void(0);" onclick="document.getElementById('ilanlarForm').submit();" class="profile-link">
+                    <i class="fas fa-list-alt"></i> İlan Yönetimi
+                </a>
+
+
+            </li>
+            <li class="profile-navbar-item">
+                <a class="profile-link">
+                    <i class="fas fa-user"></i> Profil
+                </a>
+                <div class="dropdown-menu NavbarDropdown">
+                    <a href="/Account/MyProfile" class="dropdown-item">Profil Bilgilerim</a>
+                    <a onclick="logoutUser()" style="cursor:pointer" class="dropdown-item">Çıkış yap</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div>
+    </div>
+    <div class="custom-login-container position-relative mobilScreen" id="mobilScreen" style="    position: fixed !important; right: 15px;">
+        <div>
+            <li class="dropdown" style="z-index: 99999 !important;">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user collapse" style="position: absolute; z-index: 999999 !important; left: 0px !important;    margin-left: -70px;">
+                    <li>
+                        <a href="/Account/MyProfile"><i class="fa fa-user fa-fw"></i> Kullanıcı Bilgieri</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" onclick="document.getElementById('ilanlarForm').submit();" class="profile-link">
+                            <i class="fas fa-list-alt"></i> İlan Yönetimi
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a onclick="logoutUser()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+        </div>
+    </div>
+}

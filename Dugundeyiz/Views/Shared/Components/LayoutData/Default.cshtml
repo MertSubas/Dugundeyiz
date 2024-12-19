@@ -1,0 +1,148 @@
+﻿@model Dugundeyiz.ViewModels.LayoutviewModel
+
+<style>
+    /* Genel Ayarlar */
+    /* Genel Ayarlar */
+    .unique-container {
+        display: flex;
+        background-color: #f4f4f4; /* Arka plan rengini isteğe göre ayarla */
+        max-height: 400px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+    }
+
+    /* Sol taraf kategori listesi */
+    .unique-categories {
+        background-color: #ffffff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-right: 2px solid #e5e5e5;
+    }
+
+    .unique-category-list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        height: 100%;
+    }
+
+    .unique-category-item {
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+        margin: 0px !important;
+        display: flex !important;
+        height: 40px;
+        justify-content: flex-start !important;
+        padding-left: 19px !important;
+        align-items: center;
+    }
+
+        .unique-category-item::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px; /* Çizgi kalınlığı */
+            /* background-color: #c7b38b; Çizgi rengi */
+            background-color: black; /* Çizgi rengi */
+            transition: width 0.5s ease; /* Geçiş süresi */
+        }
+
+        .unique-category-item:hover {
+            transform: translateY(-5px);
+            transition: transform 0.5s ease; /* Yukarı gitme animasyonunu yavaşlat */
+        }
+
+            .unique-category-item:hover::after,
+            .unique-category-item:active::after {
+                width: 75%; /* Çizgi genişliği */
+            }
+
+        .unique-category-item a:hover {
+            /* color: #c7b38b; */
+            color: black;
+            /* font-size:19px; */
+        }
+
+        .unique-category-item:hover {
+            background-color: #ece4d4;
+            font-size: x-large;
+            font-weight: bold;
+        }
+
+    /* Sağ taraf kategori resmi */
+    .unique-image-display img {
+        max-width: 300px;
+        max-height: 300px;
+        padding: 25px;
+    }
+
+    .unique-image-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fafafa;
+        position: relative;
+        width: 550px;
+        height: 200px;
+    }
+
+    .unique-image {
+        max-width: 400px;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); */
+        display: none; /* Başlangıçta gizli */
+    }
+
+</style>
+<div id="submenu" class="submenuSpecial" style="display: none; position: absolute; z-index: 1000;min-width: fit-content;">
+    <div class="unique-container d-flex">
+        <!-- Sol taraf: Kategori Listesi -->
+        <div class="unique-categories ">
+            <ul class="unique-category-list">
+                @foreach (var category in Model.LayoutAltKategoriler)
+                {
+                    @* <li class="unique-category-item" data-image="@category.Image" style="color:black !important"> *@
+                    <li class="unique-category-item" style="color:black !important">
+                        <a class="service-href" style="color:black" href="/Hizmetler/@category.CategoryName">
+                            @category.CategoryName
+                        </a>
+
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- Sağ taraf: Kategori Resmi -->
+        @*         <div class="unique-image-display">
+        <img id="uniqueHoveredImage" src="" alt="Kategori Resmi" class="unique-image">
+        </div> *@
+    </div>
+
+
+</div>
+
+<script>
+    // document.querySelectorAll('.unique-category-item').forEach(item => {
+    //     item.addEventListener('mouseover', function () {
+    //         const imageUrl = this.getAttribute('data-image');
+    //         const hoveredImage = document.getElementById('uniqueHoveredImage');
+    //         hoveredImage.src = imageUrl;
+    //         hoveredImage.style.display = 'block'; // Resmi göster
+    //     });
+
+    //     item.addEventListener('mouseout', function () {
+    //         const hoveredImage = document.getElementById('uniqueHoveredImage');
+    //         hoveredImage.style.display = 'none'; // Resmi gizle
+    //     });
+    // });
+
+</script>

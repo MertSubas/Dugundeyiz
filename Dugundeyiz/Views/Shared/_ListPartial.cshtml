@@ -1,0 +1,148 @@
+﻿<div class="col-6 col-lg-4 g-mb-30 ProductContent">
+    <!-- Product -->
+    <div class="">
+        <figure class="g-pos-rel g-mb-20" style="padding-top: 15px;">
+            <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
+
+            @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
+            *@
+        </figure>
+
+        <div class="media">
+            <!-- Product Info -->
+            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
+                    Bu alan SİZİN İçin Ayrılmıştır
+                </h5>
+                <h6 class="d-inline-block g-color-gray-dark-v5 g-font-size-13" href="#"></h6>
+            </div>
+            <div class="d-flex flex-column">
+                <div class="h6 g-color-black mb-1">
+                </div>
+                @*                                             <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
+                <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span> *@
+                <div>
+                    <div class="price-style">
+                        @*    <p> Kapasite:</p>
+                        <div>
+                        <h4 style="">400-500</h4>
+
+                        </div> *@
+                    </div>
+                    <div class="price-style">
+                        @*   <p> Kişi Başı Fiyat:</p>
+                        <div>
+                        <h4 style="color:red">150 ₺</h4>
+                        <h5 style="text-decoration: line-through;font-size: 15px;    text-align: end;">
+                        150 ₺
+                        </h5>
+                        </div> *@
+                    </div>
+                    <div style="   padding-top: 70px; display: flex; justify-content: space-evenly;;">
+                        <span class="rating-text" style="font-size:18px">İlan vermek için tıklayınız</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Product Info -->
+        <!-- Products Icons -->
+        <ul class="list-inline media-body text-right">
+            <li class="list-inline-item align-middle mx-0">
+                <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
+                    <i class="icon-finance-100 u-line-icon-pro"></i>
+                </a>
+            </li>
+            <li class="list-inline-item align-middle mx-0">
+                <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
+                    <i class="icon-medical-022 u-line-icon-pro"></i>
+                </a>
+            </li>
+        </ul>
+        <!-- End Products Icons -->
+    </div>
+    <!-- End Product -->
+</div>
+ @foreach (var product in Model.Products)
+                    {
+                        <div class="col-6 col-lg-4 g-mb-30 ProductContent" onclick="window.location.href='@Url.Action("ProductPage", "Product", new { categoryName = "Gelinlik", productName=product.Name, productID=product.ProductID})'">
+                            <!-- Product -->
+                            <div class="">
+                                <figure class="g-pos-rel g-mb-20" style="padding-top: 15px;">
+                                    <img class="img-fluid" src="@product.Images" alt="@product.Name">
+
+                                    @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
+                                *@
+                                </figure>
+
+                                <div class="media">
+                                    <!-- Product Info -->
+                                    <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                                        <h4 class="u-link-v5 g-color-black g-color-primary--hover" href="#">
+                                            @product.Name
+                                        </h4>
+                                        <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                                            <h6 class="d-inline-block g-color-gray-dark-v5 g-font-size-13" style="padding-top: 5px;" href="#"><i class="fa-solid fa-location-dot"></i> @product.City</h6>
+                                            <span style="font-size:10px;">@product.District</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <div class="h6 g-color-black mb-1">
+                                        </div>
+                                        <div>
+                                            <div class="price-style">
+                                                <p> Kapasite:</p>
+                                                <div>
+                                                    <h4 style="">@product.Capacity</h4>
+
+                                                </div>
+                                            </div>
+
+                                            @if (product.CampaignPricePerPerson != null && product.CampaignPricePerPerson != 0)
+                                            {
+                                                <div class="price-style">
+                                                    <p> Kişi Başı Fiyat:</p>
+                                                    <div>
+                                                        <h4 style="color:red">@product.CampaignPricePerPerson ₺</h4>
+                                                        <h5 style="text-decoration: line-through;font-size: 15px;    text-align: end;">
+                                                            @product.PricePerPerson ₺
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="price-style" style="    padding-bottom: 26px;">
+                                                    <p> Kişi Başı Fiyat:</p>
+
+                                                    <div>
+                                                        <h4 style="color:red">@product.PricePerPerson ₺</h4>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        </div>
+                                        <div style="    padding-bottom: 15px;    padding-top: 20px;">
+                                            <div class="rating-box">8.9</div>
+                                            <span class="rating-text">Müthiş · 261 değerlendirme</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Product Info -->
+                                <!-- Products Icons -->
+                                <ul class="list-inline media-body text-right">
+                                    <li class="list-inline-item align-middle mx-0">
+                                        <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
+                                            <i class="icon-finance-100 u-line-icon-pro"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item align-middle mx-0">
+                                        <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
+                                            <i class="icon-medical-022 u-line-icon-pro"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- End Products Icons -->
+                            </div>
+                            <!-- End Product -->
+                        </div>
+                    }

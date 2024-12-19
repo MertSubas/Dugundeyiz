@@ -1,0 +1,403 @@
+﻿
+
+<style>
+    .ilan-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .video-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+        .video-section video {
+            width: 75%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+    .photo-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+        background-color: #8080803b;
+        border-radius: 10px;
+    }
+
+    .main-photo {
+        padding-top: 15px;
+    }
+
+        .main-photo img {
+            width: 100%;
+            max-height: 500px;
+            border-radius: 10px;
+        }
+
+    .thumbnail-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .thumbnail img {
+        width: 80px;
+        height: 60px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+
+        .thumbnail img:hover {
+            transform: scale(1.1);
+        }
+
+    .details-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-left: 20%;
+    }
+
+    .detail-item {
+        font-size: 16px;
+    }
+
+    .description {
+        font-size: 14px;
+        line-height: 1.6;
+        padding-left: 9%;
+    }
+
+    #mainImage {
+        transition: opacity 0.5s ease-in-out;
+        opacity: 1;
+    }
+
+    .fade {
+        opacity: 0;
+    }
+
+    .slide-out {
+        transform: translateX(-100%);
+    }
+
+    .slide-in {
+        transform: translateX(0);
+    }
+
+    .reply-section {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .card {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 5px 16px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .btn-primary {
+        border-radius: 20px;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+
+        .btn-primary:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+    .btn-danger {
+        border-radius: 20px;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+
+        .btn-danger:hover {
+            color: white;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 5px 16px rgba(0, 0, 0, 0.2) !important;
+        }
+
+    .btn-success {
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+
+    .textpart {
+        padding-bottom: 12px;
+    }
+
+    .namePart {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: -5px;
+    }
+
+    .advertisement-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        max-width: 600px;
+        margin: 20px auto;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 64%;
+    }
+
+    .advertisement-image img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .advertisement-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .advertisement-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 5px 0;
+    }
+
+    .advertisement-city,
+    .advertisement-district,
+    .advertisement-rating {
+        font-size: 14px;
+        color: #555;
+        margin: 3px 0;
+    }
+
+    .rating-box {
+        background-color: #0053b3; /* Mavi arka plan */
+        color: white; /* Beyaz yazı rengi */
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px; /* Kenarları yuvarlak */
+        display: inline-block; /* Yanına yazı gelsin diye inline-block */
+        font-size: 16px; /* Yazı boyutu */
+        max-width: 44px;
+    }
+
+</style>
+<div style="background-color:#ece4d4">
+    <div class="container">
+
+        <div class="ilan-container" style="padding-bottom:25px;">
+
+
+
+            <div class="details-section">
+                <h1 style="display: flex; justify-content: space-evenly; padding-bottom:20px;">
+                    İlan Başlığı
+                </h1>
+                <div class="video-section" style="margin-top:13px;margin-bottom:23px;">
+                    <video controls>
+                        <source src="rastgele-video.mp4" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                </div>
+
+
+                <div class="photo-section">
+                    <div class="main-photo">
+
+                        <img id="mainImage" src="@Model.PhotoList[0]" alt="İlan Fotoğrafı">
+                    </div>
+                    <div class="thumbnail-container">
+                        <!-- Fotoğraflar için sunucudan gelen verilerle dinamik döngü -->
+                        @foreach (var photo in @Model.PhotoList)
+                        {
+                            <div class="thumbnail" onclick="changeMainPhoto('@photo')">
+                                <img src="@photo" alt="Küçük Fotoğraf">
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="details">
+                    <div class="detail-item"><strong>Kişi Sayısı:</strong> 50</div>
+                    <div class="detail-item"><strong>Kişi Başı Fiyat:</strong> 200 TL</div>
+                    <div class="detail-item"><strong>Konum:</strong> İstanbul</div>
+                    <div class="detail-item"><strong>Kategorisi:</strong> Düğün</div>
+                    <div class="detail-item"><strong>Değerlendirme:</strong> 4.5/5</div>
+                    <div class="detail-item"><strong>İlan Veren:</strong> Düğün Organizasyon Firması</div>
+                    <div class="detail-item"><strong>İlan Tarihi:</strong> 1 Kasım 2024</div>
+                </div>
+                <div class="description">
+                    <h3>Açıklama</h3>
+                    <p>İlanın uzun açıklaması burada olacak. Detaylı bilgilere buradan ulaşabilirsiniz...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="" style="background-color: white;background-color: white; display: flex;margin: 20px;border-radius: 10px; padding: 15px; justify-content: space-evenly;">
+
+            <div class="col-lg-8 col-md-10" style="    background-color: white;">
+                <h5 style="text-align:center;padding-bottom:10px;">Yorumlar & Değerlendirmeler</h5>
+                <div class="mb-4" style="    padding-top: 10px;">
+                    <!-- Yorum Kartı -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Çok memnun kaldık</h5>
+                            <p class="card-text textpart">Merhaba hizmetinizden çok memnun kaldık herşey için teşekkürler.</p>
+                            <p class="card-text namePart"> İsim soyisim</p>
+                            <small class="text-muted">20.11.2024 14:30</small>
+                            <div class="text-end mt-2">
+                                <button class="btn btn-danger btn-sm rapor-btn" data-comment-id="2">
+                                    Şikayet Et
+                                </button>
+                                <button class="btn btn-primary btn-sm reply-btn" data-comment-id="2">
+                                    Cevapla
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yanıt Bölümü -->
+                    <div id="reply-section-2" class="reply-section mt-3" style="display:none;">
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="reply-title-2" class="form-label">Başlık</label>
+                                        <input type="text" id="reply-title-2" class="form-control" placeholder="Başlık giriniz">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reply-message-2" class="form-label">Mesaj</label>
+                                        <textarea id="reply-message-2" class="form-control" rows="3" placeholder="Mesajınızı yazın"></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-success" onclick="sendReply(2)">
+                                        Gönder
+                                    </button>
+                                    <button type="button" class="btn btn-secondary reply-cancel-btn">
+                                        İptal
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cevaplar -->
+                    <div class="card mt-2 ms-5">
+                        <div class="card-body">
+                            <h6 class="card-subtitle text-muted">Yine bekleriz</h6>
+                            <p class="card-text">Biz teşekkür ederiz Yine Bekleriz</p>
+                            <small class="text-muted">20.11.2024 14:31</small>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="mb-4" style="    padding-top: 10px;">
+                    <!-- Yorum Kartı -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Teşekkürler</h5>
+                            <p class="card-text textpart">Merhaba hizmetinizden çok memnun kaldım</p>
+                            <p class="card-text namePart"> İsim soyisim</p>
+                            <small class="text-muted">20.11.2024 14:30</small>
+                            <div class="text-end mt-2">
+                                <button class="btn btn-danger btn-sm" disabled="" data-comment-id="5">
+                                    Kontrol ediliyor
+                                </button>
+                                <button class="btn btn-primary btn-sm reply-btn" data-comment-id="5">
+                                    Cevapla
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yanıt Bölümü -->
+                    <div id="reply-section-5" class="reply-section mt-3" style="display:none;">
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="reply-title-5" class="form-label">Başlık</label>
+                                        <input type="text" id="reply-title-5" class="form-control" placeholder="Başlık giriniz">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reply-message-5" class="form-label">Mesaj</label>
+                                        <textarea id="reply-message-5" class="form-control" rows="3" placeholder="Mesajınızı yazın"></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-success" onclick="sendReply(5)">
+                                        Gönder
+                                    </button>
+                                    <button type="button" class="btn btn-secondary reply-cancel-btn">
+                                        İptal
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Cevaplar -->
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <div class="" style="background-color: white;background-color: white; display: flex;margin: 20px;border-radius: 10px; padding: 15px; justify-content: space-evenly;min-height:300px;">
+            <h5> Yol Tarifi ve Harita</h5>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Fotoğraf değişimi için otomatik geçiş
+    let currentIndex = 0;
+    const thumbnails = document.querySelectorAll('.thumbnail img');
+    const mainImage = document.getElementById('mainImage');
+
+    function changeMainPhoto(photo) {
+        // Fotoğrafı fade ile gizle
+        mainImage.classList.add('fade');
+
+        // Geçiş bitiminde yeni fotoğrafı ekle
+        setTimeout(() => {
+            mainImage.src = photo;
+            // Sadece fotoğraf değiştikten sonra animasyonu sıfırla
+            mainImage.classList.remove('fade');
+        }, 500); // 500ms sonra yeni fotoğrafı yükle
+    }
+
+    // Fotoğrafları döngü ile değiştir
+    setInterval(() => {
+        if (thumbnails.length > 0) {
+            currentIndex = (currentIndex + 1) % thumbnails.length;
+            changeMainPhoto(thumbnails[currentIndex].src);
+        }
+    }, 10000);
+
+
+
+</script>
