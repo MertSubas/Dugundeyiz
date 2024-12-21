@@ -41,27 +41,37 @@ public class AccountController : Controller
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                // AspNetUsers tablosuna ekleme işlemi yapıldı, şimdi kendi Users tablonuza ekleyin
-                var newUser = new User
+                var addRoleResult = await _userManager.AddToRoleAsync(user, "User");
+                if (addRoleResult.Succeeded)
                 {
-                    //UserID = user.Id, // Identity UserId'yi alın
-                    Name = model.Name, // Modelde bu bilgileri aldığınızı varsayıyorum
-                    //Surname = model.Surname,
-                    Email = model.Email,
-                    Phone = model.Phone,
-                    Role = Roles.User,
-                    Admin = false,
-                    IsApproved = true,
-                    CreatedDate = DateTime.Now
-                    //CreatedAt = DateTime.Now
-                };
+                    var newUser = new User
+                    {
+                        //UserID = user.Id, // Identity UserId'yi alın
+                        Name = model.Name, // Modelde bu bilgileri aldığınızı varsayıyorum
+                                           //Surname = model.Surname,
+                        Email = model.Email,
+                        Phone = model.Phone,
+                        Role = Roles.User,
+                        Admin = false,
+                        IsApproved = true,
+                        CreatedDate = DateTime.Now
+                        //CreatedAt = DateTime.Now
+                    };
 
-                _context.Users.Add(newUser);  // Kendi Users tablonuza ekleyin
-                await _context.SaveChangesAsync();  // Veritabanına kaydedin
+                    _context.Users.Add(newUser);  // Kendi Users tablonuza ekleyin
+                    await _context.SaveChangesAsync();  // Veritabanına kaydedin
 
-                // Kullanıcıyı oturum açtır
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Home"); // Redirect to home page after logging out
+                    // Kullanıcıyı oturum açtır
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home"); // Redirect to home page after logging out
+                }
+                else
+                {
+                    // Rol ekleme başarısız oldu
+                    // Hata mesajlarını işleyebilirsiniz
+                }
+                // AspNetUsers tablosuna ekleme işlemi yapıldı, şimdi kendi Users tablonuza ekleyin
+
             }
 
             foreach (var error in result.Errors)
@@ -74,78 +84,7 @@ public class AccountController : Controller
     }
     public async Task<IActionResult> RegisterPartner([FromBody] PartnerSignUpViewModel model) // Use [FromBody] to bind the data
     {
-        //if (ModelState.IsValid)
-        //{
-        //    if (model.Username != null)
-        //    {
-        //        var usernameCheck = await _userManager.FindByNameAsync(model.Username);
-        //        if (usernameCheck != null)
-        //        {
-        //            return Json(new { Type = 2, Message = "Bu Kullanıcı Adında Bir Üye Zaten Mevcut Lütfen Farklı Bir Kullanıcı Adı Belirleyin" });
-        //        }
 
-
-        //        var user = new AppUser { UserName = model.Username, Email = model.Email };
-        //        var result = await _userManager.CreateAsync(user, model.Password);
-        //        if (result.Succeeded)
-        //        {
-        //            // AspNetUsers tablosuna ekleme işlemi yapıldı, şimdi kendi Users tablonuza ekleyin
-        //            var newUser = new User
-        //            {
-        //                //UserID = user.Id, // Identity UserId'yi alın
-        //                Name = model.Name, // Modelde bu bilgileri aldığınızı varsayıyorum
-        //                Surname = model.Surname,
-        //                Email = model.Email,
-        //                Phone = model.Phone,
-        //                Role = Roles.Partner,
-        //                Admin = false,
-        //                IsApproved = false,
-        //                CreatedDate = DateTime.Now
-        //            };
-
-        //            _context.Users.Add(newUser);  // Kendi Users tablonuza ekleyin
-        //            await _context.SaveChangesAsync();  // Veritabanına kaydedin
-        //            var cityId = await _context.Citys.Where(x => x.CityName == model.City).Select(x => x.Id).FirstOrDefaultAsync();
-        //            var TownID = await _context.Towns.Where(x => x.TownName == model.District).Select(x => x.ID).FirstOrDefaultAsync();
-
-        //            var partner = new UserPartner
-        //            {
-        //                Adress = model.Address,
-        //                UserID = user.Id,
-        //                CompanyName = model.CompanyName,
-        //                City = cityId,
-        //                District = TownID,
-
-        //            };
-        //            _context.UserPartners.Add(partner);  // Kendi Users tablonuza ekleyin
-        //            await _context.SaveChangesAsync();  // Veritabanına kaydedin
-                    
-        //            var approvalToken = Guid.NewGuid().ToString();
-        //            var approval = new UserApproval
-        //            {
-        //                UserId = user.Id,
-        //                ApprovalToken = approvalToken,
-        //                ApprovalRequestedAt = DateTime.Now
-        //            };
-
-        //            _context.UserApprovals.Add(approval);
-        //            await _context.SaveChangesAsync();
-
-        //            var approvalLink = Url.Action("ApproveUser", "YonetimPaneli", new { token = approvalToken }, Request.Scheme);
-        //            await SendApprovalEmail(approvalLink, model.CompanyName, model.Phone);
-
-        //            // Kullanıcıyı oturum açtır
-        //            //await _signInManager.SignInAsync(user, isPersistent: false);
-        //            //return RedirectToAction("Index", "Home"); // Redirect to home page after logging out
-        //            return Ok();
-        //        }
-        //    }
-
-        //    //foreach (var error in result.Errors)
-        //    //{
-        //    //    ModelState.AddModelError(string.Empty, error.Description);
-        //    //}
-        //}
         if (ModelState.IsValid)
         {
             if (model.Username != null)
@@ -167,66 +106,74 @@ public class AccountController : Controller
 
                         if (result.Succeeded)
                         {
-                            // Kendi Users tablonuza ekleme
-                            var newUser = new User
+                            var addRoleResult = await _userManager.AddToRoleAsync(user, "Partner");
+                            if (addRoleResult.Succeeded)
                             {
-                                Name = model.Name,
-                                Surname = model.Surname,
-                                Email = model.Email,
-                                Phone = model.Phone,
-                                Role = Roles.Partner,
-                                Admin = false,
-                                IsApproved = false,
-                                CreatedDate = DateTime.Now
-                            };
+                                // Kendi Users tablonuza ekleme
+                                var newUser = new User
+                                {
+                                    Name = model.Name,
+                                    Surname = model.Surname,
+                                    Email = model.Email,
+                                    Phone = model.Phone,
+                                    Role = Roles.Partner,
+                                    Admin = false,
+                                    IsApproved = false,
+                                    CreatedDate = DateTime.Now
+                                };
 
-                            _context.Users.Add(newUser);
-                            await _context.SaveChangesAsync();
+                                _context.Users.Add(newUser);
+                                await _context.SaveChangesAsync();
 
-                            // Şehir ve İlçe bilgileri
-                            var cityId = await _context.Citys
-                                .Where(x => x.CityName == model.City)
-                                .Select(x => x.Id)
-                                .FirstOrDefaultAsync();
+                                // Şehir ve İlçe bilgileri
+                                var cityId = await _context.Citys
+                                    .Where(x => x.CityName == model.City)
+                                    .Select(x => x.Id)
+                                    .FirstOrDefaultAsync();
 
-                            var townId = await _context.Towns
-                                .Where(x => x.TownName == model.District)
-                                .Select(x => x.ID)
-                                .FirstOrDefaultAsync();
+                                var townId = await _context.Towns
+                                    .Where(x => x.TownName == model.District)
+                                    .Select(x => x.ID)
+                                    .FirstOrDefaultAsync();
 
-                            // Partner bilgileri ekleme
-                            var partner = new UserPartner
+                                // Partner bilgileri ekleme
+                                var partner = new UserPartner
+                                {
+                                    Adress = model.Address,
+                                    UserID = user.Id,
+                                    CompanyName = model.CompanyName,
+                                    City = cityId,
+                                    District = townId,
+                                };
+
+                                _context.UserPartners.Add(partner);
+                                await _context.SaveChangesAsync();
+
+                                // Kullanıcı onayı bilgisi ekleme
+                                var approvalToken = Guid.NewGuid().ToString();
+                                var approval = new UserApproval
+                                {
+                                    UserId = user.Id,
+                                    ApprovalToken = approvalToken,
+                                    ApprovalRequestedAt = DateTime.Now
+                                };
+
+                                _context.UserApprovals.Add(approval);
+                                await _context.SaveChangesAsync();
+
+                                // E-posta onayı gönderimi
+                                var approvalLink = Url.Action("PartnerOnay", "YonetimPaneli", new { token = approvalToken }, Request.Scheme);
+                                await SendApprovalEmail(approvalLink, model.Username, model.CompanyName, model.Phone);
+
+                                // Transaction başarılı, commit işlemi
+                                await transaction.CommitAsync();
+
+                                return Ok();
+                            }
+                            else
                             {
-                                Adress = model.Address,
-                                UserID = user.Id,
-                                CompanyName = model.CompanyName,
-                                City = cityId,
-                                District = townId,
-                            };
-
-                            _context.UserPartners.Add(partner);
-                            await _context.SaveChangesAsync();
-
-                            // Kullanıcı onayı bilgisi ekleme
-                            var approvalToken = Guid.NewGuid().ToString();
-                            var approval = new UserApproval
-                            {
-                                UserId = user.Id,
-                                ApprovalToken = approvalToken,
-                                ApprovalRequestedAt = DateTime.Now
-                            };
-
-                            _context.UserApprovals.Add(approval);
-                            await _context.SaveChangesAsync();
-
-                            // E-posta onayı gönderimi
-                            var approvalLink = Url.Action("PartnerOnay", "YonetimPaneli", new { token = approvalToken }, Request.Scheme);
-                            await SendApprovalEmail(approvalLink, model.Username, model.CompanyName, model.Phone);
-
-                            // Transaction başarılı, commit işlemi
-                            await transaction.CommitAsync();
-
-                            return Ok();
+                                await transaction.RollbackAsync();
+                            }
                         }
                         else
                         {
@@ -444,12 +391,12 @@ public class AccountController : Controller
     {
 
         string subject = "Yeni Üyelik Onayı";
-           string body = $"Yeni bir partner üyelik isteği var.\n\n" +
-               $"Kullanıcı Adı: {userName}\n" +
-               $"Firma Adı: {companyName}\n" +
-               $"Telefon Numarası: {phone}\n\n" +
-               $"Onaylamak için aşağıdaki linke tıklayın:\n{approvalLink}";
-        
+        string body = $"Yeni bir partner üyelik isteği var.\n\n" +
+            $"Kullanıcı Adı: {userName}\n" +
+            $"Firma Adı: {companyName}\n" +
+            $"Telefon Numarası: {phone}\n\n" +
+            $"Onaylamak için aşağıdaki linke tıklayın:\n{approvalLink}";
+
         //message.To.Add(adminEmail);
         string smtpServer = _configuration["SmtpSettings:Server"];
         int smtpPort = int.Parse(_configuration["SmtpSettings:Port"]);
@@ -482,8 +429,8 @@ public class AccountController : Controller
             }
         }
     }
-  
-    
+
+
 
 
 }

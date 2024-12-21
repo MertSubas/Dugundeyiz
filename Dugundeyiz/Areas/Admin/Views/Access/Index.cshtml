@@ -1,0 +1,60 @@
+﻿@{
+	// Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml"; // Kullandığınız layout dosyasının yolu
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link href="~/css/adminlogin.css" rel="stylesheet" />
+<div class="limiter">
+	<div class="container-login100">
+		<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+			<form class="login100-form validate-form flex-sb flex-w" style="    padding: 50px;">
+				<span class="login100-form-title p-b-32" style="padding-bottom: 35px;text-transform: none;">
+					Admin Giriş
+				</span>
+
+				<span class="txt1 p-b-11" style="text-transform: none;font-size:14px;">
+					Kullanıcı Adı
+				</span>
+				<div class="wrap-input100 validate-input m-b-36" data-validate="Username is required" style="margin-bottom: 25px;">
+					<input class="input100" type="text" name="username">
+					<span class="focus-input100"></span>
+				</div>
+
+				<span class="txt1 p-b-11" style="text-transform: none;font-size:14px;">
+					Şifre
+				</span>
+				<div class="wrap-input100 validate-input m-b-12" data-validate="Password is required" style="margin-bottom: 25px;">
+					<span class="btn-show-pass">
+						<i class="fa fa-eye"></i>
+					</span>
+					<input class="input100" type="password" name="pass">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="flex-sb-m w-full p-b-48" style="margin-bottom: 25px;">
+					@* 					<div class="contact100-form-checkbox">
+					<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+					<label class="label-checkbox100" for="ckb1">
+					Remember me
+					</label>
+					</div> *@
+					@*
+					<div>
+					<a href="#" class="txt3">
+					Şifremi unuttum
+					</a>
+					</div> *@
+				</div>
+
+				<div class="container-login100-form-btn" style="margin-bottom: 25px;">
+					<button class="login100-form-btn">
+						Giriş
+					</button>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<script src="~/js/adminlogin.js"></script>

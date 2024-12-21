@@ -13,6 +13,9 @@ namespace Dugundeyiz.Entity
         public bool Admin { get; set; }
         public Roles Role { get; set; }
         public bool Deleted { get; set; }
+        public bool? IsApproved { get; set; }
+        public DateTime? WeddingDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
    public  enum Roles
     {

@@ -1,0 +1,238 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayout.cshtml"; // Kullandığınız layout dosyasının yolu
+}
+
+<style>
+    .comment-panel {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .comment {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+    .comment-header, .comment-body, .comment-footer {
+        margin-bottom: 10px;
+    }
+
+        .comment-header p, .comment-body p, .comment-footer p {
+            margin: 5px 0;
+        }
+
+    .comment-footer {
+        color: #666;
+        font-size: 0.9em;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Kontrol Paneli</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">26</div>
+                        <div>Üye Sayısı</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Detaya Git</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-briefcase fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">12</div>
+                        <div>Partner Sayısı</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Detaya Git</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-file fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">124</div>
+                        <div>Toplam İlan</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Detaya Git</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-support fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">13</div>
+                        <div>Toplam Kategoriler</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Detaya Git</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-clock-o fa-fw"></i> Son Yorumlar
+
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="comment-panel">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <p><strong>İlan Numarası ve Adı:</strong> 12345 - Ürün İsmi</p>
+                            <p><strong>Ad Soyad:</strong> Mert Yılmaz</p>
+                            <p><strong>Verilen Puan:</strong> 4.5</p>
+                        </div>
+                        <div class="comment-body">
+                            <p><strong>Yorum İçeriği:</strong> Bu ürün gerçekten harika. Fiyatına göre performansı çok iyi. Tavsiye ederim!</p>
+                        </div>
+                        <div class="comment-footer">
+                            <p><strong>İletişim Numarası:</strong> 555-555-1234</p>
+                            <p><strong>Mail Adresi:</strong> mert@example.com</p>
+                            <p><strong>Tarih:</strong> 26 Eylül 2024</p>
+                        </div>
+                        <div class="mt-4" style="    display: flex; flex-direction: row-reverse;">
+                            <button type="submit" class="btn btn-danger">Yorumu Kaldır</button>
+                        </div>
+                    </div>
+
+                    <div class="comment">
+                        <div class="comment-header">
+                            <p><strong>İlan Numarası ve Adı:</strong> 54321 - Diğer Ürün</p>
+                            <p><strong>Ad Soyad:</strong> Ayşe Demir</p>
+                            <p><strong>Verilen Puan:</strong> 5.0</p>
+                        </div>
+                        <div class="comment-body">
+                            <p><strong>Yorum İçeriği:</strong> Ürün beklediğimden daha hızlı geldi. Çok memnun kaldım.</p>
+                        </div>
+                        <div class="comment-footer">
+                            <p><strong>İletişim Numarası:</strong> 555-555-9876</p>
+                            <p><strong>Mail Adresi:</strong> ayse@example.com</p>
+                            <p><strong>Tarih:</strong> 25 Eylül 2024</p>
+                        </div>
+                        <div class="mt-4" style="    display: flex; flex-direction: row-reverse;">
+                            <button type="submit" class="btn btn-danger">Yorumu Kaldır</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-8 -->
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-clock-o fa-fw"></i> Son Doldurulan İletişim Formlar
+
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="comment-panel">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <p><strong>Ad Soyad:</strong> Mert Yılmaz</p>
+                            <p><strong>Konu:</strong> Genel</p>
+                        </div>
+                        <div class="comment-body">
+                            <p><strong>Mesaj:</strong> Merhaba, xx.xx.xxxx tarihinde düğünüm var bütçem  xx TL...</p>
+                        </div>
+                        <div class="comment-footer">
+                            <p><strong>İletişim Numarası:</strong> 555-555-1234</p>
+                            <p><strong>Mail Adresi:</strong> mert@example.com</p>
+                            <p><strong>Tarih:</strong> 26 Eylül 2024</p>
+                        </div>
+                    </div>
+
+                    <div class="comment">
+                        <div class="comment-header">
+                            <p><strong>Ad Soyad:</strong> Mert Yılmaz</p>
+                            <p><strong>Konu:</strong> Gelinlikler</p>
+                        </div>
+                        <div class="comment-body">
+                            <p><strong>Mesaj:</strong> Gelinlik almak istiyorum</p>
+                        </div>
+                        <div class="comment-footer">
+                            <p><strong>İletişim Numarası:</strong> 555-555-9876</p>
+                            <p><strong>Mail Adresi:</strong> ayse@example.com</p>
+                            <p><strong>Tarih:</strong> 25 Eylül 2024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
