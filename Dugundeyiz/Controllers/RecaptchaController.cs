@@ -8,7 +8,7 @@ namespace Dugundeyiz.Controllers
     [ApiController]
     public class RecaptchaController : ControllerBase
     {
-        private const string RecaptchaSecret = "6Lfy4aQqAAAAAAjNvZ9lP_4yeF4K31do0dv8Zs7a"; // Gizli anahtar
+        private const string RecaptchaSecret = "secretKEY"; 
 
         [HttpPost("verify")]
         public async Task<IActionResult> Verify([FromBody] string token)
