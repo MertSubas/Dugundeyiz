@@ -2,14 +2,18 @@
 using Dugundeyiz.Entity.Interfaces;
 using Dugundeyiz.Identity;
 using Dugundeyiz.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace Dugundeyiz.Extensions
 {
     public static class DependencyExtensions
     {
-        public static void AddExtensins(this IServiceCollection services)
+
+        public static void AddExtensions(this IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepostory<>), typeof(GenericRepostory<>));
 
@@ -36,15 +40,27 @@ namespace Dugundeyiz.Extensions
                                                        //options.User.AllowedUserNameCharacters = "abcdefghijklmnoprstuvyzqw0123456789";  sadece bunlar kabul edilsin
                 options.User.RequireUniqueEmail = false; //e mail eşsisiz olmalı
                 options.Lockout.MaxFailedAccessAttempts = 3;  //3 yanlış denemeden sonra girişi altaki süre kadar durdur
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);  // üstteki sayı kadaryanlış girişten sonra 1 dk girişi engeller
-            }).AddEntityFrameworkStores<DugundeyizContext>();
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);  // üstteki sayı kadaryanlış girişten sonra 1 dk girişi engeller
+            }).AddEntityFrameworkStores<DugundeyizContext>().AddDefaultTokenProviders();
+
 
             services.ConfigureApplicationCookie(op =>
             {
-                op.LoginPath = new PathString("/Account/Login");   //giriş için sayfaya yönlendir
-                op.LogoutPath = new PathString("/Account/Logout"); //çıkış olursa sayfya yönlendir
-                op.ExpireTimeSpan = TimeSpan.FromMinutes(10); //cookie ömrü dk
-                                                              //op.AccessDeniedPath = new PathString("yetisi yok sayfası"); // yetkisi olmayinca yönlendirme
+                op.LoginPath = new PathString("/");   //giriş için sayfaya yönlendir
+                op.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = context =>
+                    {
+                        // Kullanıcı giriş yapmamışsa anasayfaya yönlendirme
+                        context.Response.Redirect("/");
+                        return Task.CompletedTask;
+                    }
+                };
+                //op.LogoutPath = new PathString("/Account/Logout"); //çıkış olursa sayfya yönlendir
+                op.ExpireTimeSpan = TimeSpan.FromMinutes(900); //cookie ömrü dk
+                                                               //op.AccessDeniedPath = new PathString("/Account/AccessDenied");
+                op.AccessDeniedPath = "/";
+                //op.AccessDeniedPath = new PathString("yetisi yok sayfası"); // yetkisi olmayinca yönlendirme
                 op.SlidingExpiration = true; //üsstteki 10 dk dolmadan tekar login olursa tekrar süreyi başa alır
                 op.Cookie = new CookieBuilder()
                 {
@@ -53,6 +69,13 @@ namespace Dugundeyiz.Extensions
 
                 };
 
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("PartnerPolicy", policy => policy.RequireRole("Partner"));
+                options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
             });
         }
     }

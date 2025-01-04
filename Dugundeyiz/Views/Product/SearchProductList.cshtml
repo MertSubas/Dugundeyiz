@@ -1,10 +1,11 @@
 ﻿@using Dugundeyiz.ViewModels
+@model ProductListPageViewModel
+
 @{
-    ViewData["Title"] = Model.ManName + " Çözüm Ortakları";
+    ViewData["Title"] = "Aranan Değer " + Model.ManName ;
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-@model ProductListPageViewModel
 
 <style>
     .price-style {
@@ -57,22 +58,22 @@
     }
     /* Deneme 1/*/
     /*
-                                                            .bordererss {
-                                                                       background-color: #fff; /* İçeriğin arka plan rengi *
-                                                    padding: 20px; /* İçerik ile kenarlar arası boşluk */
+                                                                .bordererss {
+                                                                           background-color: #fff; /* İçeriğin arka plan rengi *
+                                                        padding: 20px; /* İçerik ile kenarlar arası boşluk */
     box-shadow: inset 0 0px 16px 1px rgba(255, 255, 255, 0.8) !important;
     border-radius: 13px !important;
     }
 
     /* Deneme 2/*/
     /*     .bordererss {
-                                                                    background-color: #ffffff !important;
-                                                                    border-radius: 8px !important;
-                                                                    padding: 20px !important;
-                                                                    box-shadow: inset 0 0px 100px 42px rgb(0 0 0 / 80%) !important;
-                                                                    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-                                                                    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-                                                                } */
+                                                                        background-color: #ffffff !important;
+                                                                        border-radius: 8px !important;
+                                                                        padding: 20px !important;
+                                                                        box-shadow: inset 0 0px 100px 42px rgb(0 0 0 / 80%) !important;
+                                                                        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+                                                                        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+                                                                    } */
     /* Deneme 3/*/
     .bordererss {
         background-color: #f2f2f2 !important; /* Hafif açık gri */
@@ -265,31 +266,9 @@
     <a name="Gallery" class="wb_anchor" data-popup-processed="true"></a>
     <div class="wb_content wb-layout-vertical">
         <div id="a188dd9a221228037e290d8cfe47db18" class="wb_element wb_text_element" data-plugin="TextArea" style=" line-height: normal;margin-bottom:60px;padding-top:15px;">
-            @if (Model.Category != null)
-            {
-                @if (Model.Category.MainCategoryID == null)
-                {
-                    @if (Model.ManName == "Çiçekçiler")
-                    {
-                        <p class="wb-stl-normal" style="text-align: center;">Çiçek Seçiminiz İçin Çözüm Ortaklarımız</p>
 
-                    }
-                    else
-                    {
-                        <p class="wb-stl-normal" style="text-align: center;">@Model.ManName Seçiminiz İçin Çözüm Ortaklarımız</p>
-                    }
-                }
-                else
-                {
-                    <p class="wb-stl-normal" style="text-align: center;">@Model.ManName</p>
+                <p class="wb-stl-normal" style="text-align: center;">Aramanıza Göre Bulduğumuz İlanlar</p>
 
-                }
-            }
-            else
-            {
-                <p class="wb-stl-normal" style="text-align: center;">Bulunan İlanlar</p>
-
-            }
         </div>
         <div class="container" style="margin-bottom:55px">
             <div class="row">
@@ -690,14 +669,14 @@
             console.log("DateRangePicker yüklenemedi.");
             } *@
 
-            if (typeof $ !== 'undefined') {
+                if (typeof $ !== 'undefined') {
             console.log("jQuery yüklendi.");
         } else {
             console.log("jQuery yüklenemedi.");
         }
 
     @* $('input[name="daterange"]').daterangepicker(); *@
-        });
+            });
     $(document).ready(function () {
         $.ajax({
             url: "/api/Services/cities",
@@ -826,10 +805,11 @@
                 filters.yildizSayisi = $('#dropdownMenuButton1').text().trim();
             }
 
+            // AJAX isteği gönder
             var manName = "@Model.ManName";
 
             $.ajax({
-                url: '/hizmetler/' + manName + '/filter', // Dinamik URL
+                url: '/hizmetler/search/' + manName + '/filter', // Dinamik URL
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(filters),

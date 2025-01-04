@@ -64,7 +64,7 @@
 </div>
  @foreach (var product in Model.Products)
                     {
-                        <div class="col-6 col-lg-4 g-mb-30 ProductContent" onclick="window.location.href='@Url.Action("ProductPage", "Product", new { categoryName = "Gelinlik", productName=product.Name, productID=product.ProductID})'">
+                        <div class="col-6 col-lg-4 g-mb-30 ProductContent" onclick="window.location.href='@Url.Action("ProductPage", "Product", new { categoryName = product.CategoryName, productName=product.Name, productID=product.ProductID})'">
                             <!-- Product -->
                             <div class="">
                                 <figure class="g-pos-rel g-mb-20" style="padding-top: 15px;">

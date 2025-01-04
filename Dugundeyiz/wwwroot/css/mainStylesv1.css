@@ -28101,7 +28101,7 @@ iframe {
 
 .modal-content {
     margin: 38px;
-    max-height: 555px;
+    max-height: 90vh;
     overflow: auto;
 }
 

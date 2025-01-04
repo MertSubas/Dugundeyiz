@@ -50,62 +50,145 @@ namespace Dugundeyiz.Controllers
 
         }
 
+        [Route("Search")]
+        public IActionResult SearchProductList(string search)
+        {
+            search = search.ToLower(); // Arama değerini küçük harfe dönüştürerek karşılaştırma yapılır.
+
+            var productList = (from p in _context.Products
+                               where p.Deleted == false && p.Visibility != false
+                               join c in _context.Categories on p.CategoryID equals c.CategoryID
+                               join city in _context.Citys on p.City equals city.Id
+                               join town in _context.Towns on p.District equals town.ID
+                               where c.CategoryName.ToLower().Contains(search) || // Kategori adı eşleşiyor mu?
+                                     p.Name.ToLower().Contains(search) ||         // Ürün adı eşleşiyor mu?
+                                     city.CityName.ToLower().Contains(search) || // Şehir adı eşleşiyor mu?
+                                     town.TownName.ToLower().Contains(search)    // İlçe adı eşleşiyor mu?
+                               select new ProductMap
+                               {
+                                   ProductID = p.ProductID,
+                                   CategoryID = p.CategoryID,
+                                   Name = p.Name,
+                                   Capacity = p.Capacity,
+                                   CampaignPricePerPerson = p.CampaignPricePerPerson,
+                                   PricePerPerson = p.PricePerPerson,
+                                   Text = p.Text,
+                                   City = city.CityName,
+                                   District = town.TownName,
+                                   Images = p.Images,
+                                   OwnerUserID = p.OwnerUserID,
+                                   AproveByAdmin = p.AproveByAdmin,
+                                   Sorting = p.Sorting,
+                                   Deleted = p.Deleted ?? false,
+                                   Visibility = p.Visibility ?? false,
+                                   CategoryName = c.CategoryName
+                               }).Distinct(); // Aynı sonuçları teke düşür.
+
+            ProductListPageViewModel productListPageViewModel = new ProductListPageViewModel();
+            productListPageViewModel.Products = productList.ToList(); ;
+            productListPageViewModel.ManName=search;
+            productListPageViewModel.maxPrice = 1000;
+            productListPageViewModel.minPrice = 0;
+            if (productList.Count() >= 2)
+            {
+                var (maxPrice, minPrice) = _productService.GetMinMaxPrices(productList);
+                productListPageViewModel.maxPrice = maxPrice;
+                productListPageViewModel.minPrice = minPrice;
+            }
+            return View(productListPageViewModel);
+        }
+        [HttpPost]
+        [Route("search/{search}/filter")]
+        public IActionResult SearchFilter(string search, [FromBody] FilterModel filters)
+        {
+            //var category = _context.Categories.Where(x => x.CategoryName == categoryName && x.Deleted != true).FirstOrDefault();
+            //if (category != null) filters.categoryId = category.CategoryID;
+            search = search.ToLower(); // Arama değerini küçük harfe dönüştürerek karşılaştırma yapılır.
+
+            var query = (from p in _context.Products
+                               where p.Deleted == false && p.Visibility != false
+                               join c in _context.Categories on p.CategoryID equals c.CategoryID
+                               join city in _context.Citys on p.City equals city.Id
+                               join town in _context.Towns on p.District equals town.ID
+                               where c.CategoryName.ToLower().Contains(search) || // Kategori adı eşleşiyor mu?
+                                     p.Name.ToLower().Contains(search) ||         // Ürün adı eşleşiyor mu?
+                                     city.CityName.ToLower().Contains(search) || // Şehir adı eşleşiyor mu?
+                                     town.TownName.ToLower().Contains(search)    // İlçe adı eşleşiyor mu?
+                               select new ProductMap
+                               {
+                                   ProductID = p.ProductID,
+                                   CategoryID = p.CategoryID,
+                                   Name = p.Name,
+                                   Capacity = p.Capacity,
+                                   CampaignPricePerPerson = p.CampaignPricePerPerson,
+                                   PricePerPerson = p.PricePerPerson,
+                                   Text = p.Text,
+                                   City = city.CityName,
+                                   District = town.TownName,
+                                   Images = p.Images,
+                                   OwnerUserID = p.OwnerUserID,
+                                   AproveByAdmin = p.AproveByAdmin,
+                                   Sorting = p.Sorting,
+                                   Deleted = p.Deleted ?? false,
+                                   Visibility = p.Visibility ?? false,
+                                   CategoryName = c.CategoryName
+                               }).Distinct(); // Aynı sonuçları teke düşür.
+
+            if (!string.IsNullOrEmpty(filters.City) && filters.City != "Şehir")
+            {
+                query = query.Where(x => x.City == filters.City);
+            }
+
+            if (!string.IsNullOrEmpty(filters.District) && filters.District != "İlçe")
+            {
+                query = query.Where(x => x.District == filters.District);
+            }
+
+            if (filters.MaxPrice != null)
+            {
+                query = query.Where(x => x.PricePerPerson <= filters.MaxPrice ||
+                                         x.CampaignPricePerPerson <= filters.MaxPrice);
+            }
+
+            if (filters.MinPrice != null)
+            {
+                query = query.Where(x => x.PricePerPerson >= filters.MinPrice ||
+                                         x.CampaignPricePerPerson >= filters.MinPrice);
+            }
+            var productList = query.ToList();
+
+            var maxPrice = 9999;
+            var minPrice = 0;
+            //var filteredProducts = _productService.FilterProducts(filters);
+            if (productList.Count >= 2)
+            {
+                (maxPrice, minPrice) = _productService.GetMinMaxPrices(productList.AsQueryable());
+            }
+            ProductListPageViewModel productListPageViewModel = new ProductListPageViewModel();
+            productListPageViewModel.Products = productList;
+            productListPageViewModel.ManName = search;
+            //productListPageViewModel.Category = category;
+            productListPageViewModel.maxPrice = maxPrice;
+            productListPageViewModel.minPrice = minPrice;
+
+            ///kaldırılacak
+            //if (productListPageViewModel.Products.Count != 0)
+            //{
+            //    var addTo = productListPageViewModel.Products.ElementAt(0);
+            //    for (int i = 0; i <= 22; i++)
+            //    {
+            //        productListPageViewModel.Products.Add(addTo);
+
+            //    }
+            //}
+
+            return PartialView("_ListPartial", productListPageViewModel);
+        }
 
         [Route("{categoryName}")]
         public IActionResult ProductList(string categoryName)
         {
             var category = _context.Categories.Where(x => x.CategoryName == categoryName && x.Deleted != true).FirstOrDefault();
-            /*
-             var productsWithCategory = from p in _context.Products
-                                        where p.Deleted == false && p.Visibility != false
-                                        join c in _context.Categories on p.CategoryID equals c.CategoryID
-                                        join city in _context.Citys on p.City equals city.Id
-                                        join town in _context.Towns on p.District equals town.ID
-                                        select new ProductMap
-                                        {
-                                            ProductID = p.ProductID,
-                                            CategoryID = p.CategoryID,
-                                            Name = p.Name,
-                                            Capacity = p.Capacity,
-                                            CampaignPricePerPerson = p.CampaignPricePerPerson,
-                                            PricePerPerson = p.PricePerPerson,
-                                            Text = p.Text,
-                                            City = city.CityName,
-                                            District = town.TownName,
-                                            Images = p.Images,
-                                            OwnerUserID = p.OwnerUserID,
-                                            AproveByAdmin = p.AproveByAdmin,
-                                            Sorting = p.Sorting,
-                                            Deleted = p.Deleted ?? false,
-                                            Visibility = p.Visibility ?? false,
-                                            CategoryName = c.CategoryName // Assuming the category name is in the "Name" property of the Category table
-                                        };
-
-             ///kaldırılacak
-             ///
-
-
-
-             var maxPricePerPerson = productsWithCategory.Max(x => x.PricePerPerson ?? 0);
-             var maxCampaignPricePerPerson = productsWithCategory.Max(x => x.CampaignPricePerPerson ?? 0);
-
-             var maxPrice = Math.Max(maxPricePerPerson, maxCampaignPricePerPerson);
-
-             var minPricePerPerson = productsWithCategory
-                 .Where(x => x.PricePerPerson != null && x.PricePerPerson > 0)
-                 .Min(x => x.PricePerPerson.Value);
-
-             var minCampaignPricePerPerson = productsWithCategory
-                 .Where(x => x.CampaignPricePerPerson != null && x.CampaignPricePerPerson > 0)
-                 .Min(x => x.CampaignPricePerPerson.Value);
-
-             var minPrice = Math.Min(minPricePerPerson, minCampaignPricePerPerson);
-
-
-
-             Console.WriteLine($"Max Price: {maxPrice}");
-             Console.WriteLine($"Min Price: {minPrice}");
-             */
 
             var productsWithCategory = _productService.GetProductsWithCategory(categoryName);
 
@@ -114,7 +197,8 @@ namespace Dugundeyiz.Controllers
             productListPageViewModel.Products = productsWithCategory.ToList(); ;
             productListPageViewModel.ManName = categoryName;
             productListPageViewModel.Category = category;
-
+            productListPageViewModel.maxPrice = 1000;
+            productListPageViewModel.minPrice = 0;
 
             if (productsWithCategory.Count() >= 2)
             {
@@ -123,87 +207,17 @@ namespace Dugundeyiz.Controllers
                 productListPageViewModel.minPrice = minPrice;
             }
 
-            if (productListPageViewModel.Products.Count != 0)
-            {
-                var addTo = productListPageViewModel.Products.ElementAt(0);
-                for (int i = 0; i <= 22; i++)
-                {
-                    productListPageViewModel.Products.Add(addTo);
-
-                }
-            }
-
-
 
             return View(productListPageViewModel);
         }
 
         [HttpPost]
         [Route("{categoryName}/filter")]
-        public IActionResult Filter([FromBody] FilterModel filters)
+        public IActionResult Filter(string categoryName,[FromBody] FilterModel filters)
         {
-            var category = _context.Categories.Where(x => x.CategoryName == "Gelinlik" && x.Deleted != true).FirstOrDefault();
+            var category = _context.Categories.Where(x => x.CategoryName == categoryName && x.Deleted != true).FirstOrDefault();
+           if(category!=null) filters.categoryId = category.CategoryID;
 
-            /*
-            var query = _context.Products
-    .Where(p => p.Deleted == false && p.Visibility != false)
-    .Join(_context.Categories,
-          p => p.CategoryID,
-          c => c.CategoryID,
-          (p, c) => new { Product = p, Category = c })
-    .Join(_context.Citys,
-          pc => pc.Product.City,
-          city => city.Id,
-          (pc, city) => new { pc.Product, pc.Category, City = city })
-    .Join(_context.Towns,
-          pcCity => pcCity.Product.District,
-          town => town.ID,
-          (pcCity, town) => new { pcCity.Product, pcCity.Category, pcCity.City, Town = town });
-
-            if (!string.IsNullOrEmpty(filters.City) && filters.City != "Şehir")
-            {
-                query = query.Where(x => x.City.CityName == filters.City);
-            }
-
-            if (!string.IsNullOrEmpty(filters.District) && filters.District != "İlçe")
-            {
-                query = query.Where(x => x.Town.TownName == filters.District);
-            }
-
-            if (filters.MaxPrice != null)
-            {
-                query = query.Where(x => x.Product.PricePerPerson <= filters.MaxPrice ||
-                                         x.Product.CampaignPricePerPerson <= filters.MaxPrice);
-            }
-
-            if (filters.MinPrice != null)
-            {
-                query = query.Where(x => x.Product.PricePerPerson >= filters.MinPrice ||
-                                         x.Product.CampaignPricePerPerson >= filters.MinPrice);
-            }
-
-            var productsWithCategory = query.Select(x => new ProductMap
-            {
-                ProductID = x.Product.ProductID,
-                CategoryID = x.Category.CategoryID,
-                Name = x.Product.Name,
-                Capacity = x.Product.Capacity,
-                PricePerPerson = x.Product.PricePerPerson,
-                CampaignPricePerPerson = x.Product.CampaignPricePerPerson,
-                Text = x.Product.Text,
-                City = x.City.CityName,
-                District = x.Town.TownName,
-                Images = x.Product.Images,
-                OwnerUserID = x.Product.OwnerUserID,
-                AproveByAdmin = x.Product.AproveByAdmin,
-                Sorting = x.Product.Sorting,
-                Deleted = x.Product.Deleted ?? false,
-                Visibility = x.Product.Visibility ?? false,
-                CategoryName = x.Category.CategoryName
-            }).ToList();
-
-
-            */
             var maxPrice = 9999;
             var minPrice = 0;
             var filteredProducts = _productService.FilterProducts(filters);
@@ -213,21 +227,21 @@ namespace Dugundeyiz.Controllers
             }
             ProductListPageViewModel productListPageViewModel = new ProductListPageViewModel();
             productListPageViewModel.Products = filteredProducts;
-            productListPageViewModel.ManName = "Gelinlik";
+            productListPageViewModel.ManName = category.CategoryName;
             productListPageViewModel.Category = category;
             productListPageViewModel.maxPrice = maxPrice;
             productListPageViewModel.minPrice = minPrice;
 
             ///kaldırılacak
-            if (productListPageViewModel.Products.Count != 0)
-            {
-                var addTo = productListPageViewModel.Products.ElementAt(0);
-                for (int i = 0; i <= 22; i++)
-                {
-                    productListPageViewModel.Products.Add(addTo);
+            //if (productListPageViewModel.Products.Count != 0)
+            //{
+            //    var addTo = productListPageViewModel.Products.ElementAt(0);
+            //    for (int i = 0; i <= 22; i++)
+            //    {
+            //        productListPageViewModel.Products.Add(addTo);
 
-                }
-            }
+            //    }
+            //}
 
             return PartialView("_ListPartial", productListPageViewModel);
         }
@@ -256,29 +270,46 @@ namespace Dugundeyiz.Controllers
         [Route("{categoryName}/{productName}/{productID}")]
         public IActionResult ProductPage(string categoryName, string productName, int productID)
         {
-            var productData = _context.Products.Where(x => x.ProductID == productID).FirstOrDefault();
+            var productData = from p in _context.Products
+                              where p.Deleted == false && p.Visibility != false && p.ProductID == productID
+                              join c in _context.Categories on p.CategoryID equals c.CategoryID
+                              join city in _context.Citys on p.City equals city.Id
+                              join town in _context.Towns on p.District equals town.ID
+                              select new ProductMap
+                              {
+                                  ProductID = p.ProductID,
+                                  CategoryID = p.CategoryID,
+                                  Name = p.Name,
+                                  Capacity = p.Capacity,
+                                  Video = p.Video,
+                                  PricePerPerson = p.PricePerPerson,
+                                  Text = p.Text,
+                                  City = city.CityName,
+                                  District = town.TownName,
+                                  Images = p.Images,
+                                  OwnerUserID = p.OwnerUserID,
+                                  CategoryName = c.CategoryName // Assuming the category name is in the "Name" property of the Category table
+                              };
+
+
+
+
+            ProductPageViewModel productToSend = new ProductPageViewModel();
+
+            //var productData = _context.Products.Where(x => x.ProductID == productID).FirstOrDefault();
             if (productData != null)
             {
-                List<string> PhotoList = new List<string>();
-                PhotoList.Add("/CategoryImages/category_2_bcfb6725-970c-41a9-822d-2e9baf0221e1.png");
-                PhotoList.Add("/CategoryImages/category_17_c110a6b0-4879-48ae-aa29-9488a1c6b463.png");
-                PhotoList.Add("/CategoryImages/category_2_bcfb6725-970c-41a9-822d-2e9baf0221e1.png");
-                PhotoList.Add("/CategoryImages/category_17_c110a6b0-4879-48ae-aa29-9488a1c6b463.png");
-                PhotoList.Add("/CategoryImages/category_2_bcfb6725-970c-41a9-822d-2e9baf0221e1.png");
-                PhotoList.Add("/CategoryImages/category_17_c110a6b0-4879-48ae-aa29-9488a1c6b463.png");
-                PhotoList.Add("/CategoryImages/category_2_bcfb6725-970c-41a9-822d-2e9baf0221e1.png");
-                PhotoList.Add("/CategoryImages/category_17_c110a6b0-4879-48ae-aa29-9488a1c6b463.png");
-                PhotoList.Add("/CategoryImages/category_2_bcfb6725-970c-41a9-822d-2e9baf0221e1.png");
-                PhotoList.Add("/CategoryImages/category_17_c110a6b0-4879-48ae-aa29-9488a1c6b463.png");
-                PhotoList.Add("/CategoryImages/category_2_bcfb6725-970c-41a9-822d-2e9baf0221e1.png");
-                ProductPageViewModel productToSend = new ProductPageViewModel();
-                productToSend.Product = productData;
-                productToSend.PhotoList = PhotoList;
-                return View(productToSend);
-
+                productToSend.Product = productData.FirstOrDefault();
+                productToSend.Company = _context.UserPartners.Where(x => x.UserID == productToSend.Product.OwnerUserID).FirstOrDefault().CompanyName;
+                var productPhotos = _context.ProductPhotos.Where(x => x.ProductID == productToSend.Product.ProductID).ToList();
+                if (productPhotos != null)
+                {
+                    productToSend.PhotoList = productPhotos;
+                }
             }
 
-            return View();
+            return View(productToSend);
+
 
         }
 
@@ -294,24 +325,17 @@ namespace Dugundeyiz.Controllers
         public async Task<IActionResult> MyProducts(int userId)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            int ownerUserID;
             if (user == null)
             {
                 return Ok();
             }
-            if (userId != null && userId != 0)
-            {
-                if (userId != user.Id)
-                {
-                    return Ok();
-                }
 
-            }
-            else
-            {
-                userId = user.Id;
-            }
+            ownerUserID = _context.Users.Where(x => x.IdentityID == user.Id).FirstOrDefault().UserID;
+
+
             var productsWithCategory = from p in _context.Products
-                                       where p.Deleted == false && p.OwnerUserID == userId
+                                       where p.Deleted == false && p.OwnerUserID == ownerUserID
                                        join c in _context.Categories on p.CategoryID equals c.CategoryID
                                        join city in _context.Citys on p.City equals city.Id
                                        join town in _context.Towns on p.District equals town.ID
@@ -417,7 +441,9 @@ namespace Dugundeyiz.Controllers
         public async Task<IActionResult> ProductComment(int ilanId)
         {
             var loggedUser = await _userManager.GetUserAsync(HttpContext.User);
-            var productData = _context.Products.Where(x => x.OwnerUserID == loggedUser.Id && x.ProductID == ilanId).FirstOrDefault();
+            int ownerUserID = _context.Users.Where(x => x.IdentityID == loggedUser.Id).FirstOrDefault().UserID;
+
+            var productData = _context.Products.Where(x => x.OwnerUserID == ownerUserID && x.ProductID == ilanId).FirstOrDefault();
 
             var data = (from comment in _context.Comments
                         join user in _context.Users
@@ -463,6 +489,8 @@ namespace Dugundeyiz.Controllers
 
                 // Verileri işleme
                 var loggedUser = await _userManager.GetUserAsync(HttpContext.User);
+                int ownerUserID = _context.Users.Where(x => x.IdentityID == loggedUser.Id).FirstOrDefault().UserID;
+
                 Product newProduct = new Product();
                 newProduct.CategoryID = product.Category;
                 newProduct.Name = product.Title;
@@ -472,16 +500,16 @@ namespace Dugundeyiz.Controllers
                 newProduct.Deleted = false;
                 newProduct.Visibility = true;
                 newProduct.AproveByAdmin = 1;
-                newProduct.OwnerUserID = loggedUser.Id;
+                newProduct.OwnerUserID = ownerUserID;
                 var cityId = await _context.Citys.Where(x => x.CityName == product.City).Select(x => x.Id).FirstOrDefaultAsync();
                 var TownID = await _context.Towns.Where(x => x.TownName == product.District).Select(x => x.ID).FirstOrDefaultAsync();
                 newProduct.City = cityId;
                 newProduct.District = TownID;
-                if(product.DeliveryTime != null || product.DeliveryTime != "")
+                if (product.DeliveryTime != null || product.DeliveryTime != "")
                 {
-                    newProduct.DeliveryTime=product.DeliveryTime;
+                    newProduct.DeliveryTime = product.DeliveryTime;
                 }
-                if (product.Features != null )
+                if (product.Features != null)
                 {
                     newProduct.Features = string.Join(",", product.Features);
                 }
@@ -564,7 +592,7 @@ namespace Dugundeyiz.Controllers
                     // Fotoğraf yoksa sadece ürünü ekliyoruz
                     _context.Products.Add(newProduct);
                     await _context.SaveChangesAsync();
-                    return Ok(new { Message = "İlan başarıyla eklendi.",IlanID = newProduct.ProductID });
+                    return Ok(new { Message = "İlan başarıyla eklendi.", IlanID = newProduct.ProductID });
                 }
 
             }

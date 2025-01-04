@@ -29,6 +29,7 @@
                     <h5 style="font-size:15px;">Üyelerimize Özel Giriş</h5>
                     <br />
                     <div id="user-login-error" class="alert alert-danger d-none" role="alert"></div> <!-- Genel Hata Mesajı -->
+                    <form onsubmit="validateAndLogin('user'); return false;">
 
                     <div class="textbox">
                         <i class="fas fa-user"></i>
@@ -49,10 +50,11 @@
                         *@
                             <a href="#" class="text-primary ms-3" id="openCustomerModal">Üye Ol</a>
                         </div>
-                        <button class="btn btn-primary" onclick="validateAndLogin('user')">
+                        <button class="btn btn-primary" type="submit">
                             <i class="fas fa-sign-in-alt"></i> Giriş Yap
                         </button>
                     </div>
+                    </form>
                 </div>
 
                 <div class="tab-pane fade" id="partnerForm" role="tabpanel" aria-labelledby="partner-tab">
@@ -60,6 +62,8 @@
                     <br />
 
                     <div id="partner-login-error" class="alert alert-danger d-none" role="alert"></div> <!-- Genel Hata Mesajı -->
+                    <form onsubmit="validateAndLogin('partner'); return false;">
+
                     <div class="textbox">
                         <i class="fas fa-user"></i>
                         <input type="text" id="partner-username" placeholder="Kullanıcı Adı" name="" value="" style="font-size:15px;">
@@ -72,6 +76,7 @@
 
                     </div>
                     <br />
+                        <div class="g-recaptcha d-none" id="partner-captcha" data-sitekey="6Lfy4aQqAAAAADwBzSOCyD7EkdZNOgWuYYon86tx" style="margin-bottom: 10px;"></div>
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
@@ -79,10 +84,12 @@
                         *@
                             <a href="#" class="text-primary ms-3" id="openPartnerModal">Çözüm Ortaklarımıza Katıl </a>
                         </div>
-                        <button class="btn btn-primary" onclick="validateAndLogin('partner')">
+                        <button class="btn btn-primary" type="submit">
                             <i class="fas fa-sign-in-alt"></i> Giriş Yap
                         </button>
                     </div>
+                    </form>
+
                 </div>
 
 
@@ -137,19 +144,19 @@ else
                 <form action="/Hizmetler/ilanlarim" id="ilanlarForm" method="POST">
                     <input type="hidden" name="userID" value="@Model.userID">
                 </form>
-                <a href="javascript:void(0);" onclick="document.getElementById('ilanlarForm').submit();" class="profile-link">
+                <a href="javascript:void(0);" onclick="document.getElementById('ilanlarForm').submit();" class="profile-link" style="font-size:12px;">
                     <i class="fas fa-list-alt"></i> İlan Yönetimi
                 </a>
 
 
             </li>
             <li class="profile-navbar-item">
-                <a class="profile-link">
+                <a class="profile-link" style="font-size:12px;">
                     <i class="fas fa-user"></i> Profil
                 </a>
-                <div class="dropdown-menu NavbarDropdown">
-                    <a href="/Account/MyProfile" class="dropdown-item">Profil Bilgilerim</a>
-                    <a onclick="logoutUser()" style="cursor:pointer" class="dropdown-item">Çıkış yap</a>
+                <div class="dropdown-menu NavbarDropdown" style="margin-top: 0px;">
+                    <a href="/Account/MyProfile" class="dropdown-item" style="font-size:11px;">Profil Bilgilerim</a>
+                    <a onclick="logoutUser()" style="cursor:pointer;font-size:11px;" class="dropdown-item">Çıkış yap</a>
                 </div>
             </li>
         </ul>

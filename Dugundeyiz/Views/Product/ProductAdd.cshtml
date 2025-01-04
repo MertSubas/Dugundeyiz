@@ -105,11 +105,11 @@
                         <input type="text" class="form-control" id="title" placeholder="İlan başlığını girin" required>
                     </div>
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-3" id="capacityDiv">
                     <!-- Kapasite -->
                     <div class="mb-3">
                         <label for="capacity" class="form-label">Kapasite</label>
-                        <input type="text" class="form-control" id="capacity" placeholder="Maksimum kapasite" required>
+                        <input type="text" class="form-control" id="capacity" placeholder="Maksimum kapasite" >
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <div class="mb-3">
-                        <label for="price" class="form-label">Kişi Başı Fiyat</label>
+                        <label for="price" id="priceLabel" class="form-label">Kişi Başı Fiyat</label>
                         <input type="text" class="form-control" id="price" placeholder="Fiyat girin (₺)" required>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
 
             <!-- Video Ekleme -->
             <div class="row">
-                <div class="mb-3">
+                <div class=" col-md-12 mb-3">
                     <label for="video" class="form-label">
                         Video Ekleme
                         <span class="tooltip-icon" data-bs-toggle="tooltip" title="Max 40mb">
@@ -141,7 +141,7 @@
 
             <!-- Fotoğraf Ekleme -->
             <div class="row">
-                <div class="mb-3">
+                <div class=" col-md-12 mb-3">
                     <label for="photos" class="form-label">
                         Fotoğraf Ekleme
                         <span class="tooltip-icon" data-bs-toggle="tooltip" title="En fazla 10 fotoğraf yükleyebilirsiniz.">
@@ -156,7 +156,7 @@
 
             <!-- Kapak Fotoğrafı -->
             <div class="row">
-                <div class="mb-3">
+                <div class=" col-md-12 mb-3">
                     <label for="coverPhoto" class="form-label">Kapak Fotoğrafı</label>
                     <input type="file" class="form-control" id="coverPhoto" accept="image/*">
                 </div>
@@ -179,8 +179,8 @@
                 <div class="col-md-6 mb-3">
 
                     <div class="mb-3">
-                        <label class="form-label">İlan Sahibi</label>
-                        <input type="text" class="form-control" value="Mevcut Kullanıcı" disabled>
+                        <label class="form-label">İlan Sahibi Firma</label>
+                        <input type="text" class="form-control" value="Giriş Yapılan Çözüm Ortağımız Otomatik Olarak Tanımlanır" disabled>
                     </div>
                 </div>
             </div>
@@ -206,16 +206,14 @@
                     </div>
                 </div>
             </div>
-
-
-
+            <div class="row">
 
             <!-- İlan Açıklaması -->
-            <div class="mb-3">
+            <div class=" col-md-12 mb-3">
                 <label for="description" class="form-label">İlan Açıklaması</label>
                 <textarea class="form-control" id="description" rows="4" placeholder="Açıklama yazın..." required></textarea>
             </div>
-            <div class="mb-3 " id="gelinlikMulti" style="display:none">
+            <div class="  col-md-12 mb-3 " id="gelinlikMulti" style="display:none">
                 <label for="Features">Özellikler</label>
                 <select id="FeaturesGelinlik" name="fruits" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
                     <option value="Kişiye Özel Dikim">Kişiye Özel Dikim</option>
@@ -225,7 +223,7 @@
                     <option value="Tesettür">Tesettür</option>
                 </select>
             </div>
-            <div class="mb-3 " id="damatlikMulti" style="display:none">
+            <div class="col-md-12 mb-3 " id="damatlikMulti" style="display:none">
                 <label for="Features">Özellikler</label>
                 <select id="FeaturesDamatlik" name="damatlik" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
                     <option value="Kiralama">Kiralama</option>
@@ -235,7 +233,7 @@
                     <option value="Kişiye Özel Dikim">Kişiye Özel Dikim</option>
                 </select>
             </div>
-            <div class="mb-3 " id="cicekciMulti" style="display:none">
+            <div class="col-md-12 mb-3 " id="cicekciMulti" style="display:none">
                 <label for="Features">Özellikler</label>
                 <select id="FeaturesCicekci" name="damatlik" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
                     <option value="Canlı Çiçek">Canlı Çiçek</option>
@@ -250,12 +248,12 @@
 
                 </select>
             </div>
-            <div id="deliveryTimeDiv" class="mb-3" style="display:none">
+            <div id="deliveryTimeDiv" class="col-md-12 mb-3" style="display:none">
                 <label for="deliveryTime" class="form-label">Teslimat Süresi</label>
                 <input type="text" class="form-control" id="deliveryTime" placeholder="Teslimat Süresi (Örn: 3 veya 4 - 9)">
             </div>
 
-            <div id="davetAlaniDiv" class="mb-3" style="display:none">
+            <div id="davetAlaniDiv" class="col-md-12 mb-3" style="display:none">
                 <label for="davetAlani" class="form-label">Davet Alanı</label>
                 <select class="form-select dropdown-toggle" id="davetAlani" style="max-height:350ğx;overflow:auto">
                     <option value="1">Açık Alan</option> <!-- İlk başta bir boş seçenek ekleyebilirsiniz -->
@@ -264,7 +262,7 @@
 
                 </select>
             </div>
-            <div class="mb-3 " id="dugunFizikselMulti" style="display:none">
+            <div class="col-md-12 mb-3 " id="dugunFizikselMulti" style="display:none">
                 <label for="FeaturesDugunFiziksel">Özellikler</label>
                 <select id="FeaturesDugunFiziksel" name="damatlik" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
                     <option value="Bahçe">Bahçe</option>
@@ -276,7 +274,7 @@
                     <option value="Teras">Teras</option>
                 </select>
             </div>
-            <div class="mb-3 " id="dugunViewMulti" style="display:none">
+            <div class="col-md-12 mb-3 " id="dugunViewMulti" style="display:none">
                 <label for="FeaturesDugunView">Manzara Özellikleri</label>
                 <select id="FeaturesDugunView" name="damatlik" data-placeholder="Özellikler Seçiniz" multiple data-multi-select>
                     <option value="Ada manzaralı">Ada Manzaralı</option>
@@ -286,6 +284,9 @@
                     <option value="Doğa Manzaralı">Doğa Manzaralı</option>
                 </select>
             </div>
+
+            </div>
+
             <!-- Öne Çıkarma Önerileri -->
             <div class="accordion mb-3" id="suggestions">
                 <div class="accordion-item">
@@ -310,7 +311,7 @@
             <!-- Kaydet Butonu -->
             <div style="    text-align: center;">
 
-                <button class="btn btn-primary" id="submitButton" style="font-size: 15px;font-weight: 700; height: 50px;width: 150px;">
+                <button class="btn btn-primary" type="submit"  style="font-size: 15px;font-weight: 700; height: 50px;width: 150px;">
                     Yeni İlan Ekle
                 </button>
             </div>
@@ -749,12 +750,19 @@
             removeMultiSelects();
             document.getElementById('deliveryTimeDiv').style.display = "block";
             document.getElementById('gelinlikMulti').style.display = "block";
+            document.getElementById('capacityDiv').style.display = "none";
+            document.getElementById('priceLabel').innerText="Fiyat";
+
 
         } else if (selectedValue === "2") {
             //damatlik
             removeMultiSelects();
             document.getElementById('deliveryTimeDiv').style.display = "block";
-            document.getElementById('damatlikMulti').style.display = "block"
+            document.getElementById('damatlikMulti').style.display = "block";
+            document.getElementById('capacityDiv').style.display = "none";
+            document.getElementById('priceLabel').innerText = "Fiyat";
+
+
 
 
         } else if (selectedValue === "22" ||
@@ -779,6 +787,10 @@
             removeMultiSelects();
             document.getElementById('deliveryTimeDiv').style.display = "block";
             document.getElementById('cicekciMulti').style.display = "block";
+            document.getElementById('capacityDiv').style.display = "none";
+            document.getElementById('priceLabel').innerText = "Fiyat";
+
+
 
 
        
@@ -800,6 +812,9 @@
         document.getElementById('davetAlaniDiv').style.display = "none";
         document.getElementById('dugunViewMulti').style.display = "none";
         document.getElementById('dugunFizikselMulti').style.display = "none";
+        document.getElementById('capacityDiv').style.display = "block";
+        document.getElementById('priceLabel').innerText = "Kişi Başı Fiyat";
+
 
     }
     var multiselectGelinlik = new MultiSelect('#FeaturesGelinlik', {

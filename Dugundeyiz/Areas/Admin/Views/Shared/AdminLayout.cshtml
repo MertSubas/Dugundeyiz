@@ -13,7 +13,7 @@
     <!-- Bootstrap 3.3.7 JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="~/css/adminlayout.css" rel="stylesheet" />
     @RenderSection("Scripts", required: false)
     <style>
@@ -277,16 +277,16 @@
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> Website Seçenekleri<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li>
-                                    <a href="#">Hakkında Değiştir</a>
+                                    <a href="#">Hakkında</a>
                                 </li>
                                 <li>
-                                    <a href="#">İletişim Değiştir</a>
+                                    <a href="#">İletişim</a>
                                 </li>
                                 <li>
-                                    <a href="#">Kampanyalar Değiştir</a>
+                                    <a href="#">Kampanyalar</a>
                                 </li>
                                 <li>
-                                    <a href="#">Nedimeniz Değiştir</a>
+                                    <a href="#">Nedimeniz</a>
                                 </li>
                                 <li>
                                     <a href="#">Anasayfa Değişiklikleri<span class="fa arrow"></span></a>
@@ -316,7 +316,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href=""><i class="fa fa-support fa-fw"></i> Kategoriler<span class="fa arrow fa-angle-down"></span></a>
+                            <a href=""><i class="fa-regular fa-life-ring"></i> Kategoriler<span class="fa arrow fa-angle-down"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li>
                                     <a href="/YonetimPaneli/KategoriYonetimi">Kategori Ekle/Kaldır/Düzenle</a>
@@ -335,6 +335,22 @@
                                 </li>
                                 <li>
                                     <a href="morris.html">İlan Sıralaması</a>
+                                </li>
+
+                              
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa-solid fa-money-check-dollar"></i> Öne Çıkarılan ilanlar<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a href="#">Anasayfa Sayfası</a>
+                                </li>
+                                <li>
+                                    <a href="#">Kampanyalar Sayfası</a>
+                                </li>
+                                <li>
+                                    <a href="#">Kategori Sayfası</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -355,18 +371,18 @@
 
                             <!-- /.nav-second-level -->
                         </li>
-                        
+
                         @* <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
-                                <li>
-                                    <a href="blank.html">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
+                        <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                        <li>
+                        <a href="blank.html">Blank Page</a>
+                        </li>
+                        <li>
+                        <a href="login.html">Login Page</a>
+                        </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
                         </li> *@
                     </ul>
                 </div>
@@ -420,7 +436,7 @@
             // Eğer href boş değilse ve # değilse, yönlendirme olsun
             if (!href || href === '#') {
                 e.preventDefault(); // Linkin varsayılan davranışını engelle
-            } 
+            }
             var $submenu = $(this).next('.nav-third-level');
             var $arrow = $(this).find('.arrow');
 

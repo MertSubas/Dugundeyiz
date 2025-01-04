@@ -1,23 +1,72 @@
-﻿
+﻿@using Dugundeyiz.ViewModels
+@model ProductPageViewModel
 
+@{
+    ViewData["Title"] = Model.Product.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Materialize CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+<!-- Materialize JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!-- Google Icon Font (isteğe bağlı) -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
     .ilan-container {
-        max-width: 1200px;
+        max-width: 1300px;
         margin: 0 auto;
-        padding: 20px;
+    }
+
+    .video-container {
+        position: relative;
+        background: #000;
+    }
+
+    .main-video {
+        width: 100%;
+        max-height: 500px;
+        width: 75%;
+    }
+
+    .floating-video {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        width: 300px;
+        height: 170px;
+        z-index: 1000;
+        display: none;
+        border: 2px solid #ccc;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 
     .video-section {
         display: flex;
         align-items: center;
         justify-content: space-evenly;
+        flex-direction: column;
+        padding: 25px;
+        background-color: rgba(0, 0, 0, 0.1);
+        margin: -20px;
+        /* border-radius: 57px; */
     }
 
-        .video-section video {
-            width: 75%;
-            border-radius: 10px;
-            margin-bottom: 20px;
+    .floating-video {
+        transition: opacity 0.3s ease-in-out;
+        opacity: 0;
+    }
+
+        .floating-video[style*="display: block"] {
+            opacity: 1;
         }
+
+    .video-section video {
+        border-radius: 10px;
+        /* margin-bottom: 20px; */
+    }
 
     .photo-section {
         display: flex;
@@ -30,11 +79,13 @@
 
     .main-photo {
         padding-top: 15px;
+        height: 400px;
     }
 
         .main-photo img {
             width: 100%;
-            max-height: 500px;
+            max-height: 385px;
+            height: 385px;
             border-radius: 10px;
         }
 
@@ -210,194 +261,799 @@
         max-width: 44px;
     }
 
-</style>
-<div style="background-color:#ece4d4">
-    <div class="container">
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
 
-        <div class="ilan-container" style="padding-bottom:25px;">
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            /* object-fit: cover; */
+            object-fit: contain;
+        }
+
+    .mainPhotoSlide {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Sol taraf 2, sağ taraf 1 birim genişliğinde */
+        gap: 10px; /* Aralarına boşluk ekler */
+        width: 90%;
+        height: 450px;
+        max-height: 450px;
+        align-items: center;
+    }
+
+    .leftSlide {
+        /* background-color: lightblue; */
+        height: 350px; /* Yükseklik belirlemek için */
+    }
+
+    .rightSlide {
+        display: grid;
+        grid-template-rows: 1fr 1fr; /* Sağ tarafta 2 satır */
+        grid-template-columns: 1fr 1fr; /* Sağ tarafta 2 sütun */
+        gap: 10px; /* Aralarına boşluk ekler */
+        height: 350px;
+    }
+
+    .top-leftSlide, .top-rightSlide, .bottom-leftSlide, .bottom-rightSlide {
+        /* background-color: lightcoral; */
+        height: 168px; /* Yükseklik belirlemek için */
+    }
+
+    .top-leftSlide, .top-rightSlide, .bottom-leftSlide, .bottom-rightSlide {
+        display: flex; /* Merkezlemek için kullanılır */
+        align-items: center; /* Dikey merkezleme */
+        justify-content: center; /* Yatay merkezleme */
+        overflow: hidden; /* Taşan img'leri gizlemek için */
+        position: relative;
+    }
+
+        .leftSlide img,
+        .top-leftSlide img,
+        .top-rightSlide img,
+        .bottom-leftSlide img,
+        .bottom-rightSlide img {
+            max-width: 100%; /* Genişlik sınırı */
+            max-height: 100%; /* Yükseklik sınırı */
+            object-fit: cover; /* Görüntüyü kesmeden veya bozmadan tam oturtma */
+            border-radius: 8px; /* Köşe yuvarlatma */
+            cursor: pointer;
+        }
+
+    .productPageHR {
+        margin-left: -20px;
+        margin-right: -20px;
+        height: 2px;
+        border-top: 0px;
+        border-bottom: 0px;
+        color: black;
+    }
+
+    .info-section-productPage {
+        margin: 20px 0;
+    }
+
+    .card-productPage {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #f9f9f9;
+    }
+
+    .highlight-productPage {
+        background-color: #eef8ff;
+        border-left: 5px solid #007bff;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .price-section-productPage {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #ffffff;
+    }
+
+    .price-details-productPage {
+        background-color: #f8f8f8;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .terms-productPage {
+        margin-top: 20px;
+    }
+
+        .terms-productPage li {
+            margin-bottom: 10px;
+        }
+
+    .logo img {
+        width: 200px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .logo {
+        position: relative;
+        left: -7%;
+        width: 300px;
+        height: 180px; /* İhtiyacınıza göre yüksekliği ayarlayın */
+        opacity: 0.6;
+    }
+
+    .outer-image img {
+        width: 100%;
+        width: 300px;
+        height: auto;
+        margin-left: -32px;
+        margin-top: -58px;
+    }
+
+    .inner-image {
+        position: absolute;
+        top: 52%;
+        left: 57%;
+        transform: translate(-50%, -50%);
+        width: 46%; /* Merkez logo boyutunu ayarlayın */
+    }
+
+        .inner-image img {
+            width: 70%;
+            width: 99px;
+            height: auto;
+        }
+
+    .header-productPage {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .firstHeaderProduct {
+        display: flex;
+        align-items: center;
+    }
+
+    .buttonArea-productPage {
+        /*             display: flex;
+                                                    gap: 10px;
+                                                    justify-content: center;
+                                                    align-items: center;
+                                                    margin-top: 20px; */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .button-productPage {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        border: 2px solid #3498db;
+        border-radius: 8px;
+        background-color: white;
+        color: #3498db;
+        font-size: 11px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .button-productPage:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .button-productPage i {
+            margin-right: 8px; /* İkon ve metin arasındaki boşluk */
+        }
+
+    @@media (max-width: 576px) {
+        .button-productPage {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+    }
+
+    .image-preview-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.8); /* Koyu arka plan */
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        max-width: 80%;
+        max-height: 80%;
+        border-radius: 8px; /* Köşeleri yuvarlat */
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+</style>
+<div id="imagePreviewModal" class="image-preview-modal" style="display: none;">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="modalImage" style="    object-fit: contain;" />
+</div>
+
+<div style="background-color:#ece4d4">
+
+    <div class="ilan-container">
+
+        <div class="" style="padding-bottom:25px;">
 
 
 
             <div class="details-section">
-                <h1 style="display: flex; justify-content: space-evenly; padding-bottom:20px;">
-                    İlan Başlığı
-                </h1>
-                <div class="video-section" style="margin-top:13px;margin-bottom:23px;">
-                    <video controls>
-                        <source src="rastgele-video.mp4" type="video/mp4">
-                        Tarayıcınız video etiketini desteklemiyor.
-                    </video>
+                <div class="header-productPage">
+
+                    <div class="firstHeaderProduct">
+                        <div class="logo" style="    width: 200px;">
+                            <div class="outer-image">
+                                <img src="/gallery_gen/oie_transparent_1.png" alt="Dış Katman">
+                            </div>
+                            <div class="inner-image">
+                                <img src="/gallery_gen/oie_transparent_2.png" alt="Merkez Logo">
+                            </div>
+                        </div>
+                        <div class="info-section-productPage">
+                            <h5 style="font-size:25px; padding-bottom:5px;">@Model.Product.Name </h5>
+                            <h4 style="font-size:13px;padding-bottom:2px;">@Model.Company</h4>
+                            <p style="font-size:12px;padding-bottom:15px;"> @Model.Product.CategoryName</p>
+                            <p style="font-size: 10px;text-align: end;"> @Model.Product.District,@Model.Product.City</p>
+                            <p style="font-size: 10px;text-align: end;">Düğündeyiz.com.tr</p>
+                        </div>
+                    </div>
+
+                    <div class="buttonArea-productPage">
+                        <div style="    display: flex;">
+                            <!-- Favorilere Ekle Butonu -->
+                            <button class="button-productPage" onclick="addToFavorites()" style="margin-right:10px;margin-bottom:10px;">
+                                <i class="fas fa-heart"></i> Favorilere Ekle
+                            </button>
+
+                            <!-- Paylaş Butonu -->
+                            <button class="button-productPage" onclick="shareContent()" style="margin-right:10px;margin-bottom:10px;">
+                                <i class="fas fa-share-alt"></i> Paylaş
+                            </button>
+
+                        </div>
+                        <div style="    display: flex;">
+                            <!-- Favorilere Ekle Butonu -->
+                            <button class="button-productPage" onclick="addToFavorites()" style="margin-right:10px;margin-bottom:10px;">
+                                <i class="fas fa-heart"></i> Biz Sizi Arayalım
+                            </button>
+
+                            <!-- Paylaş Butonu -->
+                            <button class="button-productPage" onclick="shareContent()" style="margin-right:10px;margin-bottom:10px;">
+                                <i class="fas fa-share-alt"></i> Firmayla İletişime Geç
+                            </button>
+
+                        </div>
+                        <!-- Paylaş Butonu -->
+
+                    </div>
                 </div>
+                <hr class="productPageHR" />
+                @if (Model.Product.Video != null)
+                {
+                    <div class="new-heading" style="    width: 100%;border-left: 4px solid #000000;    margin-bottom: 0px;">
+                        <h1 style="font-size:18px;    line-height: 100%;  margin: 1.0rem 0rem 1.0rem;">
+                            Tanıtım videosu
+                        </h1>
+                    </div>
+
+                    <div class="video-section" style="margin-top:13px;margin-bottom:23px;">
 
 
+                        <video class="main-video" id="mainVideo" controls autoplay>
+                            <source src="@Model.Product.Video" type="video/mp4">
+                            Tarayıcınız video etiketini desteklemiyor.
+                        </video>
+                        <video class="floating-video" id="floatingVideo" controls>
+                            <source src="@Model.Product.Video" type="video/mp4">
+                        </video>
+                    </div>
+                    <hr class="productPageHR" />
+                }
+
+                <div class="new-heading" style="    width: 100%;border-left: 4px solid #000000;    margin-bottom: 0px;">
+
+                    <h1 style="font-size:18px;line-height: 100%;  margin: 1.0rem 0rem 1.0rem;">Fotoğraflar</h1>
+                </div>
                 <div class="photo-section">
-                    <div class="main-photo">
+                    @*                     <div class="main-photo">
 
-                        <img id="mainImage" src="@Model.PhotoList[0]" alt="İlan Fotoğrafı">
+                    <img id="mainImage" src="@Model.PhotoList[0]" alt="İlan Fotoğrafı">
                     </div>
                     <div class="thumbnail-container">
-                        <!-- Fotoğraflar için sunucudan gelen verilerle dinamik döngü -->
-                        @foreach (var photo in @Model.PhotoList)
+                    <!-- Fotoğraflar için sunucudan gelen verilerle dinamik döngü -->
+                    @foreach (var photo in @Model.PhotoList)
+                    {
+                    <div class="thumbnail" onclick="changeMainPhoto('@photo')">
+                    <img src="@photo" alt="Küçük Fotoğraf">
+                    </div>
+                    }
+                    </div> *@
+                    @functions {
+                        // Yardımcı fonksiyon: Dinamik sınıf adları için
+                        private string GetSlideClass(int index)
                         {
-                            <div class="thumbnail" onclick="changeMainPhoto('@photo')">
-                                <img src="@photo" alt="Küçük Fotoğraf">
-                            </div>
+                            return index switch
+                            {
+                                0 => "top-leftSlide",
+                                1 => "top-rightSlide",
+                                2 => "bottom-leftSlide",
+                                3 => "bottom-rightSlide",
+                                4 => "top-leftSlide",
+                                5 => "top-rightSlide",
+                                6 => "bottom-leftSlide",
+                                7 => "bottom-rightSlide",
+                                _ => ""
+                            };
                         }
+                    }
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper" style="height: 363px;">
+                            <div class="swiper-slide">
+                                <div class="mainPhotoSlide">
+                                    <div class="leftSlide">
+                                        @if (!string.IsNullOrEmpty(Model?.Product?.Images))
+                                        {
+                                            <img src="@Model.Product.Images" />
+                                        }
+                                        else
+                                        {
+                                            <img src="/gallery_gen/no-image.png" />
+                                        }
+                                    </div>
+                                    <div class="rightSlide">
+                                        @for (int i = 0; i < 4; i++)
+                                        {
+                                            <div class="@GetSlideClass(i)">
+                                                @if (Model.PhotoList != null && Model.PhotoList.Count > i && Model.PhotoList[i] != null)
+                                                {
+                                                    <img src="@Model.PhotoList[i].PhotoPath" />
+                                                }
+                                                else
+                                                {
+                                                    @* <img src="/gallery_gen/no-image.png" /> *@
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Model.PhotoList != null && Model.PhotoList.Any() && Model.PhotoList.ElementAt(4) != null)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="mainPhotoSlide">
+                                        <div class="rightSlide">
+
+                                            @for (int i = 4; i < 8; i++)
+                                            {
+                                                <div class="@GetSlideClass(i)">
+                                                    @if (Model.PhotoList != null && Model.PhotoList.Count > i && Model.PhotoList[i] != null)
+                                                    {
+                                                        <img src="@Model.PhotoList[i].PhotoPath" />
+                                                    }
+                                                    else
+                                                    {
+                                                        @* <img src="/gallery_gen/no-image.png" /> *@
+                                                    }
+                                                </div>
+                                            }
+
+                                        </div>
+                                        <div class="leftSlide">
+                                            @if (Model.PhotoList != null && Model.PhotoList.Count > 8 && Model.PhotoList[8] != null)
+                                            {
+                                                <img src="@Model.PhotoList[8].PhotoPath" />
+                                            }
+                                            else
+                                            {
+                                                @* <img src="/gallery_gen/no-image.png" /> *@
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.PhotoList != null && Model.PhotoList.Any())
+                            {
+                                int totalPhotos = Model.PhotoList.Count;
+                                int photosPerSlide = 8; // Her slaytta maksimum 8 fotoğraf
+                                int slideCount = (int)Math.Ceiling(totalPhotos / (double)photosPerSlide);
+
+                                for (int slideIndex = 0; slideIndex < slideCount; slideIndex++)
+                                {
+                                    <div class="swiper-slide">
+                                        <div class="mainPhotoSlide">
+                                            <!-- İlk Sağ Bölüm -->
+                                            <div class="rightSlide">
+                                                @for (int regionIndex = 0; regionIndex < 4; regionIndex++)
+                                                {
+                                                    int photoIndex = slideIndex * photosPerSlide + regionIndex;
+                                                    if (photoIndex < totalPhotos)
+                                                    {
+                                                        var currentPhoto = Model.PhotoList[photoIndex];
+                                                        <div class="@(GetSlideClass(regionIndex))">
+                                                            <img src="@currentPhoto.PhotoPath" alt="Photo" />
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="@(GetSlideClass(regionIndex))">
+                                                            @* <img src="/gallery_gen/no-image.png" /> *@
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+
+                                            <!-- İkinci Sağ Bölüm -->
+                                            <div class="rightSlide">
+                                                @for (int regionIndex = 4; regionIndex < 8; regionIndex++)
+                                                {
+                                                    int photoIndex = slideIndex * photosPerSlide + regionIndex;
+                                                    if (photoIndex < totalPhotos)
+                                                    {
+                                                        var currentPhoto = Model.PhotoList[photoIndex];
+                                                        <div class="@(GetSlideClass(regionIndex))">
+                                                            <img src="@currentPhoto.PhotoPath" alt="Photo" />
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="@(GetSlideClass(regionIndex))">
+                                                            @* <img src="/gallery_gen/no-image.png" /> *@
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
                     </div>
                 </div>
-                <div class="details">
-                    <div class="detail-item"><strong>Kişi Sayısı:</strong> 50</div>
-                    <div class="detail-item"><strong>Kişi Başı Fiyat:</strong> 200 TL</div>
-                    <div class="detail-item"><strong>Konum:</strong> İstanbul</div>
-                    <div class="detail-item"><strong>Kategorisi:</strong> Düğün</div>
-                    <div class="detail-item"><strong>Değerlendirme:</strong> 4.5/5</div>
-                    <div class="detail-item"><strong>İlan Veren:</strong> Düğün Organizasyon Firması</div>
-                    <div class="detail-item"><strong>İlan Tarihi:</strong> 1 Kasım 2024</div>
+                <hr class="productPageHR" />
+                <div class="new-heading" style="    width: 100%;border-left: 4px solid #000000;    margin-bottom: 0px;">
+                    <h1 style="font-size:18px;line-height: 100%;  margin: 1.0rem 0rem 1.0rem;">Bilgiler</h1>
                 </div>
-                <div class="description">
-                    <h3>Açıklama</h3>
-                    <p>İlanın uzun açıklaması burada olacak. Detaylı bilgilere buradan ulaşabilirsiniz...</p>
+                <div>
+                    <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+                        <li class="tab"><a class="active" href="#ProductDetail">İlan Bilgileri</a></li>
+                        <li class="tab"><a href="#partner">Çözüm Ortağımızın Bilgileri</a></li>
+                        <li class="tab"><a href="#test4">Test 4</a></li>
+                        <li class="tab"><a href="#test0">Test 5</a></li>
+                    </ul>
+                    <div id="ProductDetail" class="col s12">
+                        <div class="details">
+
+                            <div class="detail-item"><strong>Kişi Sayısı:</strong> 50</div>
+                            <div class="detail-item"><strong>Kişi Başı Fiyat:</strong> 200 TL</div>
+                            <div class="detail-item"><strong>Konum:</strong> İstanbul</div>
+                            <div class="detail-item"><strong>Kategorisi:</strong> Düğün</div>
+                            <div class="detail-item"><strong>Değerlendirme:</strong> 4.5/5</div>
+                            <div class="detail-item"><strong>İlan Tarihi:</strong> 1 Kasım 2024</div>
+                        </div>
+                    </div>
+                    <div id="partner" class="col s12">
+                        <div class="detail-item"><strong>Firma Adı:</strong> Mert Gelinlik</div>
+                        <div class="detail-item"><strong>Adres:</strong> Mert Gelinlik Adresi</div>
+                        <div class="detail-item"><strong>Telefon:</strong> Mert Gelinlik Tel</div>
+                        <div class="detail-item"><strong>E-mail:</strong> Mert Gelinlik mail</div>
+                        <div class="detail-item"><strong>Üyelik Tarihi:</strong> Mert Gelinlik tarih</div>
+                        <div class="detail-item"><strong>Geri Dönüş Süresi:</strong> 1 gün</div>
+
+
+                    </div>
+                    <div id="test4" class="col s12"><p>Test 4</p></div>
+                    <div id="test0" class="col s12"><p>Test 5</p></div>
                 </div>
+
+            <div class="description">
+                <h3>Açıklama</h3>
+                <p>İlanın uzun açıklaması burada olacak. Detaylı bilgilere buradan ulaşabilirsiniz...</p>
             </div>
-        </div>
-
-        <div class="" style="background-color: white;background-color: white; display: flex;margin: 20px;border-radius: 10px; padding: 15px; justify-content: space-evenly;">
-
-            <div class="col-lg-8 col-md-10" style="    background-color: white;">
-                <h5 style="text-align:center;padding-bottom:10px;">Yorumlar & Değerlendirmeler</h5>
-                <div class="mb-4" style="    padding-top: 10px;">
-                    <!-- Yorum Kartı -->
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Çok memnun kaldık</h5>
-                            <p class="card-text textpart">Merhaba hizmetinizden çok memnun kaldık herşey için teşekkürler.</p>
-                            <p class="card-text namePart"> İsim soyisim</p>
-                            <small class="text-muted">20.11.2024 14:30</small>
-                            <div class="text-end mt-2">
-                                <button class="btn btn-danger btn-sm rapor-btn" data-comment-id="2">
-                                    Şikayet Et
-                                </button>
-                                <button class="btn btn-primary btn-sm reply-btn" data-comment-id="2">
-                                    Cevapla
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Yanıt Bölümü -->
-                    <div id="reply-section-2" class="reply-section mt-3" style="display:none;">
-                        <div class="card">
-                            <div class="card-body">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="reply-title-2" class="form-label">Başlık</label>
-                                        <input type="text" id="reply-title-2" class="form-control" placeholder="Başlık giriniz">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="reply-message-2" class="form-label">Mesaj</label>
-                                        <textarea id="reply-message-2" class="form-control" rows="3" placeholder="Mesajınızı yazın"></textarea>
-                                    </div>
-                                    <button type="button" class="btn btn-success" onclick="sendReply(2)">
-                                        Gönder
-                                    </button>
-                                    <button type="button" class="btn btn-secondary reply-cancel-btn">
-                                        İptal
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Cevaplar -->
-                    <div class="card mt-2 ms-5">
-                        <div class="card-body">
-                            <h6 class="card-subtitle text-muted">Yine bekleriz</h6>
-                            <p class="card-text">Biz teşekkür ederiz Yine Bekleriz</p>
-                            <small class="text-muted">20.11.2024 14:31</small>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="mb-4" style="    padding-top: 10px;">
-                    <!-- Yorum Kartı -->
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Teşekkürler</h5>
-                            <p class="card-text textpart">Merhaba hizmetinizden çok memnun kaldım</p>
-                            <p class="card-text namePart"> İsim soyisim</p>
-                            <small class="text-muted">20.11.2024 14:30</small>
-                            <div class="text-end mt-2">
-                                <button class="btn btn-danger btn-sm" disabled="" data-comment-id="5">
-                                    Kontrol ediliyor
-                                </button>
-                                <button class="btn btn-primary btn-sm reply-btn" data-comment-id="5">
-                                    Cevapla
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Yanıt Bölümü -->
-                    <div id="reply-section-5" class="reply-section mt-3" style="display:none;">
-                        <div class="card">
-                            <div class="card-body">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="reply-title-5" class="form-label">Başlık</label>
-                                        <input type="text" id="reply-title-5" class="form-control" placeholder="Başlık giriniz">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="reply-message-5" class="form-label">Mesaj</label>
-                                        <textarea id="reply-message-5" class="form-control" rows="3" placeholder="Mesajınızı yazın"></textarea>
-                                    </div>
-                                    <button type="button" class="btn btn-success" onclick="sendReply(5)">
-                                        Gönder
-                                    </button>
-                                    <button type="button" class="btn btn-secondary reply-cancel-btn">
-                                        İptal
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Cevaplar -->
-                </div>
-                <hr>
-            </div>
-        </div>
-
-        <div class="" style="background-color: white;background-color: white; display: flex;margin: 20px;border-radius: 10px; padding: 15px; justify-content: space-evenly;min-height:300px;">
-            <h5> Yol Tarifi ve Harita</h5>
         </div>
     </div>
+
+    <div class="" style="background-color: white;background-color: white; display: flex;border-radius: 10px; padding: 15px; justify-content: space-evenly;    margin-bottom: 25px;">
+
+        <div class="col-lg-8 col-md-10" style="    background-color: white;">
+            <h5 style="text-align:center;padding-bottom:10px;">Yorumlar & Değerlendirmeler</h5>
+            <div class="mb-4" style="    padding-top: 10px;">
+                <!-- Yorum Kartı -->
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text textpart" style="text-align:center;padding-bottom:0px;">Henüz Yorum Bulunmamakta</p>
+                    </div>
+                </div>
+            </div>
+            @*                 <div class="mb-4" style="    padding-top: 10px;">
+            <!-- Yorum Kartı -->
+            <div class="card">
+            <div class="card-body">
+            <h5 class="card-title">Çok memnun kaldık</h5>
+            <p class="card-text textpart">Merhaba hizmetinizden çok memnun kaldık herşey için teşekkürler.</p>
+            <p class="card-text namePart"> İsim soyisim</p>
+            <small class="text-muted">20.11.2024 14:30</small>
+            <div class="text-end mt-2">
+            <button class="btn btn-danger btn-sm rapor-btn" data-comment-id="2">
+            Şikayet Et
+            </button>
+            <button class="btn btn-primary btn-sm reply-btn" data-comment-id="2">
+            Cevapla
+            </button>
+            </div>
+            </div>
+            </div>
+
+            <!-- Yanıt Bölümü -->
+            <div id="reply-section-2" class="reply-section mt-3" style="display:none;">
+            <div class="card">
+            <div class="card-body">
+            <form>
+            <div class="mb-3">
+            <label for="reply-title-2" class="form-label">Başlık</label>
+            <input type="text" id="reply-title-2" class="form-control" placeholder="Başlık giriniz">
+            </div>
+            <div class="mb-3">
+            <label for="reply-message-2" class="form-label">Mesaj</label>
+            <textarea id="reply-message-2" class="form-control" rows="3" placeholder="Mesajınızı yazın"></textarea>
+            </div>
+            <button type="button" class="btn btn-success" onclick="sendReply(2)">
+            Gönder
+            </button>
+            <button type="button" class="btn btn-secondary reply-cancel-btn">
+            İptal
+            </button>
+            </form>
+            </div>
+            </div>
+            </div>
+            <!-- Cevaplar -->
+            <div class="card mt-2 ms-5">
+            <div class="card-body">
+            <h6 class="card-subtitle text-muted">Yine bekleriz</h6>
+            <p class="card-text">Biz teşekkür ederiz Yine Bekleriz</p>
+            <small class="text-muted">20.11.2024 14:31</small>
+            </div>
+            </div>
+            </div>
+            <hr style="border-top:none;border-bottom:none;">
+            <div class="mb-4" style="    padding-top: 10px;">
+            <!-- Yorum Kartı -->
+            <div class="card">
+            <div class="card-body">
+            <h5 class="card-title">Teşekkürler</h5>
+            <p class="card-text textpart">Merhaba hizmetinizden çok memnun kaldım</p>
+            <p class="card-text namePart"> İsim soyisim</p>
+            <small class="text-muted">20.11.2024 14:30</small>
+            <div class="text-end mt-2">
+            <button class="btn btn-danger btn-sm" disabled="" data-comment-id="5">
+            Kontrol ediliyor
+            </button>
+            <button class="btn btn-primary btn-sm reply-btn" data-comment-id="5">
+            Cevapla
+            </button>
+            </div>
+            </div>
+            </div>
+
+            <!-- Yanıt Bölümü -->
+            <div id="reply-section-5" class="reply-section mt-3" style="display:none;">
+            <div class="card">
+            <div class="card-body">
+            <form>
+            <div class="mb-3">
+            <label for="reply-title-5" class="form-label">Başlık</label>
+            <input type="text" id="reply-title-5" class="form-control" placeholder="Başlık giriniz">
+            </div>
+            <div class="mb-3">
+            <label for="reply-message-5" class="form-label">Mesaj</label>
+            <textarea id="reply-message-5" class="form-control" rows="3" placeholder="Mesajınızı yazın"></textarea>
+            </div>
+            <button type="button" class="btn btn-success" onclick="sendReply(5)">
+            Gönder
+            </button>
+            <button type="button" class="btn btn-secondary reply-cancel-btn">
+            İptal
+            </button>
+            </form>
+            </div>
+            </div>
+            </div>
+            <!-- Cevaplar -->
+            </div>
+            <hr style="border-top:none;border-bottom:none;"> *@
+        </div>
+    </div>
+
+    <div class="" style="background-color: white;background-color: white; display: flex;border-radius: 10px; padding: 15px; justify-content: space-evenly;">
+        <div class="col-lg-8 col-md-10" style="    background-color: white;">
+
+            <h5 style="    text-align: center;"> Yol Tarifi ve Harita</h5>
+
+            <div class="mb-4" style="    padding-top: 10px;">
+                <!-- Yorum Kartı -->
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text textpart" style="text-align:center;padding-bottom:0px;">Konum Bilgisi Bulunamadı</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding-bottom:25px"></div>
+</div>
 </div>
 
 
 <script>
-    // Fotoğraf değişimi için otomatik geçiş
-    let currentIndex = 0;
-    const thumbnails = document.querySelectorAll('.thumbnail img');
-    const mainImage = document.getElementById('mainImage');
+    @* // Fotoğraf değişimi için otomatik geçiş
+        let currentIndex = 0;
+        const thumbnails = document.querySelectorAll('.thumbnail img');
+        const mainImage = document.getElementById('mainImage');
 
-    function changeMainPhoto(photo) {
+        function changeMainPhoto(photo) {
         // Fotoğrafı fade ile gizle
         mainImage.classList.add('fade');
 
         // Geçiş bitiminde yeni fotoğrafı ekle
         setTimeout(() => {
-            mainImage.src = photo;
-            // Sadece fotoğraf değiştikten sonra animasyonu sıfırla
-            mainImage.classList.remove('fade');
-        }, 500); // 500ms sonra yeni fotoğrafı yükle
-    }
-
-    // Fotoğrafları döngü ile değiştir
-    setInterval(() => {
-        if (thumbnails.length > 0) {
-            currentIndex = (currentIndex + 1) % thumbnails.length;
-            changeMainPhoto(thumbnails[currentIndex].src);
+        mainImage.src = photo;
+        // Sadece fotoğraf değiştikten sonra animasyonu sıfırla
+        mainImage.classList.remove('fade');
+        }, 1); // 500ms sonra yeni fotoğrafı yükle
         }
-    }, 10000);
+
+        // Fotoğrafları döngü ile değiştir
+        setInterval(() => {
+        if (thumbnails.length > 0) {
+        currentIndex = (currentIndex + 1) % thumbnails.length;
+        changeMainPhoto(thumbnails[currentIndex].src);
+        }
+        }, 10000); *@
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.tabs');
+            var instances = M.Tabs.init(elems, {});
+        });
+
+    $(document).ready(function () {
+
+        var swiper = new Swiper(".mySwiper", {
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            speed: 1000, // 1000 ms=1 saniye, bu değeri ihtiyacınıza göre ayarlayabilirsiniz
+        });
 
 
+        const mainVideo = document.getElementById('mainVideo');
+        const floatingVideo = document.getElementById('floatingVideo');
+
+        // Kaldığı yerden devam etmek için video konumunu senkronize et
+
+        if (mainVideo && floatingVideo) {
+
+            window.addEventListener('scroll', () => {
+                const rect = mainVideo.getBoundingClientRect();
+                if (rect.bottom < 0) {
+                    floatingVideo.style.display = 'block';
+
+                } else {
+                    floatingVideo.style.display = 'none';
+
+                }
+            });
+
+
+            // Video oynatma/durdurma senkronizasyonu
+            const syncPlayPause = (source, target) => {
+                source.addEventListener('play', () => target.play());
+                source.addEventListener('pause', () => target.pause());
+            };
+
+            // Ses senkronizasyonu
+            const syncVolume = (source, target) => {
+                source.addEventListener('volumechange', () => {
+                    target.volume = source.volume;
+                    target.muted = source.muted;
+                });
+            };
+
+            // Süre senkronizasyonu (optimize edilmiş)
+            const syncTime = (source, target) => {
+                const threshold = 0.5; // Maksimum fark (saniye cinsinden)
+                source.addEventListener('timeupdate', () => {
+                    const timeDifference = Math.abs(source.currentTime - target.currentTime);
+                    if (timeDifference > threshold) {
+                        target.currentTime = source.currentTime;
+                    }
+                });
+            };
+
+            // Tüm senkronizasyonları bağlama
+            syncPlayPause(mainVideo, floatingVideo);
+            syncPlayPause(floatingVideo, mainVideo);
+            syncVolume(mainVideo, floatingVideo);
+            syncVolume(floatingVideo, mainVideo);
+            syncTime(mainVideo, floatingVideo);
+            syncTime(floatingVideo, mainVideo);
+        }
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        // Modal elemanları
+        const modal = document.getElementById("imagePreviewModal");
+        const modalImage = document.getElementById("modalImage");
+        const closeModal = document.querySelector(".close-modal");
+
+        // Hedef img class'ları
+        const targetClasses = [
+            "leftSlide",
+            "top-leftSlide",
+            "top-rightSlide",
+            "bottom-leftSlide",
+            "bottom-rightSlide"
+        ];
+
+        // Tüm img etiketlerini seç
+        const images = document.querySelectorAll(targetClasses.map(cls => `.${cls} img`).join(","));
+
+        // Her img'ye tıklama olayı ekle
+        images.forEach(img => {
+            img.addEventListener("click", function () {
+                modal.style.display = "block";
+                modalImage.src = this.src; // Tıklanan resmin src'sini modal'a koy
+            });
+        });
+
+        // Modal kapatma
+        closeModal.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // Modal dışına tıklayınca kapatma
+        modal.addEventListener("click", function (e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    });
 
 </script>

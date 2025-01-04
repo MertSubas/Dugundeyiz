@@ -6,86 +6,174 @@
 }
 @model ProductListPageViewModel
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiselect Dropdown</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        .multiselect-dropdown {
-            position: relative;
+        .info-section-productPage {
+            margin: 20px 0;
         }
 
-        .dropdown-menu {
-            max-height: 200px;
-            overflow-y: auto;
+        .card-productPage {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #f9f9f9;
         }
 
-        .selected-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
+        .highlight-productPage {
+            background-color: #eef8ff;
+            border-left: 5px solid #007bff;
+            padding: 10px;
+            border-radius: 5px;
         }
 
-        .selected-item {
-            background-color: #e9ecef;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
+        .price-section-productPage {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #ffffff;
         }
 
-            .selected-item span {
-                margin-left: 5px;
-                cursor: pointer;
+        .price-details-productPage {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .terms-productPage {
+            margin-top: 20px;
+        }
+
+            .terms-productPage li {
+                margin-bottom: 10px;
             }
+            .details-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 15px 20px;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .details-container .label {
+      font-weight: bold;
+      color: #333;
+    }
+    .details-container .value {
+      color: #555;
+    }
+    @@media (max-width: 600px) {
+      .details-container {
+        grid-template-columns: 1fr;
+      }
+    }
     </style>
 </head>
-<body>
-    <label for="fruits">Fruits</label>
-    <select id="fruits" name="fruits" data-placeholder="Select fruits" multiple data-multi-select>
-        <option value="Apple">Apple</option>
-        <option value="Banana">Banana</option>
-        <option value="Blackberry">Blackberry</option>
-        <option value="Blueberry">Blueberry</option>
-        <option value="Cherry">Cherry</option>
-        <option value="Cranberry">Cranberry</option>
-        <option value="Grapes">Grapes</option>
-        <option value="Kiwi">Kiwi</option>
-        <option value="Mango">Mango</option>
-        <option value="Orange">Orange</option>
-        <option value="Peach">Peach</option>
-        <option value="Pear">Pear</option>
-        <option value="Pineapple">Pineapple</option>
-        <option value="Raspberry">Raspberry</option>
-        <option value="Strawberry">Strawberry</option>
-        <option value="Watermelon">Watermelon</option>
-    </select>
-</body>
+    <div class="container">
+        <!-- Information Section -->
+        <div class="info-section-productPage">
+            <h5>Lüks Motoryat - Sahibi: Sedat</h5>
+            <p>Yemekli Kapasite: 16 - Tam Kapasite: 20</p>
+            <small>Bu kapasite yasal düzenlemeler gereği belirlenmiştir. Çocuklar ve bebekler de dahil olmak üzere aşılamamaktadır.</small>
+        </div>
 
-</html>
-<script>
-    const multiselect = new MultiSelect('#fruits', {
-        onChange: function (value, text, element) {
-            console.log('Change:', value, text);
-        }
-    });
-    setTimeout(() => {
-        const selectElement = document.querySelector('#fruits');
+        <!-- Rental Conditions Section -->
+        <div class="card-productPage">
+            <h5>Kiralama Şartları</h5>
+            <ul class="list-unstyled">
+                <li><i class="fas fa-bolt text-primary"></i> Bu tekneyi dönüş beklemeden anında rezerve edebilirsiniz</li>
+                <li><i class="fas fa-clock text-primary"></i> Minimum kiralama süresi: 2 saat</li>
+                <li><i class="fas fa-money-bill-wave text-primary"></i> Kalan ödeme seçenekleri: Nakit</li>
+                <li><i class="fas fa-sync text-primary"></i> Son 72 saate kadar ücretsiz iade</li>
+            </ul>
+        </div>
 
-        // MultiSelect sınıfının içindeki selected öğelere erişmeye çalışalım
-        // Bu örnekte varsayılan olarak MultiSelect sınıfı, veriyi kendi içinde tutabilir
-        const selectedValues = multiselect.selectedValues; // Burada selected özelliği kullanılabilir
+        <!-- Special Section -->
+        <div class="highlight-productPage mt-3">
+            <h6>Bu teknede yüzme turu yapabilirsiniz!</h6>
+            <p>Sıcak yaz günlerinde denizin serin sularında bu tekne üzerinden kiralama yaparak serinleyebilirsiniz.</p>
+            <a href="#">Yüzme turu seç ></a>
+        </div>
 
-        if (selectedValues && selectedValues.length > 0) {
-            console.log('Selected Values after 15 seconds:', selectedValues);
-        } else {
-            console.error('No values selected or selected not available.');
-        }
-    }, 5000); // 15 saniye = 15000 ms
-</script>
+        <!-- Price Section -->
+        <div class="price-section-productPage mt-3">
+            <h5>₺4.999,50 / saat</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Liman</label>
+                    <select class="form-select">
+                        <option>Arnavutköy</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label>Tur Süresi</label>
+                    <input type="number" class="form-control" value="2">
+                </div>
+            </div>
+            <div class="mt-3">
+                <button class="btn btn-primary w-100">Yemek ve Hizmet Seç</button>
+                <button class="btn btn-success w-100 mt-2">Rezerve Et!</button>
+            </div>
+            <div class="price-details-productPage mt-3">
+                <p>Vergiler hariç toplam tutar: ₺9.999,00</p>
+                <p>Online ön ödeme tutarı: ₺3.999,60</p>
+                <p>Teknede ödenecek tutar: ₺5.999,40</p>
+            </div>
+        </div>
+
+        <!-- Terms Section -->
+        <div class="terms-productPage">
+            <h5>Kullanım Şartları</h5>
+            <ul>
+                <li>Ses sistemi var ve kullanabilirsiniz</li>
+                <li>Alkol kullanılabilir</li>
+                <li>Dışarıdan alkol getirilebilir</li>
+                <li>Partiler için ekstra temizlik ücreti talep edilebilir</li>
+                <li>Kavga durumunda tur bitirilir tüm tutar talep edilir</li>
+                <li>Masa ve sandalyeler fiyata dahil</li>
+            </ul>
+        </div>
+
+
+    <div class="container">
+        <div class="details-container">
+            <div class="label">Taşıt Tipi:</div>
+            <div class="value">Motoryat</div>
+
+            <div class="label">Marka:</div>
+            <div class="value">Özel Yapım</div>
+
+            <div class="label">Model:</div>
+            <div class="value">Özel Yapım</div>
+
+            <div class="label">Yapım Yılı:</div>
+            <div class="value">2017</div>
+
+            <div class="label">Son Bakım/Onarım Yılı:</div>
+            <div class="value">2023</div>
+
+            <div class="label">Tuvalet Sayısı:</div>
+            <div class="value">2</div>
+
+            <div class="label">Taşıt Uzunluğu:</div>
+            <div class="value">17 metre</div>
+
+            <div class="label">Bayrak:</div>
+            <div class="value">Türkiye</div>
+
+            <div class="label">Yapım Malzemesi:</div>
+            <div class="value">Ahşap</div>
+        </div>
+
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 

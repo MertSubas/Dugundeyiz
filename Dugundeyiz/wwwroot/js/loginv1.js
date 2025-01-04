@@ -1,4 +1,5 @@
-﻿
+﻿let loginPartnerCallCount = 0; // Çağrı sayısını takip eden değişken
+const MAX_CALLS_BEFORE_TEST = 5; // İnsan testi yapılmadan önceki maksimum çağrı sayısı
 function ilanlarim(userID) {
     // Build the URL with the userID as a query parameter if needed
     let url = '/Hizmetler/ilanlarim';
@@ -234,11 +235,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Verileri konsola yazdır veya işleme devam et
         console.log('Kullanıcı Adı:', username);
         console.log('Şifre:', password);
-
+        const mobil = true;
         // Eğer verilerle işlem yapılacaksa burada ekleyebilirsiniz
         if (username && password) {
             // Örnek işlem: AJAX ile sunucuya gönderme
-            LoginPartner(username, password);
+            LoginPartner(username, password,mobil);
         } else {
             // Eksik bilgi uyarısı
         }
@@ -249,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Input değerlerini al
         const username = document.getElementById('userMobil-username').value.trim();
         const password = document.getElementById('userMobil-password').value.trim();
-
+        const mobil = true;
         // Verileri konsola yazdır veya işleme devam et
         console.log('Kullanıcı Adı:', username);
         console.log('Şifre:', password);
@@ -257,10 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Eğer verilerle işlem yapılacaksa burada ekleyebilirsiniz
         if (username && password) {
             // Örnek işlem: AJAX ile sunucuya gönderme
-            LoginUser(username, password);
+            LoginUser(username, password,mobil);
         } else {
             // Eksik bilgi uyarısı
-            
+
         }
     });
 });
@@ -282,13 +283,13 @@ function validateAndLogin(type) {
     // Boş alan kontrolü ve hata mesajı ekleme
     if (password === '' || username === '') {
         if (username === '') {
-            messageErrorPartner = '-username', 'Kullanıcı Adı boş geçilemez.';
+            messageErrorPartner = 'Kullanıcı Adınızı Giriniz.', 'Kullanıcı Adı boş geçilemez.';
         }
         if (password === '') {
-            messageErrorPartner = '-password', 'Şifre boş geçilemez.';
+            messageErrorPartner = 'Şifrenizi Giriniz.', 'Şifre boş geçilemez.';
         }
         if (password === '' && username === '') {
-            messageErrorPartner = 'Kullanıcı Adı ve Şifre boş geçilemez.';
+            messageErrorPartner = 'Kullanıcı Adınızı ve Şifrenizi Giriniz.';
         }
 
         showGeneralError(type, messageErrorPartner);
@@ -297,19 +298,20 @@ function validateAndLogin(type) {
 
     // Eğer tüm alanlar doluysa, giriş işlemini deneriz
     if (isValid) {
+        const mobil = false;
         if (type === 'user') {
             // Örnek olarak: Hatalı giriş simülasyonu
             // if (username !== "a" || password !== "a") {
             //     showGeneralError(type, 'Hatalı kullanıcı adı veya şifre.');
             // } else {
-            LoginUser(username, password);
+            LoginUser(username, password,mobil);
             // }
         } else if (type === 'partner') {
             // Örnek olarak: Hatalı giriş simülasyonu
             // if (username !== "correctPartner" || password !== "correctPartnerPassword") {
             //     showGeneralError(type, 'Hatalı kullanıcı adı veya şifre.');
             // } else {
-            LoginPartner(username, password);
+            LoginPartner(username, password,mobil);
             // }
         }
     }
@@ -346,7 +348,7 @@ function clearErrors(type) {
 }
 
 // LoginUser fonksiyonu
-async function LoginUser(username, password) {
+async function LoginUser(username, password,mobil) {
 
     const data = {
         userName: username,
@@ -386,9 +388,25 @@ async function LoginUser(username, password) {
     }
 }
 // LoginPartner fonksiyonu
-async function LoginPartner(username, password) {
-    console.log("LoginPartner çağrıldı. Kullanıcı Adı: " + username + ", Şifre: " + password);
+async function LoginPartner(username, password,mobil) {
     // Giriş işlemlerini yapabilirsiniz
+    loginPartnerCallCount++; // Çağrı sayısını artır
+    if (mobil == false) {
+        if (loginPartnerCallCount > MAX_CALLS_BEFORE_TEST) {
+            const captchaElement = document.getElementById("partner-captcha");
+            captchaElement.classList.remove("d-none"); // CAPTCHA alanını göster
+            const captchaResponse = grecaptcha.getResponse();
+
+            // CAPTCHA doğrulaması yapılmamışsa hata göster ve işlemi durdur
+            if (!captchaResponse) {
+                document.getElementById("partner-login-error").classList.remove("d-none");
+                document.getElementById("partner-login-error").innerText =
+                    "Lütfen Doğrulamayı Geçip Tekrar Giriş Yapın";
+                return; // Login işlemini durdur
+            }
+        }
+    }
+
     const data = {
         userName: username,
         password: password
@@ -431,6 +449,7 @@ async function LoginPartner(username, password) {
     } catch (error) {
         console.error('Hata:', error);
         document.getElementById('message').innerText = 'Bir hata oluştu!';
+
     }
 }
 

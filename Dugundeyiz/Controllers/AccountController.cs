@@ -54,7 +54,8 @@ public class AccountController : Controller
                         Role = Roles.User,
                         Admin = false,
                         IsApproved = true,
-                        CreatedDate = DateTime.Now
+                        CreatedDate = DateTime.Now,
+                        IdentityID = user.Id
                         //CreatedAt = DateTime.Now
                     };
 
@@ -119,7 +120,8 @@ public class AccountController : Controller
                                     Role = Roles.Partner,
                                     Admin = false,
                                     IsApproved = false,
-                                    CreatedDate = DateTime.Now
+                                    CreatedDate = DateTime.Now,
+                                    IdentityID = user.Id
                                 };
 
                                 _context.Users.Add(newUser);
@@ -212,7 +214,7 @@ public class AccountController : Controller
 
                 if (user != null)
                 {
-                    var userAccount = await _context.Users.FindAsync(user.Id);
+                    var userAccount = await _context.Users.Where(x=>x.IdentityID==user.Id).FirstOrDefaultAsync();
                     if (userAccount != null)
                     {
                         if (userAccount.Role != Roles.User)
@@ -222,12 +224,17 @@ public class AccountController : Controller
                                 return Json(new { Type = 2, Message = "Üyeliğiniz henüz onaylanmadı. Lütfen yönetici onayını bekleyin." });
                             }
                             // Şifreyi kontrol et
-                            var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
+                            var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: true);
 
 
                             if (result.Succeeded)
                             {
                                 return ViewComponent("LoginData");
+                            }
+                            else if (result.IsLockedOut)
+                            {
+                                // Kullanıcı kilitli
+                                return Json(new { Type = 2, Message = "Hesabınız çok fazla yanlış giriş nedeniyle kilitlendi. Lütfen bir süre bekleyip tekrar deneyin." });
                             }
                             else
                             {
@@ -270,16 +277,21 @@ public class AccountController : Controller
 
             if (user != null)
             {
-                if ((_context.Users.Find(user.Id).Role) == Roles.User)
+                if ((_context.Users.Where(x=>x.IdentityID==user.Id).FirstOrDefault().Role) == Roles.User)
                 {
                     // Şifreyi kontrol et
-                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
+                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: true);
 
                     if (result.Succeeded)
                     {
                         return ViewComponent("LoginData");
 
                         //return Ok(); // Oturum başarılı, ana sayfaya yönlendir
+                    }
+                    else if (result.IsLockedOut)
+                    {
+                        // Kullanıcı kilitli
+                        return Json(new { Type = 2, Message = "Hesabınız çok fazla yanlış giriş nedeniyle kilitlendi. Lütfen bir süre bekleyip tekrar deneyin." });
                     }
                     else
                     {
@@ -317,7 +329,8 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             var loggedUser = await _userManager.GetUserAsync(HttpContext.User);
-            var user = _context.Users.Find(loggedUser.Id);
+            var user = _context.Users.Where(x => x.IdentityID == loggedUser.Id).FirstOrDefault();
+
             // Kullanıcı bilgilerini güncellemek için gerekli iş mantığı
             if (user == null)
             {
@@ -358,8 +371,9 @@ public class AccountController : Controller
     public async Task<IActionResult> MyProfile()
     {
         var user = await _userManager.GetUserAsync(HttpContext.User);
-        var profile = _context.Users.Find(user.Id);
+        var profile = _context.Users.Where(x => x.IdentityID == user.Id).FirstOrDefault();
 
+        //mail kontrolü de ekle
         PartnerEditProfile profileToSend = new PartnerEditProfile();
         profileToSend.Surname = profile.Surname;
         profileToSend.Name = profile.Name;
@@ -405,7 +419,7 @@ public class AccountController : Controller
 
         using (var mailMessage = new MailMessage())
         {
-            mailMessage.From = new MailAddress(smtpUser, "Dügünedeyiz İletişim");
+            mailMessage.From = new MailAddress(smtpUser, "Dügünedeyiz Üyelik Onay Sistemi");
             mailMessage.To.Add("mertsubasm@gmail.com");
             mailMessage.To.Add("vildan@dugundeyiz.com.tr");
             mailMessage.Subject = subject;

@@ -4,11 +4,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <style>
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+
     .subCategoriesCDropdown {
         height: 35px;
         margin-bottom: 9px !important;
+    }
+
+    .custom-card-123 .mt-3 {
+        display: none;
     }
 
     .dropdownUlItems {
@@ -87,6 +109,25 @@
         border-radius: 10px;
         background-color: #f4f4f4;
         padding: 15px;
+    }
+
+    .ProductContentLayout img {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .ProductContentLayout {
+        border-radius: 8px !important;
+    }
+
+    .custom-card-123 img {
+        width: 150% !important;
+        max-width: -webkit-fill-available;
+        height: 100px !important;
+        margin: -9px;
+        margin-bottom: 10px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
     }
 
     @@media (max-width: 1200px) {
@@ -175,10 +216,10 @@
 
 
             <div class="container row d-flex justify-content-center align-items-center productAdsMain " style="">
-                <div class="col-6 col-lg-4 ProductContentLayout">
+                <div class="col-6 col-lg-4 ProductContentLayout" style="padding: 0px !important;    ">
                     <!-- Product -->
                     <div class="">
-                        <figure class="g-pos-rel g-mb-20" style="padding-top: 5px;">
+                        <figure class="g-pos-rel g-mb-20" style="">
                             <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
 
                             @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
@@ -187,7 +228,7 @@
 
                         <div class="media">
                             <!-- Product Info -->
-                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;padding-left: 10px;padding-right: 10px;">
                                 <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
                                     Bu alan SİZİN İçin Ayrılmıştır
                                 </h5>
@@ -212,10 +253,10 @@
                     </div>
                     <!-- End Product -->
                 </div>
-                <div class="col-6 col-lg-4  ProductContentLayout">
+                <div class="col-6 col-lg-4  ProductContentLayout" style="padding: 0px !important;    ">
                     <!-- Product -->
                     <div class="">
-                        <figure class="g-pos-rel g-mb-20" style="padding-top: 5px;">
+                        <figure class="g-pos-rel g-mb-20" style="">
                             <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
 
                             @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
@@ -224,7 +265,7 @@
 
                         <div class="media">
                             <!-- Product Info -->
-                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;padding-left: 10px;padding-right: 10px;">
                                 <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
                                     Bu alan SİZİN İçin Ayrılmıştır
                                 </h5>
@@ -249,10 +290,10 @@
                     </div>
                     <!-- End Product -->
                 </div>
-                <div class="col-6 col-lg-4  ProductContentLayout">
+                <div class="col-6 col-lg-4  ProductContentLayout" style="padding: 0px !important;    ">
                     <!-- Product -->
                     <div class="">
-                        <figure class="g-pos-rel g-mb-20" style="padding-top: 5px;">
+                        <figure class="g-pos-rel g-mb-20" style="">
                             <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
 
                             @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
@@ -261,71 +302,7 @@
 
                         <div class="media">
                             <!-- Product Info -->
-                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
-                                <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
-                                    Bu alan SİZİN İçin Ayrılmıştır
-                                </h5>
-                                <h6 class="d-inline-block g-color-gray-dark-v5 g-font-size-13" href="#"></h6>
-                            </div>
-                            @* <div class="d-flex flex-column">
-                            <div class="h6 g-color-black mb-1">
-                            </div>
-                            @*                                             <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
-                            <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
-                            <div>
-                            <div class="price-style-Layout">
-                            <p> Kapasite:</p>
-                            <div>
-                            <h4 style="">400-500</h4>
-
-                            </div>
-                            </div>
-                            <div class="price-style-Layout">
-                            <p> Kişi Başı Fiyat:</p>
-                            <div>
-                            <h4 style="color:red">150 ₺</h4>
-                            <h5 style="text-decoration: line-through;font-size: 15px;    text-align: end;">
-                            150 ₺
-                            </h5>
-                            </div>
-                            </div>
-                            <div style="   padding-top: 70px; display: flex; justify-content: space-evenly;;">
-                            <span class="rating-text-Layout" style="font-size:18px">İlan vermek için tıklayınız</span>
-                            </div>
-                            </div>
-                            </div> *@
-                        </div>
-                        <!-- End Product Info -->
-                        <!-- Products Icons -->
-                        <ul class="list-inline media-body text-right">
-                            <li class="list-inline-item align-middle mx-0">
-                                <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
-                                    <i class="icon-finance-100 u-line-icon-pro"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item align-middle mx-0">
-                                <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
-                                    <i class="icon-medical-022 u-line-icon-pro"></i>
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- End Products Icons -->
-                    </div>
-                    <!-- End Product -->
-                </div>
-                <div class="col-6 col-lg-4  ProductContentLayout">
-                    <!-- Product -->
-                    <div class="">
-                        <figure class="g-pos-rel g-mb-20" style="padding-top: 5px;">
-                            <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
-
-                            @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
-                            *@
-                        </figure>
-
-                        <div class="media">
-                            <!-- Product Info -->
-                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;padding-left: 10px;padding-right: 10px;">
                                 <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
                                     Bu alan SİZİN İçin Ayrılmıştır
                                 </h5>
@@ -377,10 +354,10 @@
                     </div>
                     <!-- End Product -->
                 </div>
-                <div class="col-6 col-lg-4  ProductContentLayout">
+                <div class="col-6 col-lg-4  ProductContentLayout" style="padding: 0px !important;    ">
                     <!-- Product -->
                     <div class="">
-                        <figure class="g-pos-rel g-mb-20" style="padding-top: 5px;">
+                        <figure class="g-pos-rel g-mb-20" style="">
                             <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
 
                             @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
@@ -389,7 +366,71 @@
 
                         <div class="media">
                             <!-- Product Info -->
-                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;">
+                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;padding-left: 10px;padding-right: 10px;">
+                                <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
+                                    Bu alan SİZİN İçin Ayrılmıştır
+                                </h5>
+                                <h6 class="d-inline-block g-color-gray-dark-v5 g-font-size-13" href="#"></h6>
+                            </div>
+                            @* <div class="d-flex flex-column">
+                            <div class="h6 g-color-black mb-1">
+                            </div>
+                            @*                                             <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
+                            <span class="d-block g-color-black g-font-size-17">@product.pricePerPerson</span>
+                            <div>
+                            <div class="price-style-Layout">
+                            <p> Kapasite:</p>
+                            <div>
+                            <h4 style="">400-500</h4>
+
+                            </div>
+                            </div>
+                            <div class="price-style-Layout">
+                            <p> Kişi Başı Fiyat:</p>
+                            <div>
+                            <h4 style="color:red">150 ₺</h4>
+                            <h5 style="text-decoration: line-through;font-size: 15px;    text-align: end;">
+                            150 ₺
+                            </h5>
+                            </div>
+                            </div>
+                            <div style="   padding-top: 70px; display: flex; justify-content: space-evenly;;">
+                            <span class="rating-text-Layout" style="font-size:18px">İlan vermek için tıklayınız</span>
+                            </div>
+                            </div>
+                            </div> *@
+                        </div>
+                        <!-- End Product Info -->
+                        <!-- Products Icons -->
+                        <ul class="list-inline media-body text-right">
+                            <li class="list-inline-item align-middle mx-0">
+                                <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Cart">
+                                    <i class="icon-finance-100 u-line-icon-pro"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item align-middle mx-0">
+                                <a class="u-icon-v1 u-icon-size--sm g-color-gray-dark-v5 g-color-primary--hover g-font-size-15 rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Wishlist">
+                                    <i class="icon-medical-022 u-line-icon-pro"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- End Products Icons -->
+                    </div>
+                    <!-- End Product -->
+                </div>
+                <div class="col-6 col-lg-4  ProductContentLayout" style="padding: 0px !important;    ">
+                    <!-- Product -->
+                    <div class="">
+                        <figure class="g-pos-rel g-mb-20" style="">
+                            <img class="img-fluid" src="~/gallery_gen/sizinIcinAyrilmistir.png" alt="Size Ozel">
+
+                            @*                                             <span class="u-ribbon-v1 g-width-40 g-height-40 g-color-white g-bg-primary g-font-size-13 text-center text-uppercase g-rounded-50x g-top-10 g-right-minus-10 g-px-2 g-py-10">-40%</span>
+                            *@
+                        </figure>
+
+                        <div class="media">
+                            <!-- Product Info -->
+                            <div style="display: flex; align-items: center; justify-content: space-evenly;    flex-direction: column;padding-left: 10px;padding-right: 10px;">
                                 <h5 class="u-link-v5 g-color-black g-color-primary--hover" href="#" style="font-size: 15px;">
                                     Bu alan SİZİN İçin Ayrılmıştır
                                 </h5>
@@ -460,231 +501,233 @@
             </div> *@
             <hr>
             <div>
-                <div class="container">
+                <div class="container weddingPlacesArea">
 
-                    <div class="custom-container-123">
-                        <div class="row g-4">
-                            <!-- Sol resim -->
-                            <div class="col-lg-3" style=" display: flex; align-items: center;    flex-direction: column;">
-                                <div>
-                                    <h2 style="    text-wrap: nowrap;">Oteller</h2>
-
-                                </div>
-                                <div class="custom-container-mainImage">
-                                    <img src="~/gallery_gen/weddingPlace.jpg" alt="Düğün Mekanı" class="main-image-123">
-                                </div>
-                            </div>
-                            <!-- Sağ taraf kartlar -->
-                            <div class="col-lg-9" style=" display: flex;align-items: center; justify-content: space-around;">
-                                <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
-                                    <!-- Kaydırma Okları -->
-                                    <button class="carousel-control-prev" type="button" style="margin:auto;width:5px;height:10px;margin-left:-10px;" data-bs-target="#cardCarousel" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class=""><i class="fa-solid fa-angles-left" style="color:black;font-size:15px;"></i></span>
-                                    </button>
-                                    <button class="carousel-control-next" style="margin:auto;width:5px;height:10px;margin-right:-14px;" type="button" data-bs-target="#cardCarousel" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class=""><i class="fa-solid fa-angles-right" style="color:black;font-size:15px;"></i></span>
-                                    </button>
-
-                                    <!-- Carousel İçeriği -->
-                                    <div class="carousel-inner" style="max-width:800px;">
-                                        <!-- 1. Satır -->
-                                        <div class="carousel-item active">
-                                            <div class="d-flex justify-content-center flex-wrap carousel-innerNew" style="justify-content: space-around !important;">
-                                                <div class="custom-card-123">
-                                                    <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
-                                                    <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
-                                                    <div class="location-123">Istanbul</div>
-                                                    <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
-                                                    <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
-                                                    <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
-                                                        Kişi Başı:
-                                                        <div>
-                                                            <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-3" style="text-wrap: nowrap;">
-                                                        <div class="rateingNew">
-                                                            <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
-                                                        </div>
-                                                        <div class="rateingNewAlt" style="margin-top:3px">
-                                                            <span class="text-muted"> 281 değerlendirme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="custom-card-123">
-                                                    <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
-                                                    <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
-                                                    <div class="location-123">Istanbul</div>
-                                                    <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
-                                                    <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
-                                                    <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
-                                                        Kişi Başı:
-                                                        <div>
-                                                            <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-3" style="text-wrap: nowrap;">
-                                                        <div class="rateingNew">
-                                                            <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
-                                                        </div>
-                                                        <div class="rateingNewAlt" style="margin-top:3px">
-                                                            <span class="text-muted"> 281 değerlendirme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="custom-card-123">
-                                                    <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
-                                                    <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
-                                                    <div class="location-123">Istanbul</div>
-                                                    <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
-                                                    <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
-                                                    <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
-                                                        Kişi Başı:
-                                                        <div>
-                                                            <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-3" style="text-wrap: nowrap;">
-                                                        <div class="rateingNew">
-                                                            <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
-                                                        </div>
-                                                        <div class="rateingNewAlt" style="margin-top:3px">
-                                                            <span class="text-muted"> 281 değerlendirme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="custom-card-123">
-                                                    <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
-                                                    <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
-                                                    <div class="location-123">Istanbul</div>
-                                                    <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
-                                                    <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
-                                                    <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
-                                                        Kişi Başı:
-                                                        <div>
-                                                            <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-3" style="text-wrap: nowrap;">
-                                                        <div class="rateingNew">
-                                                            <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
-                                                        </div>
-                                                        <div class="rateingNewAlt" style="margin-top:3px">
-                                                            <span class="text-muted"> 281 değerlendirme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="carousel-item">
-                                            <div class="d-flex justify-content-center flex-wrap carousel-innerNew" style="justify-content: space-around !important;">
-                                                <div class="custom-card-123">
-                                                    <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
-                                                    <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
-                                                    <div class="location-123">Istanbul</div>
-                                                    <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
-                                                    <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
-                                                    <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
-                                                        Kişi Başı:
-                                                        <div>
-                                                            <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-3" style="text-wrap: nowrap;">
-                                                        <div class="rateingNew">
-                                                            <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
-                                                        </div>
-                                                        <div class="rateingNewAlt" style="margin-top:3px">
-                                                            <span class="text-muted"> 281 değerlendirme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="custom-card-123">
-                                                    <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
-                                                    <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
-                                                    <div class="location-123">Istanbul</div>
-                                                    <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
-                                                    <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
-                                                    <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
-                                                        Kişi Başı:
-                                                        <div>
-                                                            <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-3" style="text-wrap: nowrap;">
-                                                        <div class="rateingNew">
-                                                            <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
-                                                        </div>
-                                                        <div class="rateingNewAlt" style="margin-top:3px">
-                                                            <span class="text-muted"> 281 değerlendirme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="custom-card-123">
-                                                    <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
-                                                    <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
-                                                    <div class="location-123">Istanbul</div>
-                                                    <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
-                                                    <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
-                                                    <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
-                                                        Kişi Başı:
-                                                        <div>
-                                                            <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-3" style="text-wrap: nowrap;">
-                                                        <div class="rateingNew">
-                                                            <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
-                                                        </div>
-                                                        <div class="rateingNewAlt" style="margin-top:3px">
-                                                            <span class="text-muted"> 281 değerlendirme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="custom-card-123">
-                                                    <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
-                                                    <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
-                                                    <div class="location-123">Istanbul</div>
-                                                    <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
-                                                    <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
-                                                    <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
-                                                        Kişi Başı:
-                                                        <div>
-                                                            <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-3" style="text-wrap: nowrap;">
-                                                        <div class="rateingNew">
-                                                            <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
-                                                        </div>
-                                                        <div class="rateingNewAlt" style="margin-top:3px">
-                                                            <span class="text-muted"> 281 değerlendirme</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     @{
                         int index = 0;
                     }
                     @foreach (var categor in Model.AltKategoriler)
                     {
-                        if (categor.CategoryName != "Oteller")
+                        if (categor.CategoryName == "Oteller")
+                        {
+                            <div class="custom-container-123">
+                                <div class="row g-4">
+                                    <!-- Sol resim -->
+                                    <div class="col-lg-3" style=" display: flex; align-items: center;    flex-direction: column;">
+                                        <div>
+                                            <h2 style="    text-wrap: nowrap;">Oteller</h2>
 
+                                        </div>
+                                        <div class="custom-container-mainImage">
+                                            <img src="~/gallery_gen/weddingPlace.jpg" alt="Düğün Mekanı" class="main-image-123">
+                                        </div>
+                                    </div>
+                                    <!-- Sağ taraf kartlar -->
+                                    <div class="col-lg-9" style=" display: flex;align-items: center; justify-content: space-around;">
+                                        <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
+                                            <!-- Kaydırma Okları -->
+                                            <button class="carousel-control-prev" type="button" style="margin:auto;width:5px;height:10px;margin-left:-10px;" data-bs-target="#cardCarousel" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class=""><i class="fa-solid fa-angles-left" style="color:black;font-size:15px;"></i></span>
+                                            </button>
+                                            <button class="carousel-control-next" style="margin:auto;width:5px;height:10px;margin-right:-14px;" type="button" data-bs-target="#cardCarousel" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class=""><i class="fa-solid fa-angles-right" style="color:black;font-size:15px;"></i></span>
+                                            </button>
+
+                                            <!-- Carousel İçeriği -->
+                                            <div class="carousel-inner" style="max-width:800px;">
+                                                <!-- 1. Satır -->
+                                                <div class="carousel-item active">
+                                                    <div class="d-flex justify-content-center flex-wrap carousel-innerNew" style="justify-content: space-around !important;">
+                                                        <div class="custom-card-123">
+                                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
+                                                            <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
+                                                            <div class="location-123">Istanbul</div>
+                                                            <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
+                                                            <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
+                                                            <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
+                                                                Kişi Başı:
+                                                                <div>
+                                                                    <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3" style="text-wrap: nowrap;">
+                                                                <div class="rateingNew">
+                                                                    <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
+                                                                </div>
+                                                                <div class="rateingNewAlt" style="margin-top:3px">
+                                                                    <span class="text-muted"> 281 değerlendirme</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-card-123">
+                                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
+                                                            <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
+                                                            <div class="location-123">Istanbul</div>
+                                                            <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
+                                                            <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
+                                                            <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
+                                                                Kişi Başı:
+                                                                <div>
+                                                                    <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3" style="text-wrap: nowrap;">
+                                                                <div class="rateingNew">
+                                                                    <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
+                                                                </div>
+                                                                <div class="rateingNewAlt" style="margin-top:3px">
+                                                                    <span class="text-muted"> 281 değerlendirme</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-card-123">
+                                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
+                                                            <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
+                                                            <div class="location-123">Istanbul</div>
+                                                            <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
+                                                            <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
+                                                            <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
+                                                                Kişi Başı:
+                                                                <div>
+                                                                    <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3" style="text-wrap: nowrap;">
+                                                                <div class="rateingNew">
+                                                                    <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
+                                                                </div>
+                                                                <div class="rateingNewAlt" style="margin-top:3px">
+                                                                    <span class="text-muted"> 281 değerlendirme</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-card-123">
+                                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
+                                                            <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
+                                                            <div class="location-123">Istanbul</div>
+                                                            <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
+                                                            <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
+                                                            <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
+                                                                Kişi Başı:
+                                                                <div>
+                                                                    <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3" style="text-wrap: nowrap;">
+                                                                <div class="rateingNew">
+                                                                    <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
+                                                                </div>
+                                                                <div class="rateingNewAlt" style="margin-top:3px">
+                                                                    <span class="text-muted"> 281 değerlendirme</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="carousel-item">
+                                                    <div class="d-flex justify-content-center flex-wrap carousel-innerNew" style="justify-content: space-around !important;">
+                                                        <div class="custom-card-123">
+                                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
+                                                            <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
+                                                            <div class="location-123">Istanbul</div>
+                                                            <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
+                                                            <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
+                                                            <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
+                                                                Kişi Başı:
+                                                                <div>
+                                                                    <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3" style="text-wrap: nowrap;">
+                                                                <div class="rateingNew">
+                                                                    <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
+                                                                </div>
+                                                                <div class="rateingNewAlt" style="margin-top:3px">
+                                                                    <span class="text-muted"> 281 değerlendirme</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-card-123">
+                                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
+                                                            <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
+                                                            <div class="location-123">Istanbul</div>
+                                                            <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
+                                                            <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
+                                                            <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
+                                                                Kişi Başı:
+                                                                <div>
+                                                                    <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3" style="text-wrap: nowrap;">
+                                                                <div class="rateingNew">
+                                                                    <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
+                                                                </div>
+                                                                <div class="rateingNewAlt" style="margin-top:3px">
+                                                                    <span class="text-muted"> 281 değerlendirme</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-card-123">
+                                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
+                                                            <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
+                                                            <div class="location-123">Istanbul</div>
+                                                            <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
+                                                            <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
+                                                            <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
+                                                                Kişi Başı:
+                                                                <div>
+                                                                    <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3" style="text-wrap: nowrap;">
+                                                                <div class="rateingNew">
+                                                                    <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
+                                                                </div>
+                                                                <div class="rateingNewAlt" style="margin-top:3px">
+                                                                    <span class="text-muted"> 281 değerlendirme</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-card-123">
+                                                            <img src="/gallery_gen/sizinIcinAyrilmistir.png" style="width:80px;height:80px" alt="Logo">
+                                                            <div class="title-123" style="    max-width: 170px;">Bu Alan Sizin İçin Ayrılmıştır</div>
+                                                            <div class="location-123">Istanbul</div>
+                                                            <div class="ayirma">Kapasite: <div><strong>**-**</strong></div></div>
+                                                            <div class="ayirma" style="margin-top:5px">Yıldız: <div> <strong>-</strong></div></div>
+                                                            <div class="ayirma" style=" display: flex;justify-content: space-evenly;align-items: center;">
+                                                                Kişi Başı:
+                                                                <div>
+                                                                    <span class="price-123">***₺</span>@*<span class="old-price-123">160₺</span> *@
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-3" style="text-wrap: nowrap;">
+                                                                <div class="rateingNew">
+                                                                    <span class="badge-123">8.9</span>  <span class="text-muted">Müthiş</span>
+                                                                </div>
+                                                                <div class="rateingNewAlt" style="margin-top:3px">
+                                                                    <span class="text-muted"> 281 değerlendirme</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        if (categor.CategoryName != "Oteller")
                         {
 
                             <div class="custom-container-123">
@@ -1044,6 +1087,34 @@
             </div>
 
             <hr>
+@*             <div class="container">
+
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper" style="height: 363px;">
+                        <div class="swiper-slide" style="background-color:#9f2828;border-radius:10px">
+                            <h2>Mekan Seçerken Dikkat Edin</h2>
+                            <div class="tip-item"><span class="tip-title">Kapasite:</span> Mekanın misafir sayınıza uygun olduğundan emin olun.</div>
+                            <div class="tip-item"><span class="tip-title">Konum:</span> Misafirlerinizin mekana ulaşımının kolay olmasına dikkat edin.</div>
+                            <div class="tip-item"><span class="tip-title">Hizmetler:</span> Mekanın sunduğu ek hizmetler hakkında bilgi sahibi olun.</div>
+                        </div>
+                        <div class="swiper-slide" style="background-color:#ffb900;border-radius:10px">
+                            <h2>Yüzük Seçiminde Dikkat Edin</h2>
+                            <div class="tip-item"><span class="tip-title">Stil:</span> Yüzüğün stili, kişisel zevklerinizi yansıtmalıdır.</div>
+                            <div class="tip-item"><span class="tip-title">Taş Türü:</span> Elmas, safir, zümrüt gibi farklı taş türleri vardır.</div>
+                            <div class="tip-item"><span class="tip-title">Bütçe:</span> Yüzük alırken, bütçenizi aşmamaya dikkat edin.</div>
+                        </div>
+                        <div class="swiper-slide" style="background-color:#17af69;border-radius:10px">
+                            <h2>Düğün Teması Seçimi</h2>
+                            <div class="tip-item"><span class="tip-title">Kişisel İfade:</span> Seçtiğiniz tema, çiftin tarzını yansıtmalıdır.</div>
+                            <div class="tip-item"><span class="tip-title">Uygun Dekorasyon:</span> Seçtiğiniz tema ile uyumlu dekorasyon malzemeleri seçin.</div>
+                            <div class="tip-item"><span class="tip-title">Konukların Rahatı:</span> Konukların rahatını düşünmek önemlidir.</div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+            </div> *@
+
             <div class="tips-slider" style="    background-color: transparent;">
                 <div class="slider-container">
                     <div class="slider-slide active" style="background-color:#9f2828;border-radius:10px">
@@ -1583,6 +1654,13 @@
 
         // İlk animasyonu başlat
         startAnimation();
+        var swiper = new Swiper(".mySwiper", {
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            speed: 1000, // 1000 ms=1 saniye, bu değeri ihtiyacınıza göre ayarlayabilirsiniz
+        });
     });
 
     const colors = ["#dd242a", "#a1c52b", "#2baee5", "#a1c52b", "#f6a500"];
@@ -1614,30 +1692,30 @@
     });
 
     document.getElementById('contact-form-custom').addEventListener('submit', function (event) {
-    const emailInput = document.getElementById('email');
-    const phoneInput = document.getElementById('phone');
-    const emailError = document.getElementById('email-error');
-    const phoneError = document.getElementById('phone-error');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const emailError = document.getElementById('email-error');
+        const phoneError = document.getElementById('phone-error');
 
-    // Reset error messages
-    emailError.style.display = 'none';
-    phoneError.style.display = 'none';
+        // Reset error messages
+        emailError.style.display = 'none';
+        phoneError.style.display = 'none';
 
-    // Email validation
+        // Email validation
         const emailPattern = /^[^@@\s]+@@[^@@\s]+\.[^@@\s]+$/;
         if (!emailPattern.test(emailInput.value)) {
-        emailError.style.display = 'block';
-        event.preventDefault();
-    }
+            emailError.style.display = 'block';
+            event.preventDefault();
+        }
 
-    // Phone validation
-    const phonePattern = /^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/;
-    if (!phonePattern.test(phoneInput.value)) {
-        phoneError.style.display = 'block';
-        event.preventDefault();
-    } else {
-        // Reformat phone value for submission (0000000000)
-        phoneInput.value = phoneInput.value.replace(/\D/g, '');
+        // Phone validation
+        const phonePattern = /^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/;
+        if (!phonePattern.test(phoneInput.value)) {
+            phoneError.style.display = 'block';
+            event.preventDefault();
+        } else {
+            // Reformat phone value for submission (0000000000)
+            phoneInput.value = phoneInput.value.replace(/\D/g, '');
             event.preventDefault();
             const formData = {
                 email: emailInput.value,
@@ -1668,27 +1746,27 @@
                     console.error('Hata:', error);
                     alert('Form gönderilirken bir hata oluştu.');
                 });
-    }
-});
+        }
+    });
 
-// Phone input formatting
-document.getElementById('phone').addEventListener('input', function (event) {
-    const input = event.target;
-    let value = input.value.replace(/\D/g, ''); // Remove all non-digit characters
+    // Phone input formatting
+    document.getElementById('phone').addEventListener('input', function (event) {
+        const input = event.target;
+        let value = input.value.replace(/\D/g, ''); // Remove all non-digit characters
 
-    // Limit to 10 digits
-    if (value.length > 10) {
-        value = value.slice(0, 10);
-    }
+        // Limit to 10 digits
+        if (value.length > 10) {
+            value = value.slice(0, 10);
+        }
 
-    // Apply formatting: (000)-000-00-00
-    const formattedValue = value
-        .replace(/^(\d{3})(\d{3})(\d{2})(\d{2})$/, '($1)-$2-$3-$4')
-        .replace(/^(\d{3})(\d{3})(\d{2})/, '($1)-$2-$3')
-        .replace(/^(\d{3})(\d{3})/, '($1)-$2');
+        // Apply formatting: (000)-000-00-00
+        const formattedValue = value
+            .replace(/^(\d{3})(\d{3})(\d{2})(\d{2})$/, '($1)-$2-$3-$4')
+            .replace(/^(\d{3})(\d{3})(\d{2})/, '($1)-$2-$3')
+            .replace(/^(\d{3})(\d{3})/, '($1)-$2');
 
-    input.value = formattedValue;
-});
+        input.value = formattedValue;
+    });
 
 </script>
 <script src="~/js/infosend.js"></script>
